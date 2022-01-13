@@ -18,7 +18,7 @@ public class ZigzagPattern {
 
         List<ArrayList<Character>> list=new ArrayList<>();
         
-        //if no.of rows are 1, no zig zag pattern can be formed thus return string
+        //if no.of rows are 1, no zig-zag pattern can't be formed thus return string
         if(B==1)
         	return A;
         
@@ -59,9 +59,11 @@ public class ZigzagPattern {
 	
 	public static void main(String[] args) {
 		
-		String str="kHAlbLzY8Dr4zR0eeLwvoRFg9r23Y3hEujEqdio0ctLh4jZ1izwLh70R7SAkFsXlZ8UlghCL95yezo5hBxQJ1Td6qFb3jpFrMj8pdvP6M6k7IaXkq21XhpmGNwl7tBe86eZasMW2BGhnqF6gPb1YjCTexgCurS";
+		String str="kHAlbLzY8Dr4zR0eeLwvoRFg9r23Y3hEujEqdio0ctLh4jZ1"
+				+ "izwLh70R7SAkFsXlZ8UlghCL95yezo5hBxQJ1Td6qFb3jpFrMj8pdvP6M6k7Ia"
+				+ "Xkq21XhpmGNwl7tBe86eZasMW2BGhnqF6gPb1YjCTexgCurS";
 		
-		System.out.println(convert(str, 1));
+		System.out.println(convert(str, 3));
 	}
 
 }

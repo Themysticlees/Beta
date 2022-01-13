@@ -4,50 +4,39 @@ import java.util.regex.Pattern;
 
 public class Main {
 	
-	public static String convert(String A, int B) {
-
-        List<ArrayList<Character>> list=new ArrayList<>();
+	public static Queue<Integer> modifyQueue(Queue<Integer> q, int k) {
+        // add code here.
         
-        if(B==1)
-        	return A;
+        int[] arr=new int[q.size()];
+        int j=0;
         
-        while(B-->0)
-            list.add(new ArrayList<>());
+        while(j<q.size())
+            arr[j++]=q.poll();
         
-        int x=0;
-        boolean cond=true;
-        for(int i=0;i<A.length();i++){
-
-            char ch=A.charAt(i);
-
-            if(x==0)
-                cond=true;
-            else if(x==list.size()-1)
-                cond=false;
-
-            list.get(x).add(ch);
-
-            if(cond)
-                x++;
-            else
-                x--;
-        }
-
-        String res="";
-        for(ArrayList i:list){
-            for(Object j:i)
-                res+=j;
-        }
-        return res;
+        for(int i=k-1;i>=0;i--)
+            q.offer(arr[i]);
+        
+        for(int i=k;i<arr.length;i++)
+            q.offer(arr[i]);
+        
+        return q;
+        
     }
 		
 	
 	public static void main(String[] args) {
 		
-		String str="kHAlbLzY8Dr4zR0eeLwvoRFg9r23Y3hEujEqdio0ctLh4jZ1izwLh70R7SAkFsXlZ8UlghCL95yezo5hBxQJ1Td6qFb3jpFrMj8pdvP6M6k7IaXkq21XhpmGNwl7tBe86eZasMW2BGhnqF6gPb1YjCTexgCurS";
+		Queue<Integer> q= new LinkedList<>();
+		q.add(1);
+		q.add(2);
+		q.add(3);
+		q.add(4);
+		q.add(5);
 		
-		System.out.println(convert(str, 1));
+		q=modifyQueue(q, 3);
+		System.out.println(q);
 	}
+	
 }
 
 
