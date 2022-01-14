@@ -4,37 +4,37 @@ import java.util.regex.Pattern;
 
 public class Main {
 	
-	public static Queue<Integer> modifyQueue(Queue<Integer> q, int k) {
-        // add code here.
+	public static int power(String A) {
         
-        int[] arr=new int[q.size()];
-        int j=0;
-        
-        while(j<q.size())
-            arr[j++]=q.poll();
-        
-        for(int i=k-1;i>=0;i--)
-            q.offer(arr[i]);
-        
-        for(int i=k;i<arr.length;i++)
-            q.offer(arr[i]);
-        
-        return q;
-        
+        int last=A.charAt(A.length()-1)-'0';
+        int first=A.charAt(0)-'0';
+        if(last%2!=0)
+            return 0;
+        if(A.equals("2"))
+            return 1;
+
+        int rem=0;
+		String div="";
+		for(int i=0;i<A.length();i++) {
+			int ch=A.charAt(i)-'0';
+			
+			ch=rem*10+ch;
+			if(ch<2) {
+				rem=rem*10+ch;
+				continue;
+			}
+				
+			
+			div=div+(ch/2);
+			rem=ch%2;
+			
+		}
+        return power(div);
     }
-		
 	
 	public static void main(String[] args) {
 		
-		Queue<Integer> q= new LinkedList<>();
-		q.add(1);
-		q.add(2);
-		q.add(3);
-		q.add(4);
-		q.add(5);
-		
-		q=modifyQueue(q, 3);
-		System.out.println(q);
+		System.out.println(power("147573952589676412928"));
 	}
 	
 }
