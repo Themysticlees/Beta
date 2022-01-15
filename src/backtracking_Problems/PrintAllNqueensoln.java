@@ -1,14 +1,27 @@
 package backtracking_Problems;
 
-public class Nqueen_problem {
+public class PrintAllNqueensoln {
+	
+	public static void printArray(int[][] board) {
+		for(int i=0;i<board.length;i++) {
+			for(int j=0;j<board[0].length;j++)
+				System.out.print(board[i][j]+"  ");
+			System.out.println();
+		}
+		System.out.println();
+	}
 	
 	public static boolean Nqueen(int[][] board, int row,int n) {
 		
 		//base condn
 		//if row is equal to n i.e all the queens have been placed
-		//thus return true
-		if(row==n)
-			return true;
+		//thus print the array and return false as we'll search for
+		//more solutions
+		if(row==n) {
+			printArray(board);
+			return false;
+		}
+			
 		
 		//take the row and check for each of it's column
 		for(int col=0;col<n;col++) {
@@ -65,7 +78,7 @@ public class Nqueen_problem {
 
 	public static void main(String[] args) {
 		
-		int n=3;
+		int n=4;
 		int board[][] = new int[n][n];
 		
 		//initialize the 2d array with zeros
@@ -75,7 +88,7 @@ public class Nqueen_problem {
 		
 		//if the fn returns false there is no soln
 		if (Nqueen(board, 0 , n) == false) {
-			System.out.print("Solution does not exist");
+			System.out.print("No other solutions exist");
 		}
 		else
 		{//else print the 2d array
@@ -86,4 +99,5 @@ public class Nqueen_problem {
 			}
 		}	
 	}
+
 }
