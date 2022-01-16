@@ -2,79 +2,40 @@ package Testing;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import searching_Problems.BinarySearch;
+
 public class Main {
 	
-	public static ArrayList<String> findPath(int[][] m, int n) {
-        // Your code here
-		String path="";
-		ArrayList<String> list = new ArrayList<String>();
-		int[][] visited= new int[n][n];
-		
-		
-		find(m, visited, 0, 0, n, path, list);
-		return list;
-    }
-	
-
-	public static void find(int[][] m, int[][] visited, int i, int j, int n, String path, ArrayList<String> list){
+	public static boolean searchMatrix(int[][] matrix, int target) {
         
-        if(i==n-1 && j==n-1)
-        {
-        	visited[i][j]=0;
-            list.add(path);
-            return;
+        int low=0,high=matrix[0].length;
+        
+        int i=0;
+        while(i<matrix.length){
+            if(matrix[i][matrix[0].length-1]>=target){
+                low=i;
+                //high=matrix[i-1].length;
+                break;
+            }
+            i++;
         }
         
-        visited[i][j]=1;
-        if(isPresent(m,visited, i-1, j, i, j))
-            find(m,visited,i-1,j,n,path+"U",list);
+        for(i=0;i<matrix[0].length;i++){
+            if(matrix[low][i]==target)
+                return true;
+        }
+        return false;
         
-        if(isPresent(m,visited, i+1, j, i, j))
-            find(m,visited,i+1,j,n,path+"D",list);
-        
-        if(isPresent(m,visited, i, j-1, i, j))
-            find(m,visited,i,j-1,n,path+"L",list);
-        
-        if(isPresent(m,visited, i, j+1, i, j))
-            find(m,visited,i,j+1,n,path+"R",list);
-        
-
-        visited[i][j]=0;
     }
 	
-	public static boolean isPresent(int[][] m, int[][] visited, int i, int j,int pi, int pj) {
-		
-		if((i>=0 && i<m.length)&&(j>=0 && j<m.length)) {
-			if((i!=pi || j!=pj)&&(visited[i][j]!=1)) {
-				if(m[i][j]==1)
-					return true;
-			}
-		}
-		return false;
-	}
-	
 	public static void main(String[] args) {
-		int m[][] = {{1, 1, 1, 1, 0},
-		         	 {0, 0, 1, 0, 0}, 
-		         	 {1, 0, 1, 1, 0},
-		         	 {0, 0, 1, 1, 0},
-		         	 {0, 0, 1, 1, 1}};
 		
-		int m1[][]= {{1,0},
-					{1,0}};
+		int[][] matrix = {{1,3,5,7},
+				  		  {10,11,16,20},
+				  		  {23,30,34,60}};
 		
-		if(m[0][0]==0)
-			System.out.println("No paths");
-		else
-		{
-			int n=5;
-			ArrayList<String> list = findPath(m, n);
-			System.out.println(list);
-		}
-		
-		
+		System.out.println(searchMatrix(matrix, 7));
 	}
-	
 }
 
 
