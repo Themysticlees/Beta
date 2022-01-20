@@ -1,14 +1,6 @@
 package linked_listProblems;
 
-class Node
-{
-    int data;
-    Node next;
-    Node(int d) {
-    	data = d; 
-    	next = null; 
-    	}
-}
+
 public class DetectLoop {
 	
 	public static boolean detectLoop(Node head){

@@ -4,62 +4,66 @@ import java.util.regex.Pattern;
 
 import searching_Problems.BinarySearch;
 
+class Node {
+    int value;
+    Node next;
+    Node(int value) {
+        this.value = value;
+        this.next=null;
+    }
+}
+
 public class Main {
 	
-	
-	static List<String> wordBreak2(int n, List<String> B, String A)
-    {
-		ArrayList<String> list = new ArrayList<String>();
-		boolean bol= wordcheck(B, list, A, "");
-		return list;
+	public static Node solve(Node A) {
+
+        Node tail = A;
+
+        while(tail.next!=null)
+            tail=tail.next;
+        
+        Node head=A;
+
+        while(head!=null){
+            if(head.value==1)
+            {
+                Node temp=head.next;
+                head.next=null;
+                tail.next=head;
+                tail=head;
+                head=temp;
+            }
+            else
+            	head=head.next;
+        }
+        return A;
     }
-	
-	static boolean wordcheck(List<String> B, List<String> res, String A, String temp2) {
-        // code here
-		if(A=="") {
-			res.add(temp2);
-			return false;
-		}
-		
-		String temp="";
-		for(int i=0;i<A.length();i++) {
-			temp+=A.charAt(i);
-			
-			for(int j=0;j<B.size();j++) {
-				if(temp.equals(B.get(j)))
-					if(i==A.length()-1) {
-						//temp2;
-						return wordcheck(B,res,"",temp2+temp);
-					}
-					else {
-						if(wordcheck(B,res,A.substring(i+1),temp2+temp+" "))
-						{
-							//temp2+=res+" ";
-								return true;
-						}
-						
-				}
-			}
-		}
-		
-		return false;
-    }
-    
 	
 	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
 		
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("i");
-		list.add("like");
-		list.add("likes");
-		list.add("am");
-		list.add("sam");
-		list.add("sung");
-		list.add("samsung");
+		System.out.println("Enter no.of nodes : ");
+		int n=sc.nextInt();
 		
-		String A = "ilikesamsung";
-		System.out.println(wordBreak2(list.size(),list,A));
+		Node head=new Node(sc.nextInt());
+		Node tail=head;
+		n--;
+		
+		while(n-->0) {
+			tail.next=new Node(sc.nextInt());
+			tail=tail.next;
+		}
+		
+		//head=reverseList(head);
+		head=solve(head);
+		
+		while(head!=null)
+		{
+			System.out.println(head.value);
+			head=head.next;
+		}
 	}
+
 }
 
 
