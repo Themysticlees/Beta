@@ -1,97 +1,93 @@
 package Testing;
 import java.util.*;
-import java.util.regex.Pattern;
 
-import searching_Problems.BinarySearch;
 
-class ListNode {
-	    public int val;
-	    public ListNode next;
-	    ListNode(int x) { val = x; next = null; }
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+    }
 }
 
 public class Main {
 	
-	public static int lPalin(ListNode A) {
-
-        ListNode head=A;
-        int nodes=0;
-        while(head!=null){
-            nodes++;
-            head=head.next;
-        }
-        int mid=nodes/2+1,temp=1;
-
-        head =A;
-        while(temp!=mid)
-        {
-            temp++;
-            head=head.next;
-        }
-
-        ListNode midNode=head;
-
-        ListNode prev=null;
-
-        while(midNode!=null){
-            ListNode temp1=midNode.next;
-            midNode.next=prev;
-            prev=midNode;
-            midNode=temp1;
-        }
-
-        midNode=prev;
-        prev=null;
-        //head.next=midNode;
-        head=A;
-
-        while(midNode!=null && head!=null){
-            if(midNode.val!=head.val)
-                return 0;
-            midNode=midNode.next;
-            head=head.next;
-        }
-        return 1;
+	static Node head=null;
+    static Node prev=null;
+	public static Node convertToDLL(Node root)
+    {
+        // Code here
+        
+        
+        return modify(root);
     }
+    
+    public static Node modify(Node root){
+        
+        if(root==null)
+            return null;
+            
+        if(root.left==null && root.right==null){
+            
+            if(head==null){
+                head=root;
+                prev=head;
+            }
+            else
+            {
+                prev.right=root;
+                root.left=prev;
+                prev=root;
+            }
+            return null;
+        }
+        
+        root.left=modify(root.left);
+        root.right=modify(root.right);
+        
+        return head;
+    }
+    
+    static Node createTree()
+	{
+    	Scanner sc=new Scanner(System.in);
+		
+		System.out.println("Enter data : (Enter -1 if data is null) ");
+		int data=sc.nextInt();
+		
+		//If no node is present 
+		if(data==-1)
+			return null;
+		
+		Node root = new Node(data);
+		
+		System.out.println("Enter left of "+data);
+		root.left=createTree();
+		//Create the left node of the current node
+		
+		System.out.println("Enter right of "+data);
+		root.right=createTree();
+		//create the right node of the current node
+		
+		return root;
+	}
 	
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		
-		System.out.println("Enter no.of nodes 1st list : ");
-		int n=sc.nextInt();
+		Node head=createTree();
 		
-		ListNode head=new ListNode(sc.nextInt());
-		ListNode tail=head;
-		n--;
+		head=convertToDLL(head);
 		
-		while(n-->0) {
-			tail.next=new ListNode(sc.nextInt());
-			tail=tail.next;
-		}
-		
-		/*
-		System.out.println("Enter no.of nodes 2nd list : ");
-		int n2=sc.nextInt();
-		
-		ListNode head2=new ListNode(sc.nextInt());
-		ListNode tail2=head2;
-		n2--;
-		
-		while(n2-->0) {
-			tail2.next=new ListNode(sc.nextInt());
-			tail2=tail2.next;
-		}
-		*/
-		
-		//head=addTwoNumbers(head,head2);
-		System.out.println(lPalin(head));
-		
-		while(head.next!=null)
+		while(head.right!=null)
 		{
-			System.out.print(head.val+"->");
-			head=head.next;
+			System.out.print(head.data+"->");
+			head=head.right;
 		}
-		System.out.print(head.val);
+		System.out.print(head.data);
 	}
 
 }
