@@ -33,6 +33,38 @@ public class RemoveLoop {
         }
     }
 	
+	public static void removeLoop2(Node head) {
+		
+		Node fast=head;
+		Node slow=head;
+		
+		while(fast!=null && fast.next!=null) {
+			if(fast==slow)
+				break;
+			fast=fast.next.next;
+			slow=slow.next;
+		}
+		/*
+		 * Using Floyd's loop detection algo
+		 *  1. If a loop is found, initialize a slow pointer to head, let fast pointer be at its position. 
+			2. Move both slow and fast pointers one node at a time. 
+			3. The point at which they meet is the start of the loop.
+		 */
+		
+		//we are keeping prev as the previous pointer to the slow pointer
+		//as we find a match, we'll change the previous nodes link to null
+		slow=head;
+		Node prev=head;
+		if(fast!=null && fast.next!=null) {
+			while(fast!=slow) {
+				prev=slow;
+				fast=fast.next;
+				slow=slow.next;
+			}
+			prev.next=null;
+		}
+	}
+	
 	public static void main(String[] args) {
 		
 		Scanner sc=new Scanner(System.in);
@@ -60,7 +92,7 @@ public class RemoveLoop {
 		System.out.println("Loop exists ?" + DetectLoop.detectLoop2(head));
 		
 		//removing the loop and checking again
-		removeLoop(head);
+		removeLoop2(head);
 		System.out.println("Loop exists ?" +DetectLoop.detectLoop2(head));
 
 	}

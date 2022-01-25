@@ -1,5 +1,7 @@
 package array_Problems;
 
+import java.util.Arrays;
+
 import utilty_Algorithm.Numbers;
 
 public class Next_Permuation {
@@ -21,15 +23,18 @@ public class Next_Permuation {
 		}
 		//Means array is in Descending
 		if(index==-1)
-			Numbers.reverse(nums, 0, n-1);
+			Arrays.sort(nums);
 		else
 		{
 			//find the next greater number than nums[index-1] and smaller than nums[temp]
 			int temp=index;
-			for(int i=index+1;i<n;i++)
+			for(int i=n-1;i>=index;i--)
 			{
-				if(nums[i]>nums[index-1] && nums[i]<nums[temp])
+				if(nums[i]>nums[index-1])
+				{
 					temp=i;
+					break;
+				}
 			}
 			
 			//swap the two numbers
@@ -44,7 +49,12 @@ public class Next_Permuation {
 	}
 	public static void main(String[] args) {
 		
-		int[] arr= {1,2,5,3};
+		String s="74 65 42 12 54 69 48 45 63 58 38 60 24 42 "
+				+ "30 79 17 36 91 43 89 7 41 43 65 49 47 6 91 "
+				+ "30 71 51 7 2";
+		int[] arr= {74, 65, 42, 12, 54, 69, 48, 45, 63, 58, 38, 60, 24, 42,
+				 30, 79, 17, 36, 91, 43, 89, 7 ,41, 43, 65, 49, 47, 6, 91, 
+				30, 71, 51, 7, 2};
 		nextPermutation(arr);
 	}
 

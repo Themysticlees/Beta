@@ -1,12 +1,8 @@
-package Testing;
-import java.util.*;
+package searching_Problems;
 
-public class Main {
+public class MinCapacityDdays {
 	
-	//Find the least weight capacity of a boat to ship all weights within D days.
-	//The weights must be loaded in order
-	
-	static int leastWeightCapacity(int[] arr, int N, int D) {
+static int leastWeightCapacity(int[] arr, int N, int D) {
         
 		//We are calculating the max of the array and the sum of it
 		//As the min weight will lie between these two numbers
@@ -71,5 +67,3 @@ public class Main {
 	}
 
 }
-
-
