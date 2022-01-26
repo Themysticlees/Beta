@@ -1,4 +1,4 @@
-package array_Problems;
+package searching_Problems;
 
 public class minSortRotated {
 	

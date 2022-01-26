@@ -1,7 +1,8 @@
 package searching_Problems;
 
 public class MinCapacityDdays {
-	
+
+	//Binary Search
 static int leastWeightCapacity(int[] arr, int N, int D) {
         
 		//We are calculating the max of the array and the sum of it

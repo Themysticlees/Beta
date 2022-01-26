@@ -2,6 +2,7 @@ package searching_Problems;
 
 import java.util.Arrays;
 
+//Binary Search
 public class Search_Infinite_SortedArray {
 	
 	//must be done in O(logn)
