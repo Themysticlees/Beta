@@ -1,17 +1,24 @@
-package Testing;
-import java.util.*;
+package array_Problems;
 
-class Main{
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+//Similar to 3sum just add another loop for the 4th number
+//There may be duplicates so handle that
+public class QuadrupletSum {
 	public ArrayList<ArrayList<Integer>> fourSum(int[] arr, int k) {
         // code here
         Arrays.sort(arr);
         
         ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        //Taking a set so as to handle the duplicates
         Set<ArrayList<Integer>> set= new HashSet<>();
         
         int n=arr.length;
-        int x=0;
         
+        //similar to 3sum
         for(int i=0;i<n;i++){
             int rem=k-arr[i];
             
@@ -20,6 +27,7 @@ class Main{
                 int low=j+1;
                 int high=n-1;
                 
+                //2 pointer Algo
                 while(low<high){
                     if(arr[low]+arr[high]==trem) 
                     {
@@ -29,6 +37,8 @@ class Main{
                         temp.add(arr[low]);
                         temp.add(arr[high]);
                         
+                        //checking if the set contains the quadruple
+                        //if not add that to the set and to the result list
                         if(!set.contains(temp))
                         {
                         	set.add(temp);
@@ -62,8 +72,7 @@ class Main{
 		
 		int[] arr= {10,2,3,3,5,7,8};
 		
-		System.out.println(new Main().fourSum(arr,23 ));
+		System.out.println(new QuadrupletSum().fourSum(arr,23 ));
 	}
+
 }
-
-
