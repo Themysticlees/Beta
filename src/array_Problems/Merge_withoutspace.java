@@ -20,7 +20,6 @@ public class Merge_withoutspace {
             int i=0;
             int j=gap;
             
-            
             while(j<m+n)
             {
 	            if(j>=m)
