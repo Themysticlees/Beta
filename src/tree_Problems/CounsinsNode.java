@@ -1,27 +1,16 @@
-package Testing;
-import java.util.*;
+package tree_Problems;
+
+import java.util.ArrayList;
 
 
-class Node {
-    int data;
-    Node left;
-    Node right;
-    Node(int data) {
-        this.data = data;
-        left = null;
-        right = null;
-    }
-}
-    
-
-class Main{
+public class CounsinsNode {
 	
 	static Node parent=null;
     static ArrayList<Integer> list=new ArrayList<>();
     
     public static ArrayList<Integer> printCousins(Node root, Node node_to_find)
     {
-        //code here
+        //first we calculate at which level is the node present
         int level=-1;
         for(int i=0;i<1000;i++){
             if(Level(root,node_to_find,null,i))
@@ -42,6 +31,7 @@ class Main{
             return false;
         if(level==0 && root.data==find.data)
         {
+        	//if we find the node we save it's parent too
             parent=prev;
             return true;
         }
@@ -58,6 +48,7 @@ class Main{
         if(root==null)
             return;
             
+        //only printing those nodes whose parent doesnt match with parent
         if(level==0 && parent.data!=p.data){
             list.add(root.data);
             return;
@@ -84,7 +75,5 @@ class Main{
 		
 		System.out.println(list);
 	}
-	
-}
 
-	
+}

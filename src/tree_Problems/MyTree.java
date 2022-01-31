@@ -8,7 +8,15 @@ public class MyTree {
 	
 	public static void main(String[] args) {
 		
-		Node root = createTree();
+		//Node root = createTree();
+		
+		//creating a tree manually
+		Node root=new Node(2);
+		root.left=new Node(4);
+		root.right=new Node(1);
+		root.left.left=new Node(7);
+		root.right.left=new Node(8);
+		root.right.right=new Node(3);
 	
 		System.out.println("Inorder = ");
 		Inorder(root);
@@ -19,8 +27,32 @@ public class MyTree {
 		
 		System.out.println("No.of Leaf Nodes = "+LeafNodes(root));
 		
+		System.out.println("Height of the tree = "+Height(root));
+		
+		int h=Height(root);
+		
+		LevelOrder(root, h);
+		
+		System.out.println(level(root, new Node(5)));
 		
 	}
+	
+	static boolean level(Node root,Node find){
+        
+        if(root==null)
+            return false;
+        if(root.data==find.data)
+            return true;
+        else
+        {
+            if(level(root.left,find) || level(root.right,find))
+                return true;
+        }
+        return false;
+        
+    }
+	
+	//----------------------Creating a Tree---------------------------//
 	
 	static Node createTree()
 	{
@@ -46,6 +78,8 @@ public class MyTree {
 		return root;
 	}
 	
+	//----------------------Inorder Traversal (Left-Root-Right)---------------------------//
+	
 	static void Inorder(Node root) {
 		
 		if(root==null)
@@ -55,6 +89,9 @@ public class MyTree {
 		System.out.println(root.data);
 		Inorder(root.right);
 	}
+	
+	//----------------------Preorder Traversal (Root-Left-Right)---------------------------//
+
 	
 	static void Preorder(Node root) {
 	
@@ -66,6 +103,8 @@ public class MyTree {
 		Preorder(root.right);
 	}
 	
+	//----------------------Postorder Traversal (Left-Right-Root)---------------------------//
+
 	static void Postorder(Node root) {
 		
 		if(root==null)
@@ -76,6 +115,7 @@ public class MyTree {
 		System.out.println(root.data);
 	}
 	
+	//----------------------Calculate Leaf nodes---------------------------//
 	
 	static int LeafNodes(Node root) {
 		if(root==null)
@@ -88,7 +128,46 @@ public class MyTree {
 		//check no.of leaf nodes in left sub tree and right sub tree and add them
 		return LeafNodes(root.left)+LeafNodes(root.right);
 	}
+	
+	//----------------------Calculate Height of a tree---------------------------//
+	static int Height(Node root) {
+		
+		if(root==null)
+			return 0;
+		
+		return 1+Math.max(Height(root.left), Height(root.right));
+	}
+	
+	//----------------------Level Order Traversal of tree---------------------------//
+	static void LevelOrder(Node root, int height){
+		
+		//We are traversing every level and printing all the nodes in that level
+		for(int i=0;i<height;i++) {
+			System.out.println("Nodes of level "+i);
+			
+			//This function is doing the work
+			currentLevel(root,i);
+			System.out.println();
+		}
+	}
+	
+	static void currentLevel(Node root, int level) {
+		
+		if(root==null)
+			return;
+		//if level becomes becomes zero that means we have reached our target level
+		if(level==0)
+		{
+			System.out.print(root.data+" ");
+			return;
+		}
+		//decreasing the level until we reach 0
+		currentLevel(root.left, level-1);
+		currentLevel(root.right, level-1);
+	}
 }
+
+//----------------------Node class---------------------------//
 
 class Node{
 	int data;
@@ -97,6 +176,8 @@ class Node{
 	
 	Node(int data){
 		this.data=data;
+		this.left=null;
+		this.right=null;
 	}
 }
 
