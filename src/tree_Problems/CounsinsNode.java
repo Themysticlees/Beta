@@ -48,7 +48,7 @@ public class CounsinsNode {
         if(root==null)
             return;
             
-        //only printing those nodes whose parent doesnt match with parent
+        //only printing those nodes whose parent doesnt match with parent of the search node
         if(level==0 && parent.data!=p.data){
             list.add(root.data);
             return;
