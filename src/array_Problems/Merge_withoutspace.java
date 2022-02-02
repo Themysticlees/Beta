@@ -3,69 +3,74 @@ import java.util.*;
 
 public class Merge_withoutspace {
 	
-	public static void swap(int arr1[], int arr2[],int i, int j)
-	{
-		int temp=arr1[i];
-        arr1[i]=arr2[j];
-        arr2[j]=temp;
-	}
-	
-	public static void merge(int arr1[], int arr2[], int m, int n) {
-        // code here
-        
-        int gap=(m+n)/2;
-        
-        while(gap>=1)
-        {
-            int i=0;
-            int j=gap;
-            
-            while(j<m+n)
-            {
-	            if(j>=m)
-	            {
-	            	int j1=j-m;
-	            	if(i>=m)
-	            	{
-	            		int i1=i-m;
-	            		if(arr2[i1]>arr2[j1])
-	            			swap(arr2,arr2,i1,j1);
-	            	}
-	            	else
-	            	{
-	            		if(arr1[i]>arr2[j1])
-	            			swap(arr1,arr2,i,j1);
-	            	}
-	            }
-	            else
-	            {
-	            	if(arr1[i]>arr1[j])
-	            	swap(arr1,arr1,i,j);
-	            }
-	            
-	            i++;
-	            j++;
-            }
-            
-            gap=gap/2;
-        }
-        
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-	}
-
-	public static void main(String[] args) {
+	//utility function for swaping two elements
+		static void swap(int[] arr1, int[] arr2, int i, int j) {
+			int temp=arr1[i];
+			arr1[i]=arr2[j];
+			arr2[j]=temp;
+		}
+		
+		//we are using the gap method
+		//where we'll compare the elements in the particular gap and swap accordingly
+		//we'll reduce the gap by 2 untill gap becomes less than 1
+		static void merge(int[] arr1, int[] arr2, int m, int n) {
 			
-		int arr1[] = {7, 9, 9, 10, 11, 11, 13, 14, 17, 19};
-		int arr2[] = {1, 1, 4, 5, 8, 11, 13, 16, 19, 19};
-		
-		merge(arr1,arr2,arr1.length,arr2.length);
-		
-		for(int i:arr1)
-			System.out.println(i);
-		for(int i:arr2)
-			System.out.println(i);
-		
-	}
+			//calculating gap : m+n/2. we take the ceil value if we divide an odd number
+			int gap=(int)Math.ceil(n+(m-n)/2);
+			
+			while(gap>0) {
+				//initializing two pointers
+				int i=0,j=i+gap;
+				
+				//There will be 3 cases
+				//1. when both the pointers are in the first array
+				//2. when both the pointers are in two different arrays
+				//3. when both the pointers are in the second array
+				
+				//1st case
+				while(i<m && j<m) {
+					//we are checking untill the pointers go over range.
+					if(arr1[i]>arr1[j])
+						swap(arr1,arr1,i,j);
+					i++;j++;
+				}
+				
+				//2nd case, we are subtracting the second pointer by m(size of 1st array)
+				//to get the correct indexes of the second array
+				while(i<m && j-m<n) {
+					if(arr1[i]>arr2[j-m])
+						swap(arr1,arr2,i,j-m);
+					i++;j++;
+				}
+				
+				//3rd case when both the pointers are in 2nd array
+				while(i-m<n && j-m<n) {
+					if(arr1[i-m]>arr2[j-m])
+						swap(arr2,arr2,i-m,j-m);
+					i++;j++;
+				}
+				
+				//dividing the gap by 2
+				gap=gap/2;
+				
+			}
+			
+			//sorting the arrays once more
+			Arrays.sort(arr1);
+			Arrays.sort(arr2);
+		}
+	    
+	    public static void main(String[] args) {
+			
+	    	int[] arr1= {5,4,6,7,9};
+	    	int[] arr2= {1,2,3};
+	    	
+	    	merge(arr1,arr2,arr1.length,arr2.length);
+	    	
+	    	for(int i:arr1)
+				System.out.print(i+" ");
+			for(int i:arr2)
+				System.out.print(i+" ");
+		}
 
 }
