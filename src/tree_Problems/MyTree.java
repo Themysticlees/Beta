@@ -80,7 +80,7 @@ public class MyTree {
 	
 	//----------------------Inorder Traversal (Left-Root-Right)---------------------------//
 	
-	static void Inorder(Node root) {
+	public static void Inorder(Node root) {
 		
 		if(root==null)
 			return;
@@ -93,7 +93,7 @@ public class MyTree {
 	//----------------------Preorder Traversal (Root-Left-Right)---------------------------//
 
 	
-	static void Preorder(Node root) {
+	public static void Preorder(Node root) {
 	
 		if(root==null)
 			return;
