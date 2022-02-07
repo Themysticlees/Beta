@@ -2,6 +2,7 @@ package Testing;
 import java.util.*;
 
 
+
 class Node {
 	 
 	int value;
@@ -18,45 +19,46 @@ class Node {
 
 public class Main{
 	
-	static Node mirrorTree(Node root, int[] arr, int k) {
+	static ArrayList<Integer> inOrder(Node root) {
 		
-		if(root==null)
-			return null;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Stack<Node> stack=new Stack<Node>();
 		
-		Node temp=mirrorTree(root.left,arr,k++);
-		root.left=mirrorTree(root.right,arr,k++);
-		root.right=temp;
+		Node curr=root;
 		
-		arr[k]=root.value;
-		return root;
-		
-	}
-	
-	static void Inorder(Node root) {
-		
-		if(root==null)
-			return;
+		while(!stack.isEmpty() || curr!=null) {
 			
-		Inorder(root.left);
-		System.out.print(root.value+" ");
-		Inorder(root.right);
+			if(curr!=null) {
+				stack.push(curr);
+				curr=curr.left;
+			}
+			else
+			{
+				curr=stack.pop();
+				list.add(curr.value);
+				curr=curr.right;
+			}
+		}
+		return list;
+		
 	}
     
     public static void main(String[] args) {
     	
-    	Node root=new Node(2);
-		root.left=new Node(1);
-		root.right=new Node(8);
-		root.left.left=new Node(12);
-		root.right.right=new Node(9);
+    	Node root=new Node(1);
+		root.left=new Node(2);
+		root.right=new Node(3);
+		root.left.left=new Node(4);
+		root.left.right=new Node(5);
+		root.right.left=new Node(6);
+		root.right.right=new Node(7);
+		root.left.left.right=new Node(8);
 		
-		int[] arr=new int[1000];
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int[] max= {-1};
+		list=inOrder(root);
+		System.out.println(list);
 		
-		Inorder(root);
-		root=mirrorTree(root,arr,0);
-		System.out.println();
-		Inorder(root);
-
 	}
 	
 }

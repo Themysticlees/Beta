@@ -50,6 +50,9 @@ public class LeftViewTree {
         
         preorder(root.left,lvl+1,list,max);
         preorder(root.right,lvl+1,list,max);
+        
+        //For right view of the tree reverse the lines 51 and 52.
+        //Since we'll be visiting the right node first thus root.right function must be before
                 
     }
 
