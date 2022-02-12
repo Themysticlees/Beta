@@ -30,68 +30,67 @@ class Pair{
 
 public class Main{
 	
-	static int Height(Node root) {
+	static int maxEvents(int[] start, int[] end, int N) {
 		
-		if(root==null)
-			return 0;
+		int[][] arr=new int[N][2];
 		
-		return 1+Math.max(Height(root.left), Height(root.right));
-	}
-	
-	static ArrayList<Integer> LevelOrder(Node root, int height){
+		for(int i=0;i<N;i++) {
+			arr[i][0]=start[i];
+			arr[i][1]=end[i];
+		}
 		
-		//We are traversing every level and printing all the nodes in that level
-		int con;
-		ArrayList<Integer> list= new ArrayList<>();
-		for(int i=0;i<height;i++) {
-			//System.out.println("Nodes of level "+i);
+		Comparator<int[]> con = new Comparator<>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				// TODO Auto-generated method stub
+				
+				if(o2[1]==o1[1] && o2[0]<o1[0])
+					return 1;
+				else if(o2[1]<o1[1])
+					return 1;
+				else
+					return -1;
+			}	
+		};
+		
+		Arrays.sort(arr,con);
+		
+		int count=0;
+		
+		Set<Integer> set = new HashSet<>();
+		
+		for(int i=0;i<N;i++) {
 			
-			//This function is doing the work
-			if(i%2==0)
-				con=0;
-			else
-				con=1;
-			
-			currentLevel(root,i,con,list);
-			//System.out.println();
+			int j=arr[i][0];
+			while(j<=arr[i][1])
+			{
+				if(!set.contains(j))
+				{
+					count++;
+					set.add(j);
+					break;
+				}
+				j++;
+			}
 		}
-		return list;
-	}
-	
-	static void currentLevel(Node root, int level, int con, ArrayList<Integer> list) {
+		return count;
 		
-		if(root==null)
-			return;
-		//if level becomes becomes zero that means we have reached our target level
-		if(level==0)
-		{
-			list.add(root.data);
-			return;
-		}
-		//decreasing the level until we reach 0
-		if(con==0) {
-		currentLevel(root.left, level-1,con,list);
-		currentLevel(root.right, level-1,con,list);
-		}
-		else
-		{
-			currentLevel(root.right, level-1,con,list);
-			currentLevel(root.left, level-1,con,list);
-		}
 	}
 	
     public static void main(String[] args) {
     	
-    	Node root=new Node(1);
-		root.left=new Node(2);
-		root.right=new Node(3);
-		root.left.left=new Node(4);
-		root.left.right=new Node(5);
-		root.right.left=new Node(6);
-		root.right.right=new Node(7);
-		root.left.left.right=new Node(8);
+    	Node root=new Node(10);
+		root.left=new Node(12);
+		root.right=new Node(15);
+		root.left.left=new Node(25);
+		root.left.right=new Node(30);
+		root.right.left=new Node(36);
+		//root.right.right=new Node(7);
+		//root.left.left.right=new Node(8);
 		
-		System.out.println(LevelOrder(root,Height(root)));
+		int start[] = {1, 2, 1, 3, 4};
+		int end[] =   {1, 2, 2, 4, 4};
+		System.out.println(maxEvents(start, end, start.length));
 		
 	}
 	
