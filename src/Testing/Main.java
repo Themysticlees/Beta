@@ -1,7 +1,6 @@
 package Testing;
 import java.util.*;
 
-
 class Node {
 	 
 	int data;
@@ -30,35 +29,26 @@ class Pair{
 
 public class Main{
 	
-	static boolean search(Node root,int val) {
-		
-		if(root==null)
-			return false;
-		
-		if(root.data==val)
-			return true;
-		
-		//int temp=root.data;
-		
-		if(val<root.data)
-			return search(root.left,val);
-		else
-			return search(root.right,val);
-	}
 	
-    public static void main(String[] args) {
+
+	public static void main(String[] args) {
     	
     	Node root=new Node(10);
 		root.left=new Node(5);
-		root.right=new Node(12);
-		root.left.left=new Node(4);
-		root.left.right=new Node(7);
-		root.right.left=new Node(10);
+		root.right=new Node(13);
+		root.left.left=new Node(3);
+		root.left.right=new Node(6);
+		root.right.left=new Node(11);
 		root.right.right=new Node(14);
-		root.left.right.left=new Node(6);
-		root.right.right.left=new Node(13);
+		root.left.left.left=new Node(2);
+		root.left.left.right=new Node(4);
+		root.left.right.right=new Node(9);
+		//root.right.right.right=new Node(5);
+		//root.right.right.right.right=new Node(6);
+		//root.left.right.left=new Node(6);
+		//root.right.right.left=new Node(13);
 		
-		System.out.println(search(root, 15));
+		//System.out.println(findFloor(root,8));
 		
 	}
 	
