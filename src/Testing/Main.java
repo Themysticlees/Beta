@@ -29,7 +29,78 @@ class Pair{
 
 public class Main{
 	
+	public static Node deleteNode(Node root, int key) {
+		
+		Node curr=root;
+		Node parent=null;
+		
+		if(root.data==key) {
+			
+			
+			if(curr.left==null)
+				return curr.right;
+			
+			else if(curr.right==null)
+				return curr.left;
+			
+			else
+			{
+				curr=curr.left;
+				parent=curr;
+				while(parent.right!=null)
+					parent=parent.right;
+				
+				parent.right=root.right;
+			}
+			return curr;
+		}
+		
+		while(curr!=null) {
+			
+			if(key==curr.data)
+				break;
+			
+			parent=curr;
+			
+			if(key<curr.data)
+				curr=curr.left;
+			else
+				curr=curr.right;
+		}
+		
+		if(curr==null)
+			return root;
+		
+		if(curr.left==null)
+			parent.left=curr.right;
+		
+		else if(curr.right==null)
+			parent.left=curr.left;
+		else
+		{
+			parent.left=curr.left;
+			
+			parent=parent.left;
+			
+			while(parent.right!=null)
+				parent=parent.right;
+			
+			parent.right=curr.right;
+		}
+		
+		return root;
+		
+	}
 	
+	public static void Preorder(Node root) {
+		
+		if(root==null)
+			return;
+		
+		System.out.print(root.data+" ");
+		Preorder(root.left);
+		Preorder(root.right);
+	}
 
 	public static void main(String[] args) {
     	
@@ -49,6 +120,11 @@ public class Main{
 		//root.right.right.left=new Node(13);
 		
 		//System.out.println(findFloor(root,8));
+		
+		Preorder(root);
+		root=deleteNode(root, 1);
+		System.out.println();
+		Preorder(root);
 		
 	}
 	
