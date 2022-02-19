@@ -29,77 +29,42 @@ class Pair{
 
 public class Main{
 	
-	public static Node deleteNode(Node root, int key) {
+	public static Node successor(Node root, int key, Node successor, Node predecessor) {
 		
 		Node curr=root;
-		Node parent=null;
-		
-		if(root.data==key) {
-			
-			
-			if(curr.left==null)
-				return curr.right;
-			
-			else if(curr.right==null)
-				return curr.left;
-			
-			else
-			{
-				curr=curr.left;
-				parent=curr;
-				while(parent.right!=null)
-					parent=parent.right;
-				
-				parent.right=root.right;
-			}
-			return curr;
-		}
-		
-		while(curr!=null) {
-			
-			if(key==curr.data)
-				break;
-			
-			parent=curr;
-			
-			if(key<curr.data)
-				curr=curr.left;
-			else
-				curr=curr.right;
-		}
-		
-		if(curr==null)
-			return root;
-		
-		if(curr.left==null)
-			parent.left=curr.right;
-		
-		else if(curr.right==null)
-			parent.left=curr.left;
-		else
+		while(root!=null)
 		{
-			parent.left=curr.left;
-			
-			parent=parent.left;
-			
-			while(parent.right!=null)
-				parent=parent.right;
-			
-			parent.right=curr.right;
+			if(root.data>key)
+			{
+				if(successor!=null && root.data<successor.data)
+					successor=root;
+				else if(successor==null)	
+					successor=root;
+				
+				root=root.left;
+				
+			}
+			else
+				root=root.right;
 		}
 		
-		return root;
+		root=curr;
 		
-	}
-	
-	public static void Preorder(Node root) {
+		while(root!=null) {
+			if(root.data<key)
+			{
+				if(predecessor==null)
+					predecessor=root;
+				else if(root.data>predecessor.data)
+					predecessor=root;
+				
+				root=root.right;
+			}
+			else
+				root=root.left;
+		}
+		return predecessor;
 		
-		if(root==null)
-			return;
-		
-		System.out.print(root.data+" ");
-		Preorder(root.left);
-		Preorder(root.right);
 	}
 
 	public static void main(String[] args) {
@@ -121,10 +86,7 @@ public class Main{
 		
 		//System.out.println(findFloor(root,8));
 		
-		Preorder(root);
-		root=deleteNode(root, 1);
-		System.out.println();
-		Preorder(root);
+		System.out.println(successor(root, 14, null,null).data);
 		
 	}
 	

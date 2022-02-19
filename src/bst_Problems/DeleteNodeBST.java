@@ -1,4 +1,4 @@
-package tree_Problems;
+package bst_Problems;
 
 public class DeleteNodeBST {
 
@@ -65,7 +65,7 @@ public Node deleteNode(Node root, int key) {
             	//do the same if right child is null
                 return root.left;
             } else {
-            	//we keep a reference of the right sub tree
+            	//we keep a reference o the right sub tree
                 Node rightChild = root.right;
                 //then from the left subtree, find the largest node
                 //findLastRight will search for that

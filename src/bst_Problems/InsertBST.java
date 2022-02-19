@@ -1,4 +1,5 @@
-package tree_Problems;
+package bst_Problems;
+
 
 public class InsertBST {
 	
