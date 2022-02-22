@@ -1,6 +1,7 @@
 package Testing;
 import java.util.*;
 
+
 class Node {
 	 
 	int data;
@@ -29,44 +30,54 @@ class Pair{
 
 public class Main{
 	
-	public static Node successor(Node root, int key, Node successor, Node predecessor) {
+	public static Node construct(int[] pre, int[] in, Map<Integer,Integer> map,int prestart, int preend, int instart, int inend) {
 		
-		Node curr=root;
-		while(root!=null)
-		{
-			if(root.data>key)
-			{
-				if(successor!=null && root.data<successor.data)
-					successor=root;
-				else if(successor==null)	
-					successor=root;
-				
-				root=root.left;
-				
-			}
-			else
-				root=root.right;
-		}
+		if(prestart>preend || instart>inend)
+			return null;
 		
-		root=curr;
+		Node root=new Node(pre[prestart]);
+		int pos=map.get(pre[prestart]);
+		int leftElements=pos-instart;
 		
-		while(root!=null) {
-			if(root.data<key)
-			{
-				if(predecessor==null)
-					predecessor=root;
-				else if(root.data>predecessor.data)
-					predecessor=root;
-				
-				root=root.right;
-			}
-			else
-				root=root.left;
-		}
-		return predecessor;
+		root.left=construct(pre, in, map, prestart+1, prestart+ leftElements, instart, pos-1);
+		root.right=construct(pre, in, map, prestart+ leftElements+1, preend, pos+1, inend);
+		
+		return root;
 		
 	}
-
+	
+	public static void Preorder(Node root) {
+		
+		if(root==null)
+			return;
+		
+		System.out.println(root.data);
+		Preorder(root.left);
+		Preorder(root.right);
+	}
+	
+	public static void Inorder(Node root) {
+		
+		if(root==null)
+			return;
+		
+		Inorder(root.left);
+		System.out.println(root.data);
+		Inorder(root.right);
+	}
+	
+	public static void Postorder(Node root) {
+		
+		if(root==null)
+			return;
+		
+		Postorder(root.left);
+		Postorder(root.right);
+		System.out.println(root.data);
+	}
+	
+	
+	
 	public static void main(String[] args) {
     	
     	Node root=new Node(10);
@@ -84,9 +95,18 @@ public class Main{
 		//root.left.right.left=new Node(6);
 		//root.right.right.left=new Node(13);
 		
-		//System.out.println(findFloor(root,8));
+		int[] pre= {10,5,3,2,4,6,9,13,11,14};
+		int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
-		System.out.println(successor(root, 14, null,null).data);
+		Map<Integer, Integer> map = new HashMap<>();
+		
+		for(int i=0;i<in.length;i++)
+			map.put(in[i],i);
+		
+		root=construct(pre, in, map, 0, pre.length-1, 0, in.length-1);
+		
+		Postorder(root);
+		
 		
 	}
 	
