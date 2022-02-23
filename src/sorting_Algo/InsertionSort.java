@@ -13,18 +13,18 @@ public class InsertionSort {
 		//Repeat the steps
 		for(int i=0;i<n-1;i++) {
 			int temp=arr[i+1];
-			int j=0;
-			for(j=i;j>=0;j--) {
-				if(arr[j]>temp)
-					arr[j+1]=arr[j];
-				else {
-					arr[j+1]=temp;
-					break;
-				}
+			int j=i;
+			
+			//here we are comparing with with all the elements in the sorted window
+			while(j>=0 && arr[j]>temp)
+			{
+				arr[j+1]=arr[j];
+				j--;
 			}
-			if(j<0)
-				arr[0]=temp;
-				
+			
+			//if an element is smaller or j becomes less than zero, i,e we have no elements to compare
+			//thus put the temp in j+1 since in j we have the element which we were comparing with.
+			arr[j+1]=temp;
 		}
 	}
 	
