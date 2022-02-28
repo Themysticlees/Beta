@@ -52,5 +52,21 @@ public class LongestCommonSubsequence {
     	
     	return arr[arr.length-1][arr.length-1];
     }
+    
+    public static void main(String[] args) {
+		
+    	String s1=" abcdgh";
+		String s2=" aedfhr";
+		
+		int[][] arr=new int[s1.length()][s2.length()];
+		
+		for(int i=0;i<s2.length();i++)
+			arr[0][i]=0;
+		for(int i=0;i<s1.length();i++)
+			arr[i][0]=0;
+		
+		
+		System.out.println(LCS("abcdgh ","aedfhr ",arr));
+	}
 
 }

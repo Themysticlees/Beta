@@ -30,34 +30,37 @@ class Pair{
 
 public class Main{
 	
-    public static int LCS(String s1, String s2) {
-    	
-    	if(s1.equals(" ") || s2.equals(" "))
-    		return 0;
-    	
-    	if(s1.charAt(0) == s2.charAt(0))
-    	{
-    		
-    		return 1+LCS(s1.substring(1),s2.substring(1));
-    	}
-    	
-    	return Math.max(LCS(s1.substring(1),s2), LCS(s1,s2.substring(1)));
-    }
-    
-    public static int LCS(String s1, String s2, int[][] arr) {
-    	
-    	for(int i=1;i<arr.length;i++) {
-    		
-    		for(int j=1;j<arr[0].length;j++) {
-    			
-    			if(s1.charAt(i)==s2.charAt(j))
-    				arr[i][j]=1+arr[i-1][j-1];
-    			else
-    				arr[i][j]=Math.max(arr[i][j-1], arr[i-1][j]);
-    		}
-    	}
-    	
-    	return arr[arr.length-1][arr.length-1];
+	public static int mostBalloons(int N, int arr[][]) {
+        // Code here
+        int ans=0;
+        for(int i=0;i<arr.length;i++){
+            
+            Map<Double,Integer> map = new HashMap<>();
+            int max=0,same=1;
+            double slope=0;
+            for(int j=i+1;j<arr.length;j++){
+                
+                if(arr[i][0]==arr[j][0] || arr[i][1]==arr[j][1])
+                {
+                    same++;
+                    continue;
+                }
+                
+                if(arr[j][1]-arr[i][1]==0)
+                    slope=999;
+                else
+                    slope=(double)Math.abs(arr[j][0]-arr[i][0])/(double)Math.abs(arr[j][1]-arr[i][1]);
+                
+                if(map.containsKey(slope))
+                    map.put(slope,map.get(slope)+1);
+                else
+                    map.put(slope,2);
+                    
+                max=Math.max(max,map.get(slope));
+            }
+            ans=Math.max(ans,Math.max(max,same));
+        }
+        return ans;
     }
     
 	public static void main(String[] args) {
@@ -82,18 +85,8 @@ public class Main{
 		
 		
 		
-		String s1=" abcdgh";
-		String s2=" aedfhr";
-		
-		int[][] arr=new int[s1.length()][s2.length()];
-		
-		for(int i=0;i<s2.length();i++)
-			arr[0][i]=0;
-		for(int i=0;i<s1.length();i++)
-			arr[i][0]=0;
-		
-		
-		System.out.println(LCS("abcdgh ","aedfhr ",arr));
+		int arr[][] = {{1, 2}, {2, 3}, {3, 4}, {3,3},{4,3},{5,3}};
+		System.out.println(mostBalloons(arr.length, arr));
 		
 	}
 	
