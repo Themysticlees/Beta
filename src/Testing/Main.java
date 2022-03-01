@@ -30,37 +30,33 @@ class Pair{
 
 public class Main{
 	
-	public static int mostBalloons(int N, int arr[][]) {
-        // Code here
-        int ans=0;
-        for(int i=0;i<arr.length;i++){
+	static char reverse(char ch){
+        if(ch==']')
+            return '[';
+        else if(ch=='}')
+            return '{';
+        else
+            return '(';
+    }
+    static boolean ispar(String x)
+    {
+        // add your code here
+        Stack<Character> stack = new Stack<>();
+        
+        for(int i=0;i<x.length();i++){
+            char ch=x.charAt(i);
             
-            Map<Double,Integer> map = new HashMap<>();
-            int max=0,same=1;
-            double slope=0;
-            for(int j=i+1;j<arr.length;j++){
+            if(ch!=']' && ch!='}' && ch!=')')
+                stack.push(ch);
+            else
+            {
+                if(stack.peek()!=reverse(ch))
+                    return false;
                 
-                if(arr[i][0]==arr[j][0] || arr[i][1]==arr[j][1])
-                {
-                    same++;
-                    continue;
-                }
-                
-                if(arr[j][1]-arr[i][1]==0)
-                    slope=999;
-                else
-                    slope=(double)Math.abs(arr[j][0]-arr[i][0])/(double)Math.abs(arr[j][1]-arr[i][1]);
-                
-                if(map.containsKey(slope))
-                    map.put(slope,map.get(slope)+1);
-                else
-                    map.put(slope,2);
-                    
-                max=Math.max(max,map.get(slope));
+                stack.pop();
             }
-            ans=Math.max(ans,Math.max(max,same));
         }
-        return ans;
+        return true;
     }
     
 	public static void main(String[] args) {
@@ -83,11 +79,7 @@ public class Main{
 		//int[] pre= {10,5,3,2,4,6,9,13,11,14};
 		//int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
-		
-		
-		int arr[][] = {{1, 2}, {2, 3}, {3, 4}, {3,3},{4,3},{5,3}};
-		System.out.println(mostBalloons(arr.length, arr));
-		
+		System.out.println(ispar("{"));
 	}
 	
 }
