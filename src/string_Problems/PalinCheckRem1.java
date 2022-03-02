@@ -1,8 +1,10 @@
 package string_Problems;
 
+//You have to check whether a String is palindrome or not,
+//if not, check if it can be converted by removing just one character. If yes return true otherwise false.
 public class PalinCheckRem1 {
 	
-public static int solve(String a) {
+	public static int solve(String a) {
 		
 		int j = a.length() - 1;
 	    int i = 0;
@@ -49,7 +51,7 @@ public static int solve(String a) {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(solve("phmjjmap"));
+		System.out.println(solve("pmjjmp"));
 	}
 
 }

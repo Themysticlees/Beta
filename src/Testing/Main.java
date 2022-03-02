@@ -30,33 +30,64 @@ class Pair{
 
 public class Main{
 	
-	static char reverse(char ch){
-        if(ch==']')
-            return '[';
-        else if(ch=='}')
-            return '{';
-        else
-            return '(';
-    }
-    static boolean ispar(String x)
-    {
-        // add your code here
-        Stack<Character> stack = new Stack<>();
+	public static String moveRobots(String s1, String s2){
+        //code here
         
-        for(int i=0;i<x.length();i++){
-            char ch=x.charAt(i);
-            
-            if(ch!=']' && ch!='}' && ch!=')')
-                stack.push(ch);
-            else
+        int i=0,j=0;
+        String ans="Yes";
+        int maxB=-1,minA=9999;
+        while(i<s1.length() && j<s2.length()){
+            if(s1.charAt(i)=='#')
             {
-                if(stack.peek()!=reverse(ch))
-                    return false;
-                
-                stack.pop();
+                i++;
+                continue;
             }
+            
+            if(s2.charAt(j)=='#')
+            {
+                j++;
+                continue;
+            }
+                
+            if(s1.charAt(i)!=s2.charAt(j))
+            {
+                ans="No";
+                break;
+            }
+            
+            if(s1.charAt(i)=='A')
+            {
+                if(i<j || i>maxB){
+                    ans="No";
+                    break;
+                }
+                else
+                {
+                    minA=Math.min(minA,j);
+                    i++;
+                    j++;
+                }
+            }
+            
+            
+            else if(s1.charAt(i)=='B' )
+            {
+                if(i>j || i<minA ){
+                    ans="No";
+                    break;
+                }
+                else
+                {
+                    maxB=j;
+                    i++;
+                    j++;
+                }
+            }
+            
+            
         }
-        return true;
+        return ans;
+        
     }
     
 	public static void main(String[] args) {
@@ -79,7 +110,8 @@ public class Main{
 		//int[] pre= {10,5,3,2,4,6,9,13,11,14};
 		//int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
-		System.out.println(ispar("{"));
+		System.out.println(moveRobots("AABBBAAA##A","AABBBAAA#A#"));
+		
 	}
 	
 }
