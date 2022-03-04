@@ -30,65 +30,7 @@ class Pair{
 
 public class Main{
 	
-	public static String moveRobots(String s1, String s2){
-        //code here
-        
-        int i=0,j=0;
-        String ans="Yes";
-        int maxB=-1,minA=9999;
-        while(i<s1.length() && j<s2.length()){
-            if(s1.charAt(i)=='#')
-            {
-                i++;
-                continue;
-            }
-            
-            if(s2.charAt(j)=='#')
-            {
-                j++;
-                continue;
-            }
-                
-            if(s1.charAt(i)!=s2.charAt(j))
-            {
-                ans="No";
-                break;
-            }
-            
-            if(s1.charAt(i)=='A')
-            {
-                if(i<j || i>maxB){
-                    ans="No";
-                    break;
-                }
-                else
-                {
-                    minA=Math.min(minA,j);
-                    i++;
-                    j++;
-                }
-            }
-            
-            
-            else if(s1.charAt(i)=='B' )
-            {
-                if(i>j || i<minA ){
-                    ans="No";
-                    break;
-                }
-                else
-                {
-                    maxB=j;
-                    i++;
-                    j++;
-                }
-            }
-            
-            
-        }
-        return ans;
-        
-    }
+	
     
 	public static void main(String[] args) {
     	
@@ -110,10 +52,11 @@ public class Main{
 		//int[] pre= {10,5,3,2,4,6,9,13,11,14};
 		//int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
-		System.out.println(moveRobots("AABBBAAA##A","AABBBAAA#A#"));
+
 		
 	}
 	
 }
+
 
 	
