@@ -56,10 +56,20 @@ public class Merge_Intervals {
 	public static void main(String[] args) {
 		
 		//if not sorted first sort them
+		Comparator<int[]> com=new Comparator<int[]>() {
+			
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				// TODO Auto-generated method stub
+				
+				return o1[0]-o2[0];
+			}
+		};
 		
 		int[][] arr= {{1,3},{2,6},{8,10},{15,18}};
 		//int[][] arr2= {{1,4},{0,5}};
-
+		
+		Arrays.sort(arr,com);
 		merge(arr);
 		
 	}
