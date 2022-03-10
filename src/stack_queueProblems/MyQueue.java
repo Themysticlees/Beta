@@ -3,22 +3,40 @@ package stack_queueProblems;
 public class MyQueue {
 	
 	
-	int[] arr= new int[1000];
+	int[] arr= new int[5];
 	
 	int front=0;
-	int rear=0;
+	int rear=-1;
 	
 	public boolean offer(int data) {
 		
-		arr[rear++]=data;
+		if(rear==front-1 && rear!=-1)
+			return false;
+		
+		else if(rear>=arr.length-1) {
+			if(front==0)
+				return false;
+			else
+			{
+				rear=0;
+				arr[rear]=data;
+			}
+			
+		}
+		else
+			arr[++rear]=data;
+		
 		return true;
 	}
 	
 	public boolean poll() {
 		if(front==rear)
 			return false;
+		else if(front==arr.length-1)
+			front=0;
+		else
+			front++;
 		
-		front++;
 		return true;
 	}
 	
@@ -36,10 +54,24 @@ public class MyQueue {
 		if(front==rear)
 			return "Empty Queue";
 		String res="[";
-		for(int i=front;i<rear;i++)
-			res=res+arr[i]+",";
 		
-		res=res+arr[rear]+"]";
+		/*if(front>rear)
+		{
+			for(int i=rear;i<front;i++)
+				res=res+arr[i]+",";
+			
+			res=res+arr[rear]+"]";
+		}
+		else {
+			for(int i=front;i<rear;i++)
+				res=res+arr[i]+",";
+			
+			res=res+arr[rear]+"]";
+		}*/
+		
+		for(int i=0;i<arr.length;i++)
+			if(arr[i]!=0)
+				res+=arr[i]+",";
 		return res;
 	}
 

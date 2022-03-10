@@ -32,34 +32,27 @@ class Pair{
 
 public class Main{
 
-	static int findMaxLen(String S) {
-        // code here
-        
-        Stack<Character> stack = new Stack<>();
-        
-        int count=0;
-        int max=-1;
-        for(int i=0;i<S.length();i++){
-            char ch=S.charAt(i);
-            
-            if(ch=='(')
-                stack.push(ch);
-            else if(!stack.isEmpty() && stack.peek()=='(')
-            {
-                stack.pop();
-                count+=2;
-            }
-            else
-            {
-                stack.push(ch);
-                max=Math.max(count,max);
-                count=0;
-            }
-        }
-        
-        return Math.max(max,count);
-    }
-	
+	public static int[] nextSmaller (int[]arr, int n) {
+		int[] res=new int[n];
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		
+		for(int i=n-1;i>=0;i--) {
+			
+			while(!stack.isEmpty() && stack.peek()>arr[i])
+				stack.pop();
+			
+			if(stack.isEmpty())
+				res[i]=-1;
+			else
+				res[i]=stack.peek();
+			
+			stack.push(arr[i]);
+				
+		}
+		return res;
+		
+	}
 	public static void main(String[] args) {
     	
 		/*
@@ -80,7 +73,7 @@ public class Main{
 		//root.left.right.left=new Node(6);
 		//root.right.right.left=new Node(13);
 		
-		//int[] pre= {10,5,3,2,4,6,9,13,11,14};
+		int[] pre= {10,5,3,2,4,6,9,13,11,14};
 		//int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
 		int[][] arr= {{1,3},{8,10},{2,6},{15,18}};
@@ -95,7 +88,7 @@ public class Main{
 			}
 		};
 		
-		System.out.println(findMaxLen("))()(()"));
+		System.out.println(nextSmaller(pre, pre.length));
 		
 	}
 	
