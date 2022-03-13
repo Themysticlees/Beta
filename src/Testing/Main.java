@@ -32,27 +32,26 @@ class Pair{
 
 public class Main{
 
-	public static int[] nextSmaller (int[]arr, int n) {
-		int[] res=new int[n];
-		
-		Stack<Integer> stack = new Stack<Integer>();
-		
-		for(int i=n-1;i>=0;i--) {
-			
-			while(!stack.isEmpty() && stack.peek()>arr[i])
-				stack.pop();
-			
-			if(stack.isEmpty())
-				res[i]=-1;
-			else
-				res[i]=stack.peek();
-			
-			stack.push(arr[i]);
-				
-		}
-		return res;
-		
-	}
+    
+	public int FindWays(int n, int m, int[][] blocked)
+    {
+        // Code here
+        n++;
+        m++;
+        int[][] arr = new int[n][m];
+        	
+        for(int i=0;i<blocked.length;i++){
+            arr[blocked[i][0]][blocked[i][1]]=1;
+        }
+        
+        if(arr[1][1]==1 || arr[n-1][m-1]==1)
+            return 0;
+        
+        findways(arr,n,m,1,1);
+        return count;
+        
+    }
+	
 	public static void main(String[] args) {
     	
 		/*
@@ -76,9 +75,9 @@ public class Main{
 		int[] pre= {10,5,3,2,4,6,9,13,11,14};
 		//int[] in = {2,3,4,5,6,9,10,11,13,14};
 		
-		int[][] arr= {{1,3},{8,10},{2,6},{15,18}};
+		//int[][] arr= {{1,3},{8,10},{2,6},{15,18}};
 		
-		Comparator<int[]> com=new Comparator<int[]>() {
+		/*Comparator<int[]> com=new Comparator<int[]>() {
 			
 			@Override
 			public int compare(int[] o1, int[] o2) {
@@ -87,9 +86,12 @@ public class Main{
 				return o1[1]-o2[1];
 			}
 		};
+		*/
 		
-		System.out.println(nextSmaller(pre, pre.length));
+		//int[][] blocked={{2,4},{4,5},{4,6},{4,4},{3,6},{2,2},{4,2},{1,3}};
 		
+		long A[] = {-8, 2, 3, -6, 10};
+		printFirstNegativeInteger(A, A.length, 2);
 	}
 	
 }
