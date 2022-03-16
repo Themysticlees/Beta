@@ -32,127 +32,48 @@ class Pair{
 
 public class Main{
 	
-	//if all the oranges are rotten, then this fun will return true
-	public boolean checkIfRotten(int[][] matrix, int n, int m) {
-		
-		for(int i=0;i<n;i++)
-		{
-			for(int j=0;j<m;j++) {
-				
-				if(matrix[i][j]==1)
-					return false;
-			}
-		}
-		return true;
-	}
+	public static ArrayList<ArrayList<Integer>> subsets(ArrayList<Integer> A)
+    {
+        return helper(A,"",0);
+        
+    }
 	
-	public static int rotten(int[][] matrix, int n, int m) {
-		
-		//boolean cond=false;
-		
-		Queue<List<Integer>> queue= new LinkedList<>();
-		
-		int fresh=0;
-		//Putting all the rotten oranges in queue
-		for(int i=0;i<n;i++)
-		{
-			for(int j=0;j<m;j++) {
-				
-				if(matrix[i][j]==2)
-				{
-					List<Integer> list = new LinkedList<>();
-					
-					list.add(i);
-					list.add(j);
-					
-					queue.offer(list);
-				}
-				else if(matrix[i][j]==1)
-					fresh++;
-					
-			}
-		}
-		
-		queue.offer(null);
-		
-		int turns=0;
-		while(!queue.isEmpty()) {
-			
-			while(queue.peek()!=null) {
-			
-			int i=queue.peek().get(0);
-			int j=queue.peek().get(1);
-			queue.poll();
-			
-			if(i-1>=0 && matrix[i-1][j]==1)
-			{
-				matrix[i-1][j]=2;
-				List<Integer> list = new LinkedList<>();
-				
-				list.add(i-1);
-				list.add(j);
-				
-				fresh--;
-				queue.offer(list);
-			}
-					
-			if(i+1<n && matrix[i+1][j]==1)
-			{
-				matrix[i+1][j]=2;
-				List<Integer> list = new LinkedList<>();
-				
-				list.add(i+1);
-				list.add(j);
-				
-				fresh--;
-				
-				queue.offer(list);
-			}
-			
-			if(j-1>=0 && matrix[i][j-1]==1)
-			{
-				matrix[i][j-1]=2;
-				List<Integer> list = new LinkedList<>();
-				
-				list.add(i);
-				list.add(j-1);
-				
-				fresh--;
-				
-				queue.offer(list);
-			}
-					
-			if(j+1<m && matrix[i][j+1]==1)
-			{
-				matrix[i][j+1]=2;
-				List<Integer> list = new LinkedList<>();
-				
-				list.add(i);
-				list.add(j+1);
-				
-				fresh--;
-				
-				queue.offer(list);
-			}		
-			
-			
-					
-			}
-			queue.poll();
-			if(!queue.isEmpty())
-			{
-				queue.offer(null);
-				turns++;
-			}
-			
-			if(fresh==0)
-				return turns;
-		}
-		if(fresh==0)
-			return turns;
-		return -1;
-	}
+	static ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+	
+	public static ArrayList<ArrayList<Integer>> helper(ArrayList<Integer> A,String temp, int i)
+    {
+        //code here
+        if(i==A.size()) {
+        	ArrayList<Integer> tempList = new ArrayList<Integer>();
+        	for(char j:temp.toCharArray())
+        		tempList.add(j-'0');
+        	
+        	list.add(tempList);
+        	return list;
+        }
+        
+        helper(A,temp+A.get(i),i+1);
+        helper(A,temp,i+1);
+        
+        return list;
+
+    }
     
+	public static int copy(int x, int y, int l, int r){
+        
+        for(int i=l;i<=r;i++){
+            int temp=1;
+            temp=temp<<(i-1);
+            
+            int ch=y&temp;
+            if((y&temp)==temp)
+            {
+                x=x|temp;
+            }
+        }
+        return x;
+    }
+
 	public static void main(String[] args) {
     	
 		/*
@@ -190,9 +111,15 @@ public class Main{
 		*/
 		
 		//int[][] blocked={{2,4},{4,5},{4,6},{4,4},{3,6},{2,2},{4,2},{1,3}};
-		int[][] arr= {{1, 2, 0 ,2, 2},{2, 1, 2, 1, 2},{1, 2, 2, 1, 2},{2, 1, 1, 2, 2},{2 ,1 ,2, 1, 1},{0, 1, 1, 0, 1}};
-		System.out.println(rotten(arr,arr.length,arr[0].length));
 		
+		ArrayList<Integer> list = new ArrayList<>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		
+		//System.out.println(subsets(list));
+		
+		System.out.println(copy(10,13,2,3));
 	}
 	
 }
