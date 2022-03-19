@@ -56,7 +56,7 @@ public class Main{
         helper(A,temp,i+1);
         
         return list;
-
+        
     }
     
 	public static int copy(int x, int y, int l, int r){
