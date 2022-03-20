@@ -14,7 +14,7 @@ class Node {
 	    //left=null;
 	    //right=null;
 	    next=null;
-	 }
+	}
 
 }
 
@@ -32,46 +32,84 @@ class Pair{
 
 public class Main{
 	
-	public static ArrayList<ArrayList<Integer>> subsets(ArrayList<Integer> A)
+	public static void swap(int[] arr, int i, int j) {
+		int temp=arr[i];
+		arr[i]=arr[j];
+		arr[j]=temp;
+	}
+	
+	public static void printArray(int[] arr, int n) {
+		
+		for(int i=0;i<n;i++)
+			System.out.println(arr[i]);
+	}
+	
+	
+	
+	public static int[] maxHeap(int[] arr, int n) {
+		
+		//int[] max=new int[n];
+		
+		//max[0]=arr[0];
+		
+		for(int i=1;i<n;i++) {
+			//max[i]=arr[i];
+			
+			int parent=i/2;
+			
+			if((i&1)==0)
+				parent--;
+			
+			int temp=i;
+			while(parent>=0 && arr[temp]>arr[parent]) {
+				swap(arr,temp,parent);
+				temp=parent;
+				
+				parent=temp/2;
+				
+				if((temp&1)==0)
+					parent--;
+			}
+		}
+		
+		return arr;
+	}
+	
+	static void  buildHeap(int arr[], int n)
     {
-        return helper(A,"",0);
-        
+        // Your code here
+        for(int i=n/2-1;i>=0;i--)
+            heapify(arr,n,i);
     }
-	
-	static ArrayList<ArrayList<Integer>> list = new ArrayList<>();
-	
-	public static ArrayList<ArrayList<Integer>> helper(ArrayList<Integer> A,String temp, int i)
+ 
+    //Heapify function to maintain heap property.
+	static void  heapify(int arr[], int n, int i)
     {
-        //code here
-        if(i==A.size()) {
-        	ArrayList<Integer> tempList = new ArrayList<Integer>();
-        	for(char j:temp.toCharArray())
-        		tempList.add(j-'0');
-        	
-        	list.add(tempList);
-        	return list;
-        }
-        
-        helper(A,temp+A.get(i),i+1);
-        helper(A,temp,i+1);
-        
-        return list;
-        
+		int largest=i;
+		int lc=2*i+1;
+		int rc=2*i+2;
+		
+		if(lc<n && arr[lc]>arr[largest])
+			largest=lc;
+		if(rc<n && arr[rc]>arr[largest])
+			largest=rc;
+		
+		if(largest!=i) {
+			swap(arr,largest,i);
+			heapify(arr, n, largest);
+		}
     }
     
-	public static int copy(int x, int y, int l, int r){
+    //Function to sort an array using Heap Sort.
+    public static void heapSort(int arr[], int n)
+    {
+        //code here
+        buildHeap(arr,n);
         
-        for(int i=l;i<=r;i++){
-            int temp=1;
-            temp=temp<<(i-1);
-            
-            int ch=y&temp;
-            if((y&temp)==temp)
-            {
-                x=x|temp;
-            }
+        for(int i=0;i<n;i++){
+            swap(arr,0,n-i-1);
+            heapify(arr, n-1-i, 0);
         }
-        return x;
     }
 
 	public static void main(String[] args) {
@@ -110,16 +148,10 @@ public class Main{
 		};
 		*/
 		
-		//int[][] blocked={{2,4},{4,5},{4,6},{4,4},{3,6},{2,2},{4,2},{1,3}};
+		int[] arr = {4, 1, 3, 9, 7};
 		
-		ArrayList<Integer> list = new ArrayList<>();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		
-		//System.out.println(subsets(list));
-		
-		System.out.println(copy(10,13,2,3));
+		heapSort(arr, arr.length);
+		printArray(arr, arr.length);
 	}
 	
 }

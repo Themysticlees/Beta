@@ -1,6 +1,7 @@
 package backtracking_Problems;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class StringPermutations {
 	
@@ -40,13 +41,13 @@ public class StringPermutations {
 	
 	public static void main(String[] args) {
 		
-		String str="ABCDE";
+		String str="abbcb";
 		//char[] arr=str.toCharArray();
 		
 		ArrayList<String> list = new ArrayList<String>();
 		
 		permutations(str, 0, str.length(), list);
-		
+		Collections.sort(list);
 		System.out.println(list);
 		System.out.println("No.of permutations : "+list.size());
 		
