@@ -20,7 +20,7 @@ public class SumOfMinMaxOfSizeK {
 		                          = 18     
 	 */
 	
-	//We will maintain two deques, in which dq1 will store the max element at front and will do decreasing orde
+	//We will maintain two deques, in which dq1 will store the max element at front and will do decreasing order
 	//dq2 will store min element at rear and will go increase order
 	
 	public static int calculate(int[] arr, int k) {
@@ -76,6 +76,11 @@ public class SumOfMinMaxOfSizeK {
 		}
 		
 		return sum;
+	}
+	
+	public static void main(String[] args) {
+		int arr[] = {2, 5, -1, 7, -3, -1, -2};
+		calculate(arr, 4);
 	}
 
 }

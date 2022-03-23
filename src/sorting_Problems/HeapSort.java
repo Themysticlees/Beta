@@ -1,4 +1,4 @@
-package sorting_Algo;
+package sorting_Problems;
 
 public class HeapSort {
 	

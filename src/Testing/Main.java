@@ -1,5 +1,7 @@
 package Testing;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 class Node {
@@ -44,73 +46,104 @@ public class Main{
 			System.out.println(arr[i]);
 	}
 	
-	
-	
-	public static int[] maxHeap(int[] arr, int n) {
+	static boolean patternMatch(String A, String B) {
 		
-		//int[] max=new int[n];
-		
-		//max[0]=arr[0];
-		
-		for(int i=1;i<n;i++) {
-			//max[i]=arr[i];
-			
-			int parent=i/2;
-			
-			if((i&1)==0)
-				parent--;
-			
-			int temp=i;
-			while(parent>=0 && arr[temp]>arr[parent]) {
-				swap(arr,temp,parent);
-				temp=parent;
-				
-				parent=temp/2;
-				
-				if((temp&1)==0)
-					parent--;
-			}
+		int n=B.length();
+		long hashcode=0;
+		for(int i=0;i<n;i++) {
+			int ch=B.charAt(i)-'a'+1;
+			hashcode+=ch*(int)Math.pow(26, n-i-1);
 		}
 		
-		return arr;
+		long check=0;
+		int i=0;
+		for(i=0;i<n;i++) {
+			int ch=A.charAt(i)-'a'+1;
+			check+=ch*(int)Math.pow(26, n-i-1);
+		}
+		
+		int j=0;
+		while(i<A.length()) {
+			
+			int ch=A.charAt(j)-'a'+1;
+			j++;
+			check=(check-ch*(int)Math.pow(26, n-1))*26;
+			check=check+((int)A.charAt(i)-'a'+1);
+			i++;
+			if(check==hashcode && B.equals(A.substring(j, i)))
+				return true;
+			
+			
+		}
+		
+		
+		return false;
 	}
 	
-	static void  buildHeap(int arr[], int n)
+	static Node swapkthnode(Node head, int num, int k)
     {
-        // Your code here
-        for(int i=n/2-1;i>=0;i--)
-            heapify(arr,n,i);
-    }
- 
-    //Heapify function to maintain heap property.
-	static void  heapify(int arr[], int n, int i)
-    {
-		int largest=i;
-		int lc=2*i+1;
-		int rc=2*i+2;
-		
-		if(lc<n && arr[lc]>arr[largest])
-			largest=lc;
-		if(rc<n && arr[rc]>arr[largest])
-			largest=rc;
-		
-		if(largest!=i) {
-			swap(arr,largest,i);
-			heapify(arr, n, largest);
-		}
-    }
-    
-    //Function to sort an array using Heap Sort.
-    public static void heapSort(int arr[], int n)
-    {
-        //code here
-        buildHeap(arr,n);
+        // your code here
+        int n=num;
         
-        for(int i=0;i<n;i++){
-            swap(arr,0,n-i-1);
-            heapify(arr, n-1-i, 0);
+        if(k>n)
+            return head;
+          
+        if(k>1){ 
+            
+        	Node temp=head;
+            Node prevLeft=null;
+            Node prevRight=null;
+            Node left=null;
+            Node right=null;
+            int c=0;
+            
+            while(temp!=null)
+            {
+                c++;
+                
+                if(c==k-1)
+                    prevLeft=temp;
+                if(c==k)
+                    left=temp;
+                if(c==n-k)
+                    prevRight=temp;
+                if(c==n-k+1)
+                    right=temp;
+                    
+                temp=temp.next;
+            }
+            
+            
+            prevLeft.next=right;
+                
+            temp=right.next;
+            right.next=left.next;
+            
+            if(prevRight!=null)
+                prevRight.next=left;
+            left.next=temp;
+            
         }
+        else
+        {
+            Node prevRight=head;
+            Node left=head;
+            while(prevRight.next.next!=null)
+                prevRight=prevRight.next;
+                
+            Node right=prevRight.next;
+            right.next=head.next;
+            
+            prevRight.next=left;
+            left.next=null;
+            
+            head=right;
+        }
+        
+        return head;
     }
+	
+	
 
 	public static void main(String[] args) {
     	
@@ -148,10 +181,14 @@ public class Main{
 		};
 		*/
 		
-		int[] arr = {4, 1, 3, 9, 7};
+		Node head=new Node(1);
+		head.next=new Node(2);
+		head.next.next=new Node(3);
+		head.next.next.next=new Node(4);
+		head.next.next.next.next=new Node(5);
+		head.next.next.next.next.next=new Node(6);
 		
-		heapSort(arr, arr.length);
-		printArray(arr, arr.length);
+		swapkthnode(head, 6, 6);
 	}
 	
 }
