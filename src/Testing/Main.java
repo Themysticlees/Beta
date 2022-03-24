@@ -80,71 +80,38 @@ public class Main{
 		return false;
 	}
 	
-	static Node swapkthnode(Node head, int num, int k)
-    {
-        // your code here
-        int n=num;
+	public static int solve(int[] arr, int k){
+        int n=arr.length;
         
-        if(k>n)
-            return head;
-          
-        if(k>1){ 
+        int[] pre = new int[n];
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            pre[i]=sum;
+        }
+        
+        PriorityQueue<Integer> queue=new PriorityQueue<>(Comparator.reverseOrder());
+        
+        for(int i=0;i<n;i++){
             
-        	Node temp=head;
-            Node prevLeft=null;
-            Node prevRight=null;
-            Node left=null;
-            Node right=null;
-            int c=0;
-            
-            while(temp!=null)
-            {
-                c++;
+            for(int j=i;j<n;j++){
+                if(i==0)
+                    sum=pre[j];
+                else
+                    sum=pre[j]-pre[i-1];
+                queue.add(sum);
                 
-                if(c==k-1)
-                    prevLeft=temp;
-                if(c==k)
-                    left=temp;
-                if(c==n-k)
-                    prevRight=temp;
-                if(c==n-k+1)
-                    right=temp;
-                    
-                temp=temp.next;
             }
-            
-            
-            prevLeft.next=right;
-                
-            temp=right.next;
-            right.next=left.next;
-            
-            if(prevRight!=null)
-                prevRight.next=left;
-            left.next=temp;
-            
-        }
-        else
-        {
-            Node prevRight=head;
-            Node left=head;
-            while(prevRight.next.next!=null)
-                prevRight=prevRight.next;
-                
-            Node right=prevRight.next;
-            right.next=head.next;
-            
-            prevRight.next=left;
-            left.next=null;
-            
-            head=right;
         }
         
-        return head;
+        int i=0;
+        while(++i<k)
+        {
+            queue.remove();
+        }
+        return queue.peek();
     }
 	
-	
-
 	public static void main(String[] args) {
     	
 		/*
@@ -181,14 +148,8 @@ public class Main{
 		};
 		*/
 		
-		Node head=new Node(1);
-		head.next=new Node(2);
-		head.next.next=new Node(3);
-		head.next.next.next=new Node(4);
-		head.next.next.next.next=new Node(5);
-		head.next.next.next.next.next=new Node(6);
-		
-		swapkthnode(head, 6, 6);
+		int a[] = {20, -5, -1} ;
+		System.out.println(solve(a,4));
 	}
 	
 }

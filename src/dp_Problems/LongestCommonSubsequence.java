@@ -9,7 +9,7 @@ public class LongestCommonSubsequence {
 	public static int LCS(String s1, String s2) {
     	
 		//if we get an empty string
-    	if(s1.equals(" ") || s2.equals(" "))
+    	if(s1.length()==0 || s2.length()==0)
     		return 0;
     	
     	//if the character matches,then move both the indexes forward and add 1 as this particular
@@ -31,11 +31,17 @@ public class LongestCommonSubsequence {
 	//to save time
     
 	//DP approach O(m*n)
-    public static int LCS(String s1, String s2, int[][] arr) {
+    public static int LCSDP(String s1, String s2) {
     	
+    	//since we starting the check from 1st index thus adding space
+    	s1=" "+s1;
+    	s2=" "+s2;
+    	
+    	int[][] arr=new int[s1.length()][s2.length()];
     	//same approach as the recursive one
     	//however this is bottom  up approach
     	//we are storing the checks in a 2d array
+    	
     	for(int i=1;i<arr.length;i++) {
     		
     		for(int j=1;j<arr[0].length;j++) {
@@ -50,23 +56,15 @@ public class LongestCommonSubsequence {
     		}
     	}
     	
-    	return arr[arr.length-1][arr.length-1];
+    	return arr[arr.length-1][arr[0].length-1];
     }
     
     public static void main(String[] args) {
 		
-    	String s1=" abcdgh";
-		String s2=" aedfhr";
+    	String s1="bbabcbcab";
+		String s2="bacbcbabb";
 		
-		int[][] arr=new int[s1.length()][s2.length()];
-		
-		for(int i=0;i<s2.length();i++)
-			arr[0][i]=0;
-		for(int i=0;i<s1.length();i++)
-			arr[i][0]=0;
-		
-		
-		System.out.println(LCS("abcdgh ","aedfhr ",arr));
+		System.out.println(LCSDP(s1,s2));
 	}
 
 }
