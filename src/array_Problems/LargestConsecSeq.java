@@ -3,7 +3,8 @@ package array_Problems;
 import java.util.*;
 
 public class LargestConsecSeq {
-	
+	//Find the longest sequence of numbers in an array
+	//They need not to be in order
 	static int findLongestConseqSubseq(int arr[], int N)
 	{
 	   // add your code here

@@ -80,36 +80,62 @@ public class Main{
 		return false;
 	}
 	
-	public static int solve(int[] arr, int k){
-        int n=arr.length;
+	public static String reorganizeString(String s) {
+	      
+        Map<Character,Integer> map=new HashMap<>();
         
-        int[] pre = new int[n];
-        int sum=0;
+        int n=s.length();
         for(int i=0;i<n;i++){
-            sum+=arr[i];
-            pre[i]=sum;
+            char ch=s.charAt(i);
+            
+            map.putIfAbsent(ch,0);
+            
+            map.put(ch,map.get(ch)+1);
         }
         
-        PriorityQueue<Integer> queue=new PriorityQueue<>(Comparator.reverseOrder());
+        Comparator<Character> com=new Comparator<>(){
+
+			@Override
+			public int compare(Character ch1, Character ch2) {
+				// TODO Auto-generated method stub
+				return map.get(ch2)-map.get(ch1);
+			}
+        };
         
-        for(int i=0;i<n;i++){
+        PriorityQueue<Character> queue=new PriorityQueue<>(com);
+        
+        for(Character ch:map.keySet())
+        	queue.add(ch);
+        String res="";
+        
+        while(queue.size()>1)
+        {
+            char c1=queue.remove();
+            char c2=queue.remove();
+            res+=c1;
+            res+=c2;
             
-            for(int j=i;j<n;j++){
-                if(i==0)
-                    sum=pre[j];
-                else
-                    sum=pre[j]-pre[i-1];
-                queue.add(sum);
-                
+            if(map.get(c1)-1 > 0) {
+                map.put(c1,map.get(c1)-1);
+                queue.add(c1);
+            }
+            
+            if(map.get(c2)-1 > 0) {
+                map.put(c2,map.get(c2)-1);
+                queue.add(c2);
             }
         }
         
-        int i=0;
-        while(++i<k)
+        if(queue.size()==1)
         {
-            queue.remove();
+            char ch=queue.remove();
+            if(map.get(ch)>1)
+                return "";
+            
+            res+=ch;
         }
-        return queue.peek();
+        return res;
+        
     }
 	
 	public static void main(String[] args) {
@@ -148,8 +174,7 @@ public class Main{
 		};
 		*/
 		
-		int a[] = {20, -5, -1} ;
-		System.out.println(solve(a,4));
+		System.out.println(reorganizeString("aaaabbcdef"));
 	}
 	
 }

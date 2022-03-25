@@ -2,6 +2,7 @@ package array_Problems;
 import java.math.BigInteger;
 import java.util.*;
 
+//Calculate the factorial of a big number with the help of big number
 public class bigFactorial {
 	
 	static ArrayList<Integer> factorial(int N){
