@@ -4,17 +4,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+
 class Node {
 	 
 	int data;
-	//Node left;
-	//Node right;
+	Node left;
+	Node right;
 	Node next;
 	    
 	Node(int d) {
 	    data = d; 
-	    //left=null;
-	    //right=null;
+	    left=null;
+	    right=null;
 	    next=null;
 	}
 
@@ -73,74 +74,44 @@ public class Main{
 			if(check==hashcode && B.equals(A.substring(j, i)))
 				return true;
 			
-			
 		}
 		
 		
 		return false;
 	}
 	
-	public static String reorganizeString(String s) {
-	      
-        Map<Character,Integer> map=new HashMap<>();
+	
+	static ArrayList <Integer> levelOrder(Node node) 
+    {
+		
+        ArrayList <Integer> list = new ArrayList<>();
         
-        int n=s.length();
-        for(int i=0;i<n;i++){
-            char ch=s.charAt(i);
+        Queue<Node> que = new LinkedList<>();
+        
+        que.offer(node);
+        while(!que.isEmpty()){
+        	//elements will be removed according to their insertion
+        	//thus all the elements of each level will be printed
+            Node curr=que.poll();
+            if(curr==null)
+            	list.add(null);
+            else {
+            	list.add(curr.data);
+            //we are adding all the children of the current node to queue
+            //if(curr.left!=null)
+                que.offer(curr.left);
             
-            map.putIfAbsent(ch,0);
-            
-            map.put(ch,map.get(ch)+1);
-        }
-        
-        Comparator<Character> com=new Comparator<>(){
-
-			@Override
-			public int compare(Character ch1, Character ch2) {
-				// TODO Auto-generated method stub
-				return map.get(ch2)-map.get(ch1);
-			}
-        };
-        
-        PriorityQueue<Character> queue=new PriorityQueue<>(com);
-        
-        for(Character ch:map.keySet())
-        	queue.add(ch);
-        String res="";
-        
-        while(queue.size()>1)
-        {
-            char c1=queue.remove();
-            char c2=queue.remove();
-            res+=c1;
-            res+=c2;
-            
-            if(map.get(c1)-1 > 0) {
-                map.put(c1,map.get(c1)-1);
-                queue.add(c1);
-            }
-            
-            if(map.get(c2)-1 > 0) {
-                map.put(c2,map.get(c2)-1);
-                queue.add(c2);
+            //if(curr.right!=null)
+                que.offer(curr.right);
             }
         }
         
-        if(queue.size()==1)
-        {
-            char ch=queue.remove();
-            if(map.get(ch)>1)
-                return "";
-            
-            res+=ch;
-        }
-        return res;
-        
+        return list;
     }
 	
 	public static void main(String[] args) {
     	
-		/*
+		
     	Node root=new Node(10);
 		root.left=new Node(5);
 		root.right=new Node(13);
@@ -152,7 +123,7 @@ public class Main{
 		root.left.left.right=new Node(4);
 		root.left.right.right=new Node(9);
 		
-		*/
+		
 		//root.right.right.right=new Node(5);
 		//root.right.right.right.right=new Node(6);
 		//root.left.right.left=new Node(6);
@@ -173,8 +144,8 @@ public class Main{
 			}
 		};
 		*/
+		System.out.println(levelOrder(root));
 		
-		System.out.println(reorganizeString("aaaabbcdef"));
 	}
 	
 }
