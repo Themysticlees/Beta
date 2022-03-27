@@ -3,8 +3,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
 class Node {
 	 
 	int data;
@@ -81,33 +79,28 @@ public class Main{
 	}
 	
 	
-	static ArrayList <Integer> levelOrder(Node node) 
-    {
-		
-        ArrayList <Integer> list = new ArrayList<>();
-        
-        Queue<Node> que = new LinkedList<>();
-        
-        que.offer(node);
-        while(!que.isEmpty()){
-        	//elements will be removed according to their insertion
-        	//thus all the elements of each level will be printed
-            Node curr=que.poll();
-            if(curr==null)
-            	list.add(null);
-            else {
-            	list.add(curr.data);
-            //we are adding all the children of the current node to queue
-            //if(curr.left!=null)
-                que.offer(curr.left);
-            
-            //if(curr.right!=null)
-                que.offer(curr.right);
-            }
-        }
-        
-        return list;
-    }
+	public static int birthday(List<Integer> s, int d, int m) {
+	    // Write your code here
+	    
+	    //Deque<Integer> queue=new ArrayDeque<>();
+	    
+	    int i=0;
+	    int sum=0,count=0;
+	    for(;i<m;i++)
+	        sum+=s.get(i);
+	        
+	    if(sum==d)
+	        count++;
+	    
+	    for(;i<s.size();i++){
+	        sum-=s.get(i-m);
+	        sum+=s.get(i);
+	        
+	        if(sum==d)
+	            count++;
+	    }
+	    return count;
+	    }
 	
 	public static void main(String[] args) {
     	
@@ -144,7 +137,15 @@ public class Main{
 			}
 		};
 		*/
-		System.out.println(levelOrder(root));
+		List<Integer> list = new ArrayList<Integer>();
+		
+		list.add(1);
+		list.add(2);
+		list.add(1);
+		list.add(3);
+		list.add(2);
+		
+		System.out.println(birthday(list, 3, 2));
 		
 	}
 	
