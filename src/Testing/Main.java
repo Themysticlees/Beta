@@ -79,28 +79,7 @@ public class Main{
 	}
 	
 	
-	public static int birthday(List<Integer> s, int d, int m) {
-	    // Write your code here
-	    
-	    //Deque<Integer> queue=new ArrayDeque<>();
-	    
-	    int i=0;
-	    int sum=0,count=0;
-	    for(;i<m;i++)
-	        sum+=s.get(i);
-	        
-	    if(sum==d)
-	        count++;
-	    
-	    for(;i<s.size();i++){
-	        sum-=s.get(i-m);
-	        sum+=s.get(i);
-	        
-	        if(sum==d)
-	            count++;
-	    }
-	    return count;
-	    }
+	
 	
 	public static void main(String[] args) {
     	
@@ -137,15 +116,10 @@ public class Main{
 			}
 		};
 		*/
-		List<Integer> list = new ArrayList<Integer>();
+		int start[] = {1,3,0,5,8,5};
+		int end[] =  {2,4,6,7,9,9};
 		
-		list.add(1);
-		list.add(2);
-		list.add(1);
-		list.add(3);
-		list.add(2);
-		
-		System.out.println(birthday(list, 3, 2));
+		//System.out.println(maxMeetings(start, end, start.length));
 		
 	}
 	

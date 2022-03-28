@@ -22,7 +22,7 @@ public class CopySetBits {
             //left shifting temp to find out whether lth index of y is 1 or not
             temp=temp<<(i-1);
             
-            //if we and y and temp, we should be getting either temp or 0
+            //if we & y and temp, we should be getting either temp or 0
             //if the bit at y is 0, then 1&0 is 0 thus the whole will be zero as all other bits are 0
             if((y&temp)==temp)
             {

@@ -1,4 +1,4 @@
-package array_Problems;
+package greedy_Problems;
 
 import java.util.Arrays;
 
