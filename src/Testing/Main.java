@@ -8,27 +8,42 @@ class Node {
 	int data;
 	Node left;
 	Node right;
-	Node next;
+	//Node next;
+	char ch;
 	    
 	Node(int d) {
 	    data = d; 
 	    left=null;
 	    right=null;
-	    next=null;
+	    //next=null;
 	}
+
+	@Override
+	public String toString() {
+		return "Node [data=" + data + ", left=" + left + ", right=" + right + ", ch=" + ch + "]";
+	}
+	
+	
 
 }
 
 class Pair{
-	
-	Node val;
-	int level;
-	public Pair(Node val, int level) {
-		super();
-		this.val = val;
-		this.level = level;
-	}
-	
+    
+    double ratio;
+    int weight;
+    
+    Pair(double ratio, int weight){
+        this.ratio=ratio;
+        this.weight=weight;
+    }
+}
+
+class Item {
+    int value, weight;
+    Item(int x, int y){
+        this.value = x;
+        this.weight = y;
+    }
 }
 
 public class Main{
@@ -74,12 +89,47 @@ public class Main{
 			
 		}
 		
-		
 		return false;
 	}
 	
-	
-	
+	static double fractionalKnapsack(int W, Item arr[], int n) 
+    {
+        // Your code here
+        Comparator<Pair> com = new Comparator<Pair>(){
+            
+            @Override
+            public int compare(Pair a, Pair b){
+                if(b.ratio>a.ratio)
+                    return 1;
+                else if(a.ratio>b.ratio)
+                    return -1;
+                return 0;
+            }
+        };
+        
+        PriorityQueue<Pair> pq = new PriorityQueue<>(com);
+        
+        for(int i=0;i<n;i++){
+            double ratio=(double)arr[i].value/(double)arr[i].weight;
+            pq.add(new Pair(ratio,arr[i].weight));
+        }
+        
+        double sum=0;
+        while(!pq.isEmpty() && pq.peek().weight<W)
+        {
+            Pair temp=pq.remove();
+            sum+=temp.weight*temp.ratio;
+            W-=temp.weight;
+        }
+        
+        if(W!=0){
+            Pair temp=pq.remove();
+            sum+=temp.ratio*W;
+        }
+        
+        return sum;
+        
+    }
 	
 	public static void main(String[] args) {
     	
@@ -116,10 +166,15 @@ public class Main{
 			}
 		};
 		*/
-		int start[] = {1,3,0,5,8,5};
-		int end[] =  {2,4,6,7,9,9};
 		
-		//System.out.println(maxMeetings(start, end, start.length));
+		Item a=new Item(60, 10);
+		Item b=new Item(100, 20);
+		Item c=new Item(120, 30);
+		//Item d=new Item(60, 10);
+		
+		Item[] arr= {a,b,c};
+		System.out.println(fractionalKnapsack(50, arr, arr.length));
+		
 		
 	}
 	
