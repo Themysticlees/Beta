@@ -29,13 +29,20 @@ class Node {
 
 class Pair{
     
-    double ratio;
-    int weight;
+	int value;
+    int day;
     
-    Pair(double ratio, int weight){
-        this.ratio=ratio;
-        this.weight=weight;
+    Pair(int value, int day){
+        this.value=value;
+        this.day=day;
     }
+
+	@Override
+	public String toString() {
+		return "Pair [value=" + value + ", day=" + day + "]";
+	}
+    
+    
 }
 
 class Item {
@@ -92,43 +99,49 @@ public class Main{
 		return false;
 	}
 	
-	static double fractionalKnapsack(int W, Item arr[], int n) 
-    {
-        // Your code here
-        Comparator<Pair> com = new Comparator<Pair>(){
+	public static int maxStock(int[] prices, int n, int amount ) {
+        // Write your code here
+            ArrayList<Pair> list = new ArrayList<>();
             
-            @Override
-            public int compare(Pair a, Pair b){
-                if(b.ratio>a.ratio)
-                    return 1;
-                else if(a.ratio>b.ratio)
-                    return -1;
-                return 0;
+            for(int i=0;i<n;i++){
+                list.add(new Pair(prices[i],i+1));
             }
-        };
-        
-        PriorityQueue<Pair> pq = new PriorityQueue<>(com);
-        
-        for(int i=0;i<n;i++){
-            double ratio=(double)arr[i].value/(double)arr[i].weight;
-            pq.add(new Pair(ratio,arr[i].weight));
-        }
-        
-        double sum=0;
-        while(!pq.isEmpty() && pq.peek().weight<W)
-        {
-            Pair temp=pq.remove();
-            sum+=temp.weight*temp.ratio;
-            W-=temp.weight;
-        }
-        
-        if(W!=0){
-            Pair temp=pq.remove();
-            sum+=temp.ratio*W;
-        }
-        
-        return sum;
-        
+            Comparator<Pair> com = new Comparator<Pair>(){
+                public int compare(Pair a, Pair b){
+                    
+                	if(a.value==b.value)
+                        return b.day-a.day;
+                    
+                    return a.value-b.value;
+                }
+            };
+            
+            Collections.sort(list,com);
+            int curr=0;
+            int max=0,i=0;
+           for(;i<n;i++){
+               Pair temp=list.get(i);
+               
+               if(curr+temp.value*temp.day<=amount){
+                   max+=temp.day;
+                   curr+=temp.value*temp.day;
+               }
+               else
+                   break;
+           }
+           
+           if(i<n) {
+            int rem=amount-curr;
+            Pair temp=list.get(i);
+            int day=temp.day;
+            while(rem>=temp.value && day>0)
+            {
+                max++;
+                day--;
+                rem-=temp.value;
+            }
+           }
+        return max;
     }
 	
 	public static void main(String[] args) {
@@ -167,14 +180,8 @@ public class Main{
 		};
 		*/
 		
-		Item a=new Item(60, 10);
-		Item b=new Item(100, 20);
-		Item c=new Item(120, 30);
-		//Item d=new Item(60, 10);
-		
-		Item[] arr= {a,b,c};
-		System.out.println(fractionalKnapsack(50, arr, arr.length));
-		
+		int[] prices= {3,4,2};
+		System.out.println(maxStock(prices, prices.length, 10));
 		
 	}
 	
