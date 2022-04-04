@@ -99,49 +99,33 @@ public class Main{
 		return false;
 	}
 	
-	public static int maxStock(int[] prices, int n, int amount ) {
-        // Write your code here
-            ArrayList<Pair> list = new ArrayList<>();
+	static int minimumDays(int S, int N, int M){
+        // code here
+        
+        if(M>=N)
+            return -1;
+        
+        //int buy=1;
+        int food=N;
+        int daycount=1,days=1;
+        int count=1;
+        while(days<=S){
             
-            for(int i=0;i<n;i++){
-                list.add(new Pair(prices[i],i+1));
-            }
-            Comparator<Pair> com = new Comparator<Pair>(){
-                public int compare(Pair a, Pair b){
-                    
-                	if(a.value==b.value)
-                        return b.day-a.day;
-                    
-                    return a.value-b.value;
-                }
-            };
-            
-            Collections.sort(list,com);
-            int curr=0;
-            int max=0,i=0;
-           for(;i<n;i++){
-               Pair temp=list.get(i);
-               
-               if(curr+temp.value*temp.day<=amount){
-                   max+=temp.day;
-                   curr+=temp.value*temp.day;
-               }
-               else
-                   break;
-           }
-           
-           if(i<n) {
-            int rem=amount-curr;
-            Pair temp=list.get(i);
-            int day=temp.day;
-            while(rem>=temp.value && day>0)
+            if(food<M && daycount==0)
+                return -1;
+            else if(food<M)
             {
-                max++;
-                day--;
-                rem-=temp.value;
+                //buy=day;
+                food+=N;
+                count++;
             }
-           }
-        return max;
+            
+            food-=M;
+            days++;
+            //count++;
+            daycount=days%7;
+        }
+        return count;
     }
 	
 	public static void main(String[] args) {
@@ -180,8 +164,7 @@ public class Main{
 		};
 		*/
 		
-		int[] prices= {3,4,2};
-		System.out.println(maxStock(prices, prices.length, 10));
+		System.out.println(minimumDays(27, 20, 5));
 		
 	}
 	
