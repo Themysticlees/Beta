@@ -99,37 +99,39 @@ public class Main{
 		return false;
 	}
 	
-	static int minimumDays(int S, int N, int M){
-        // code here
-        
-        if(M>=N)
-            return -1;
-        
-        //int buy=1;
-        int food=N;
-        int daycount=1,days=1;
-        int count=1;
-        while(days<=S){
+	public static long maxProductSubset(int[] arr, int n) {
+		// Write your code here
+		
+        int neg=0,pos=0,zero=0;
+        long p=1;
+        int minneg=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            if(arr[i]<0)
+                neg++;
+            else if(arr[i]>0)
+                pos++;
+           	else
+                zero++;
             
-            if(food<M && daycount==0)
-                return -1;
-            else if(food<M)
-            {
-                //buy=day;
-                food+=N;
-                count++;
-            }
+            if(arr[i]!=0)
+                p*=arr[i];
             
-            food-=M;
-            days++;
-            //count++;
-            daycount=days%7;
+            if(arr[i]<0 && Math.abs(arr[i])<minneg)
+                minneg=Math.abs(arr[i]);
         }
-        return count;
-    }
+        
+         if(zero!=0 && neg==1 && pos==0)
+                return 0;   
+         if((neg&1)==0 || (neg==1 && pos==0))
+                return p;
+         else
+            	return p/(-minneg);
+
+	}
 	
 	public static void main(String[] args) {
     	
+		Scanner sc=new Scanner(System.in);
 		
     	Node root=new Node(10);
 		root.left=new Node(5);
@@ -164,8 +166,14 @@ public class Main{
 		};
 		*/
 		
-		System.out.println(minimumDays(27, 20, 5));
+		int[] arr = new int[20];
 		
+		System.out.println("Enter:");
+		for(int i=0;i<arr.length;i++) {
+			arr[i]=sc.nextInt();
+		}
+		
+		System.out.println(maxProductSubset(arr, arr.length));
 	}
 	
 }
