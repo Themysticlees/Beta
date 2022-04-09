@@ -9,7 +9,7 @@ class Node {
 	Node left;
 	Node right;
 	//Node next;
-	char ch;
+	//char ch;
 	    
 	Node(int d) {
 	    data = d; 
@@ -20,7 +20,7 @@ class Node {
 
 	@Override
 	public String toString() {
-		return "Node [data=" + data + ", left=" + left + ", right=" + right + ", ch=" + ch + "]";
+		return "Node [data=" + data + "]";
 	}
 	
 	
@@ -99,50 +99,22 @@ public class Main{
 		return false;
 	}
 	
-	public static long maxProductSubset(int[] arr, int n) {
-		// Write your code here
-		
-        int neg=0,pos=0,zero=0;
-        long p=1;
-        int minneg=Integer.MAX_VALUE;
-        for(int i=0;i<n;i++){
-            if(arr[i]<0)
-                neg++;
-            else if(arr[i]>0)
-                pos++;
-           	else
-                zero++;
-            
-            if(arr[i]!=0)
-                p*=arr[i];
-            
-            if(arr[i]<0 && Math.abs(arr[i])<minneg)
-                minneg=Math.abs(arr[i]);
-        }
-        
-         if(zero!=0 && neg==1 && pos==0)
-                return 0;   
-         if((neg&1)==0 || (neg==1 && pos==0))
-                return p;
-         else
-            	return p/(-minneg);
-
-	}
+	
 	
 	public static void main(String[] args) {
     	
 		Scanner sc=new Scanner(System.in);
 		
-    	Node root=new Node(10);
-		root.left=new Node(5);
-		root.right=new Node(13);
-		root.left.left=new Node(3);
-		root.left.right=new Node(6);
-		root.right.left=new Node(11);
-		root.right.right=new Node(14);
-		root.left.left.left=new Node(2);
-		root.left.left.right=new Node(4);
-		root.left.right.right=new Node(9);
+    	Node root=new Node(1);
+		root.left=new Node(2);
+		root.right=new Node(9);
+		root.left.left=new Node(4);
+		//root.left.right=new Node(6);
+		root.right.left=new Node(5);
+		root.right.right=new Node(7);
+		root.left.left.left=new Node(8);
+		root.left.left.right=new Node(19);
+		//root.left.right.right=new Node(9);
 		
 		
 		//root.right.right.right=new Node(5);
@@ -164,7 +136,7 @@ public class Main{
 				return o1[1]-o2[1];
 			}
 		};
-		*/
+		
 		
 		int[] arr = new int[20];
 		
@@ -172,8 +144,8 @@ public class Main{
 		for(int i=0;i<arr.length;i++) {
 			arr[i]=sc.nextInt();
 		}
+		*/
 		
-		System.out.println(maxProductSubset(arr, arr.length));
 	}
 	
 }
