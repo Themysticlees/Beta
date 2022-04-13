@@ -1,10 +1,11 @@
 package stack_queueProblems;
 
 import java.util.Stack;
-//Redundant braces means excess or unneccesary brackets
+//Redundant braces means excess or unnecessary brackets
 //There are two ways to detect that:
-//1. If we find a closing bracket, then if the immediate poped element is the opening bracket then redundant braces found
-//2. If within two opening and closing brakets there are no operators then also redundant braces found
+//1. If we find a closing bracket, then if the immediate poped element is the opening bracket then 
+//	 redundant braces found
+//2. If within two opening or closing brackets there are no operators then also redundant braces found
 
 public class RedundantBraces {
 	
@@ -22,10 +23,10 @@ public class RedundantBraces {
 
                 char top=stack.pop();
                 
-                //1 means the expression contains redudant bits
+                //1 means the expression contains redundant bits
                 int cond=1;
                 
-                //we keep poping elements untill we find a opening bracket
+                //we keep poping elements until we find a opening bracket
                 while(top!='(')
                 {
                 	//while poping if we get any operator then there are no redudant braces within the brackets
@@ -37,7 +38,8 @@ public class RedundantBraces {
                 
                 //if no operators are found i.e cond must still be 1, that is true condition
                 //thus return cond.
-                //if cond =0, i.e operators found, we dont return because we still need to check the rest of the String
+                //if cond =0, i.e operators found, we dont return because we still need to check the rest 
+                //of the String
                 if(cond==1)
                 	return cond;
             }

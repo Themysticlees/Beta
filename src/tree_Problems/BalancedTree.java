@@ -1,6 +1,6 @@
 package tree_Problems;
 
-//for every tree the diff of left height and right height should be <=1
+//for every tree the diff of left height and right height should be == 1
 
 public class BalancedTree {
 	

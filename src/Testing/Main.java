@@ -29,28 +29,27 @@ class Node {
 
 class Pair{
     
-	int value;
-    int day;
-    
-    Pair(int value, int day){
-        this.value=value;
-        this.day=day;
-    }
+	int upp;
+	int low;
+	int i;
+	int j;
+	
+	public Pair(int upp, int low, int i, int j) {
+		super();
+		this.upp = upp;
+		this.low = low;
+		this.i = i;
+		this.j = j;
+	}
 
 	@Override
 	public String toString() {
-		return "Pair [value=" + value + ", day=" + day + "]";
+		return "Pair [upp=" + upp + ", low=" + low
+				+ ", i=" + i + ", j=" + j + "]";
 	}
-    
-    
-}
+	
 
-class Item {
-    int value, weight;
-    Item(int x, int y){
-        this.value = x;
-        this.weight = y;
-    }
+    
 }
 
 public class Main{
@@ -63,8 +62,11 @@ public class Main{
 	
 	public static void printArray(int[] arr, int n) {
 		
-		for(int i=0;i<n;i++)
-			System.out.println(arr[i]);
+		System.out.print("[");
+		for(int i=0;i<n-1;i++)
+			System.out.print(arr[i]+" ,");
+		
+		System.out.println(arr[n-1]+"]");
 	}
 	
 	static boolean patternMatch(String A, String B) {
@@ -99,10 +101,133 @@ public class Main{
 		return false;
 	}
 	
+//-------------------------------------------------------------------------------------------------------//
 	
+	public static int dieHard(int armor, int health) {
+		//1 air-health+3 armor+2
+		//2 water-health-5 armor-10
+		//3 fire-health-20 armor+5
+		
+		int[][] dp=new int[1000][1000];
+		
+		for(int i=0;i<1000;i++)
+			for(int j=0;j<1000;j++)
+				dp[i][j]=-1;
+		
+		dp[0][0]=0;
+		
+		return helper(armor,health,dp,0);
+	}
 	
+	public static int helper(int armor,int health,int[][] dp, int choice) {
+		
+		if(armor==0 || health==0)
+			return 0;
+		
+		if(choice==0) {
+			int a=0,w=0,f=0;
+			
+			if(armor+2>=0 && health+3>=0) 
+				a=helper(armor+2,health+3,dp,1);
+			if(armor-10>=0 && health-5>=0) 
+				w=helper(armor-10,health-5,dp,2);
+			
+			if(armor+5>=0 && health-20>=0) 
+				f=helper(armor+5,health-20,dp,3);
+			
+			return Math.max(a,Math.max(w,f));
+		}
+		
+		//if we jump from air
+		else if(choice==1) {
+			
+			//for water
+			int subans=0;
+			if(armor-10>=0 && health-5>=0) {
+				
+				if(dp[armor-10][health-5]!=-1)
+					subans=dp[armor-10][health-5];
+				else
+					subans=helper(armor-10,health-5,dp,2);
+			}
+			
+			
+			int subans2=0;
+			//for fire
+			if(armor+5>=0 && health-20>=0) {
+				if(dp[armor+5][health-20]!=-1)
+					subans2=dp[armor+5][health-20];
+				else
+					subans2=helper(armor+5,health-20,dp,3);
+			}
+			
+			int ans=Math.max(subans, subans2)+1;
+			dp[armor][health]=ans;
+			return ans;
+		}
+		
+		//if we jump from water
+		else if(choice==2) {
+			
+			//for air
+			int subans=0;
+			if(armor+2>=0 && health+3>=0) {
+				
+				if(dp[armor+2][health+3]!=-1)
+					subans=dp[armor+2][health+3];
+				else
+					subans=helper(armor+2,health+3,dp,1);
+			}
+			
+			
+			int subans2=0;
+			//for fire
+			if(armor+5>=0 && health-20>=0) {
+				if(dp[armor+5][health-20]!=-1)
+					subans2=dp[armor+5][health-20];
+				else
+					subans2=helper(armor+5,health-20,dp,3);
+			}
+			
+			int ans=Math.max(subans, subans2)+1;
+			dp[armor][health]=ans;
+			return ans;
+		}
+		
+		//if we jump from fire
+		else {
+			
+			//for air
+			int subans=0;
+			if(armor+2>=0 && health+3>=0) {
+				
+				if(dp[armor+2][health+3]!=-1)
+					subans=dp[armor+2][health+3];
+				else
+					subans=helper(armor+2,health+3,dp,1);
+			}
+			
+			
+			int subans2=0;
+			//for water
+			if(armor-10>=0 && health-5>=0) {
+				
+				if(dp[armor-10][health-5]!=-1)
+					subans2=dp[armor-10][health-5];
+				else
+					subans2=helper(armor-10,health-5,dp,2);
+			}
+			
+			int ans=Math.max(subans, subans2)+1;
+			dp[armor][health]=ans;
+			return ans;
+		}
+
+	}
+	
+//-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
-    	
+    		
 		Scanner sc=new Scanner(System.in);
 		
     	Node root=new Node(1);
@@ -133,7 +258,6 @@ public class Main{
 			public int compare(int[] o1, int[] o2) {
 				// TODO Auto-generated method stub
 				
-				return o1[1]-o2[1];
 			}
 		};
 		
@@ -146,6 +270,7 @@ public class Main{
 		}
 		*/
 		
+		System.out.println(dieHard(20, 20));
 	}
 	
 }
