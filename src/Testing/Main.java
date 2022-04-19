@@ -6,50 +6,39 @@ import java.util.regex.Pattern;
 class Node {
 	 
 	int data;
-	Node left;
-	Node right;
-	//Node next;
+//	Node left;
+//	Node right;
+	Node next;
 	//char ch;
 	    
 	Node(int d) {
 	    data = d; 
-	    left=null;
-	    right=null;
-	    //next=null;
+//	    left=null;
+//	    right=null;
+	    next=null;
 	}
 
 	@Override
 	public String toString() {
-		return "Node [data=" + data + "]";
+		return "Node [data=" + data + ", next=" + next + "]";
 	}
 	
-	
-
 }
 
 class Pair{
     
-	int upp;
-	int low;
-	int i;
-	int j;
-	
-	public Pair(int upp, int low, int i, int j) {
+	int val;
+	int index;
+	public Pair(int val, int index) {
 		super();
-		this.upp = upp;
-		this.low = low;
-		this.i = i;
-		this.j = j;
+		this.val = val;
+		this.index = index;
 	}
-
 	@Override
 	public String toString() {
-		return "Pair [upp=" + upp + ", low=" + low
-				+ ", i=" + i + ", j=" + j + "]";
+		return "Pair [val=" + val + ", index=" + index + "]";
 	}
 	
-
-    
 }
 
 public class Main{
@@ -103,143 +92,178 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public static int dieHard(int armor, int health) {
-		//1 air-health+3 armor+2
-		//2 water-health-5 armor-10
-		//3 fire-health-20 armor+5
+//	public static long gergovia(int[]arr, int n) {
+//		
+//		int i=0;
+//		long time=0;
+//		
+//		while(i<n) {
+//			
+//			int j=i+1;
+//			
+//			while(j<n) {
+//				
+//				//for searching buyer
+//				if(arr[i]<0) {
+//					
+//					if(arr[j]>0) {
+//						int diff=arr[i]+arr[j];
+//						if(diff>0) {
+//							time+=(j-i)*(arr[j]-diff);
+//							arr[j]=diff;
+//							arr[i]=0;
+//						}
+//						else if(diff<0) {
+//							time+=(j-i)*arr[j];
+//							arr[i]=diff;
+//							arr[j]=0;
+//							
+//						}
+//						else{
+//							time+=(j-i)*arr[j];
+//							arr[i]=0;
+//							arr[j]=0;
+//						}
+//						
+//						
+//					}	
+//				}
+//				
+//				//for searching seller
+//				else{
+//					
+//					if(arr[j]<0) {
+//						int diff=arr[i]+arr[j];
+//						if(diff<0) {
+//							time+=(j-i)*arr[i];
+//							arr[j]=diff;
+//							arr[i]=0;
+//						}
+//						else if(diff>0) {
+//							time+=(j-i)*(arr[i]-diff);
+//							arr[i]=diff;
+//							arr[j]=0;
+//						}
+//						else
+//						{
+//							time+=(j-i)*arr[i];
+//							arr[i]=0;
+//							arr[j]=0;
+//						}
+//							
+//					}
+//					
+//				}
+//				if(arr[i]==0)
+//					break;
+//				j++;
+//				
+//			}
+//			i++;
+//		}
+//		return time;
+//	}
+	
+	
+	public static long gergovia(int[]arr, int n) {
 		
-		int[][] dp=new int[1000][1000];
+		Stack<Pair> pos=new Stack<>();
+		Stack<Pair> neg=new Stack<>();
 		
-		for(int i=0;i<1000;i++)
-			for(int j=0;j<1000;j++)
-				dp[i][j]=-1;
+		for(int i=n-1;i>=0;i--) {
+			if(arr[i]>0)
+				pos.add(new Pair(arr[i],i));
+			else
+				neg.add(new Pair(arr[i],i));
+		}
 		
-		dp[0][0]=0;
-		
-		return helper(armor,health,dp,0);
+		int time=0;
+		while(!pos.isEmpty() && !neg.isEmpty()) {
+			Pair buy=pos.peek();
+			Pair sell=neg.peek();
+			
+			int diff=buy.val+sell.val;
+			
+			if(diff>0)
+			{
+				time+=Math.abs(buy.index-sell.index)*(buy.val-diff);
+				buy.val=diff;
+				sell.val=0;
+			}
+			else
+			{
+				time+=Math.abs(buy.index-sell.index)*buy.val;
+				buy.val=0;
+				sell.val=diff;
+			}
+			
+			if(buy.val==0)
+				pos.pop();
+			if(sell.val==0)
+				neg.pop();
+		}
+		return time;
 	}
 	
-	public static int helper(int armor,int health,int[][] dp, int choice) {
-		
-		if(armor==0 || health==0)
-			return 0;
-		
-		if(choice==0) {
-			int a=0,w=0,f=0;
-			
-			if(armor+2>=0 && health+3>=0) 
-				a=helper(armor+2,health+3,dp,1);
-			if(armor-10>=0 && health-5>=0) 
-				w=helper(armor-10,health-5,dp,2);
-			
-			if(armor+5>=0 && health-20>=0) 
-				f=helper(armor+5,health-20,dp,3);
-			
-			return Math.max(a,Math.max(w,f));
-		}
-		
-		//if we jump from air
-		else if(choice==1) {
-			
-			//for water
-			int subans=0;
-			if(armor-10>=0 && health-5>=0) {
-				
-				if(dp[armor-10][health-5]!=-1)
-					subans=dp[armor-10][health-5];
-				else
-					subans=helper(armor-10,health-5,dp,2);
-			}
-			
-			
-			int subans2=0;
-			//for fire
-			if(armor+5>=0 && health-20>=0) {
-				if(dp[armor+5][health-20]!=-1)
-					subans2=dp[armor+5][health-20];
-				else
-					subans2=helper(armor+5,health-20,dp,3);
-			}
-			
-			int ans=Math.max(subans, subans2)+1;
-			dp[armor][health]=ans;
-			return ans;
-		}
-		
-		//if we jump from water
-		else if(choice==2) {
-			
-			//for air
-			int subans=0;
-			if(armor+2>=0 && health+3>=0) {
-				
-				if(dp[armor+2][health+3]!=-1)
-					subans=dp[armor+2][health+3];
-				else
-					subans=helper(armor+2,health+3,dp,1);
-			}
-			
-			
-			int subans2=0;
-			//for fire
-			if(armor+5>=0 && health-20>=0) {
-				if(dp[armor+5][health-20]!=-1)
-					subans2=dp[armor+5][health-20];
-				else
-					subans2=helper(armor+5,health-20,dp,3);
-			}
-			
-			int ans=Math.max(subans, subans2)+1;
-			dp[armor][health]=ans;
-			return ans;
-		}
-		
-		//if we jump from fire
-		else {
-			
-			//for air
-			int subans=0;
-			if(armor+2>=0 && health+3>=0) {
-				
-				if(dp[armor+2][health+3]!=-1)
-					subans=dp[armor+2][health+3];
-				else
-					subans=helper(armor+2,health+3,dp,1);
-			}
-			
-			
-			int subans2=0;
-			//for water
-			if(armor-10>=0 && health-5>=0) {
-				
-				if(dp[armor-10][health-5]!=-1)
-					subans2=dp[armor-10][health-5];
-				else
-					subans2=helper(armor-10,health-5,dp,2);
-			}
-			
-			int ans=Math.max(subans, subans2)+1;
-			dp[armor][health]=ans;
-			return ans;
-		}
-
-	}
+	
+	public static Node partition(Node root, int x) {
+        // Your code here
+        List<Integer> list1=new ArrayList<>();
+        List<Integer> list2=new ArrayList<>();
+        List<Integer> list3=new ArrayList<>();
+        
+        Node root2=root;
+        while(root!=null){
+            if(root.data==x)
+            	list2.add(root.data);
+            else if(root.data>x)
+            	list3.add(root.data);
+            else
+            	list1.add(root.data);
+            root=root.next;
+        }
+        
+        root=root2;
+        for(int i=0;i<list1.size();i++)
+        {
+        	root2.data=list1.get(i);
+        	root2=root2.next;
+        }
+        
+        for(int i=0;i<list2.size();i++)
+        {
+        	root2.data=list2.get(i);
+        	root2=root2.next;
+        }
+        
+        for(int i=0;i<list3.size();i++)
+        {
+        	root2.data=list3.get(i);
+        	root2=root2.next;
+        }
+        
+        
+        
+        return root;
+        
+        
+    }
 	
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
 		Scanner sc=new Scanner(System.in);
 		
-    	Node root=new Node(1);
-		root.left=new Node(2);
-		root.right=new Node(9);
-		root.left.left=new Node(4);
-		//root.left.right=new Node(6);
-		root.right.left=new Node(5);
-		root.right.right=new Node(7);
-		root.left.left.left=new Node(8);
-		root.left.left.right=new Node(19);
-		//root.left.right.right=new Node(9);
+//    	Node root=new Node(1);
+//		root.left=new Node(2);
+//		root.right=new Node(9);
+//		root.left.left=new Node(4);
+//		root.left.right=new Node(6);
+//		root.right.left=new Node(5);
+//		root.right.right=new Node(7);
+//		root.left.left.left=new Node(8);
+//		root.left.left.right=new Node(19);
+// 		root.left.right.right=new Node(9);
 		
 		
 		//root.right.right.right=new Node(5);
@@ -270,7 +294,21 @@ public class Main{
 		}
 		*/
 		
-		System.out.println(dieHard(20, 20));
+//		int[] arr= {5,-4,1,-3,1};
+//		System.out.println(gergovia(arr, arr.length));
+		
+		int[] arr= {1,4,3,2,5,2,3};
+		
+		Node root=new Node(0);
+		Node curr=root;
+		for(int i=0;i<arr.length;i++)
+		{
+			Node temp=new Node(arr[i]);
+			curr.next=temp;
+			curr=curr.next;
+		}
+		
+		partition(root.next, 3);
 	}
 	
 }
