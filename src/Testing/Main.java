@@ -210,36 +210,87 @@ public class Main{
 //	}
 	
 	
-	static String remove(String s) {
-        // code here
-		
-        String res="";
+	public static int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        // Code here
+        Queue<int[]> queue = new LinkedList<>();
         
-        int i=0;
-        while(true){
-        	int n=s.length();
-            while(i<n-1){
-                if(s.charAt(i)==s.charAt(i+1)){
-                    i++;
-                    while(i<n && s.charAt(i)==s.charAt(i-1))
-                        i++;
-                }
-                else{
-                    res+=s.charAt(i);
-                    i++;
-                }
+        if(KnightPos[0]==TargetPos[0] && KnightPos[1]==TargetPos[1])
+            return 0;
+            
+        int[][] visited=new int[N+1][N+1];
+        
+        visited[KnightPos[0]][KnightPos[1]]=0;
+        queue.add(KnightPos);
+        
+        while(!queue.isEmpty()){
+            int[] temp=queue.poll();
+            
+            int col=temp[0];
+            int row=temp[1];
+            
+            //for uppemost row chances
+            if(col-1>=1 && row+2<=N && visited[col-1][row+2]==0){
+                // if(col-1==TargetPos[0] && row+2==TargetPos[1])
+                //     return steps;
+                visited[col-1][row+2]=1+visited[col][row];
+                queue.add(new int[]{col-1,row+2});
             }
             
-            if(i<n)
-            	res+=s.charAt(i);
+            if(col+1<=N && row+2<=N && visited[col+1][row+2]==0){
+                // if(col+1==TargetPos[0] && row+2==TargetPos[1])
+                //     return steps;
+                visited[col+1][row+2]=1+visited[col][row];
+                queue.add(new int[]{col+1,row+2});
+            }
+                
+            //for upper row chances
+            if(col-2>=1 && row+1<=N && visited[col-2][row+1]==0){
+                // if(col-2==TargetPos[0] && row+1==TargetPos[1])
+                //     return steps;
+                visited[col-2][row+1]=1+visited[col][row];
+                queue.add(new int[]{col-2,row+1});
+            }
             
-            if(res.equals(s))
-                break;
-            s=res;
-            res="";
-            i=0;
+            if(col+2<=N && row+1<=N && visited[col+2][row+1]==0){
+                // if(col+2==TargetPos[0] && row+1==TargetPos[1])
+                //     return steps;
+                visited[col+2][row+1]=1+visited[col][row];
+                queue.add(new int[]{col+2,row+1});
+            }
+                
+            //for lower row chances
+            if(col-2>=1 && row-1>=1 && visited[col-2][row-1]==0){
+                // if(col-2==TargetPos[0] && row-1==TargetPos[1])
+                //     return steps;
+                visited[col-2][row-1]=1+visited[col][row];
+                queue.add(new int[]{col-2,row+1});
+            }
+            
+            if(col+2<=N && row-1>=1 && visited[col+2][row-1]==0){
+                // if(col+2==TargetPos[0] && row-1==TargetPos[1])
+                //     return steps;
+                visited[col+2][row-1]=1+visited[col][row];
+                queue.add(new int[]{col+2,row+1});
+            }
+                
+            //for lowest row chances
+            if(col-1>=1 && row-2>=1 && visited[col-1][row-2]==0){
+                // if(col-1==TargetPos[0] && row-2==TargetPos[1])
+                //     return steps;
+                visited[col-1][row-2]=1+visited[col][row];
+                
+                queue.add(new int[]{col-1,row-2});
+            }
+            
+            if(col+1<=N && row-2>=1 && visited[col+1][row-2]==0){
+                // if(col+1==TargetPos[0] && row-2==TargetPos[1])
+                //     return steps;
+                visited[col+1][row-2]=1+visited[col][row];
+                queue.add(new int[]{col+1,row-2});
+            }
         }
-        return res;
+        return visited[TargetPos[0]][TargetPos[1]];
     }
 	
 	
@@ -291,8 +342,10 @@ public class Main{
 //		int[] arr= {5,-4,1,-3,1};
 //		System.out.println(gergovia(arr, arr.length));
 		
+		int knightPos[ ] = {4, 5};
+		int targetPos[ ] = {1, 1};
 		
-		System.out.println(remove("abccbccba"));
+		System.out.println(minStepToReachTarget(knightPos, targetPos, 6));
 		
 	}
 	
