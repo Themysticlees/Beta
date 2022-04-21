@@ -1,4 +1,5 @@
 package Testing;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,16 +28,19 @@ class Node {
 
 class Pair{
     
-	int val;
-	int index;
-	public Pair(int val, int index) {
-		super();
-		this.val = val;
-		this.index = index;
-	}
+	long weight;
+    long profit;
+    double ratio;
+    
+    Pair(long wt, long pr, double ratio){
+        this.weight=wt;
+        this.profit=pr;
+        this.ratio=ratio;
+    }
+
 	@Override
 	public String toString() {
-		return "Pair [val=" + val + ", index=" + index + "]";
+		return "Pair [weight=" + weight + ", profit=" + profit + ", ratio=" + ratio + "]";
 	}
 	
 }
@@ -165,89 +169,79 @@ public class Main{
 //	}
 	
 	
-	public static long gergovia(int[]arr, int n) {
-		
-		Stack<Pair> pos=new Stack<>();
-		Stack<Pair> neg=new Stack<>();
-		
-		for(int i=n-1;i>=0;i--) {
-			if(arr[i]>0)
-				pos.add(new Pair(arr[i],i));
-			else
-				neg.add(new Pair(arr[i],i));
-		}
-		
-		int time=0;
-		while(!pos.isEmpty() && !neg.isEmpty()) {
-			Pair buy=pos.peek();
-			Pair sell=neg.peek();
-			
-			int diff=buy.val+sell.val;
-			
-			if(diff>0)
-			{
-				time+=Math.abs(buy.index-sell.index)*(buy.val-diff);
-				buy.val=diff;
-				sell.val=0;
-			}
-			else
-			{
-				time+=Math.abs(buy.index-sell.index)*buy.val;
-				buy.val=0;
-				sell.val=diff;
-			}
-			
-			if(buy.val==0)
-				pos.pop();
-			if(sell.val==0)
-				neg.pop();
-		}
-		return time;
-	}
+//	public static long gergovia(int[]arr, int n) {
+//		
+//		Stack<Pair> pos=new Stack<>();
+//		Stack<Pair> neg=new Stack<>();
+//		
+//		for(int i=n-1;i>=0;i--) {
+//			if(arr[i]>0)
+//				pos.add(new Pair(arr[i],i));
+//			else
+//				neg.add(new Pair(arr[i],i));
+//		}
+//		
+//		int time=0;
+//		while(!pos.isEmpty() && !neg.isEmpty()) {
+//			Pair buy=pos.peek();
+//			Pair sell=neg.peek();
+//			
+//			int diff=buy.val+sell.val;
+//			
+//			if(diff>0)
+//			{
+//				time+=Math.abs(buy.index-sell.index)*(buy.val-diff);
+//				buy.val=diff;
+//				sell.val=0;
+//			}
+//			else
+//			{
+//				time+=Math.abs(buy.index-sell.index)*buy.val;
+//				buy.val=0;
+//				sell.val=diff;
+//			}
+//			
+//			if(buy.val==0)
+//				pos.pop();
+//			if(sell.val==0)
+//				neg.pop();
+//		}
+//		return time;
+//	}
 	
 	
-	public static Node partition(Node root, int x) {
-        // Your code here
-        List<Integer> list1=new ArrayList<>();
-        List<Integer> list2=new ArrayList<>();
-        List<Integer> list3=new ArrayList<>();
+	static String remove(String s) {
+        // code here
+		
+        String res="";
         
-        Node root2=root;
-        while(root!=null){
-            if(root.data==x)
-            	list2.add(root.data);
-            else if(root.data>x)
-            	list3.add(root.data);
-            else
-            	list1.add(root.data);
-            root=root.next;
+        int i=0;
+        while(true){
+        	int n=s.length();
+            while(i<n-1){
+                if(s.charAt(i)==s.charAt(i+1)){
+                    i++;
+                    while(i<n && s.charAt(i)==s.charAt(i-1))
+                        i++;
+                }
+                else{
+                    res+=s.charAt(i);
+                    i++;
+                }
+            }
+            
+            if(i<n)
+            	res+=s.charAt(i);
+            
+            if(res.equals(s))
+                break;
+            s=res;
+            res="";
+            i=0;
         }
-        
-        root=root2;
-        for(int i=0;i<list1.size();i++)
-        {
-        	root2.data=list1.get(i);
-        	root2=root2.next;
-        }
-        
-        for(int i=0;i<list2.size();i++)
-        {
-        	root2.data=list2.get(i);
-        	root2=root2.next;
-        }
-        
-        for(int i=0;i<list3.size();i++)
-        {
-        	root2.data=list3.get(i);
-        	root2=root2.next;
-        }
-        
-        
-        
-        return root;
-        
-        
+        return res;
     }
+	
 	
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -297,18 +291,9 @@ public class Main{
 //		int[] arr= {5,-4,1,-3,1};
 //		System.out.println(gergovia(arr, arr.length));
 		
-		int[] arr= {1,4,3,2,5,2,3};
 		
-		Node root=new Node(0);
-		Node curr=root;
-		for(int i=0;i<arr.length;i++)
-		{
-			Node temp=new Node(arr[i]);
-			curr.next=temp;
-			curr=curr.next;
-		}
+		System.out.println(remove("abccbccba"));
 		
-		partition(root.next, 3);
 	}
 	
 }

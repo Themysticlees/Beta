@@ -45,37 +45,17 @@ class MyGraph {
 		for(int i:alist.get(s))
 			DFShelper(i,visited);
 	}
-	
-	public boolean detectCycle() {
-		
-		boolean[] visited=new boolean[n];
-		
-		return helper(1,1,visited);
-	}
-	
-	public boolean helper(int s, int p, boolean[] visited) {
-		
-		
-		visited[s]=true;
-		
-		for(int i:alist.get(s))
-		{
-			if(visited[i] && i!=p)
-				return true;
-			if(visited[i])
-				continue;
-			return helper(i,s,visited);
-		}
-		return false;
-	}
-	
 }
+	
+//-------------------------------------------------------------------------------------------------------
+	
+//---------------------------------------------------------------------------------------------------
+
 
 public class Main{
 	public static void main(String[] args) {
 		
 		MyGraph graph = new MyGraph(6, 4);
-		System.out.println(graph.detectCycle());
-		
+
 	}
 }
