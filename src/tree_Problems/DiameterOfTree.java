@@ -1,7 +1,7 @@
-package tree_Problems;
+  package tree_Problems;
 
 public class DiameterOfTree {
-	
+	//For Binary Tree
 	int diameter(Node root) {
         //we are creating a single element array to store the max diameter
 		//More efficient than global variable
