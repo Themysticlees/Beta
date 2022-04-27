@@ -9,20 +9,20 @@ class MyGraph {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Enter the no.of nodes and edges");
 		int n=sc.nextInt();
-		int e=sc.nextInt();
+		//int e=sc.nextInt();
 		
 		this.n=n;
 		for(int i=0;i<n;i++)
 			alist.add(new ArrayList<>());
 		
-		System.out.println("Enter the pair of nodes which contains an edge");
-		while(e-->0)
-		{
-			int u=sc.nextInt();
-			int v=sc.nextInt();
-			
-			addEdge(u, v);
-		}
+//		System.out.println("Enter the pair of nodes which contains an edge");
+//		while(e-->0)
+//		{
+//			int u=sc.nextInt();
+//			int v=sc.nextInt();
+//			
+//			addEdge(u, v);
+//		}
 	}
 	
 	public void addEdge(int u, int v) {
@@ -52,28 +52,8 @@ class MyGraph {
 
 	
 //-------------------------------------------------------------------------------------------------------
-
-	public int[] subtree_size() {
-		boolean[] visited=new boolean[n];
-		
-		int[] size=new int[n];
-		
-		dfs(1,visited,size);
-		return size;
-	}
-
-	public int dfs(int s, boolean[] visited, int[] size) {
-	// TODO Auto-generated method stub
-		visited[s]=true;
-		
-		for(int i:alist.get(s))
-		{
-			if(visited[i]==false)
-				size[s]+=dfs(i,visited,size);
-		}
-		size[s]++;
-		return size[s];
-	}
+	
+	
 	
 //---------------------------------------------------------------------------------------------------
 	
@@ -84,6 +64,6 @@ public class Main{
 	public static void main(String[] args) {
 		
 		MyGraph graph = new MyGraph();
-		System.out.println(Arrays.toString(graph.subtree_size()));
+		
 	}
 }
