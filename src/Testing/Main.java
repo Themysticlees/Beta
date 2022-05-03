@@ -96,7 +96,49 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	
+	public static int makeConnected(int n, int[][] connections) {
+        ArrayList<ArrayList<Integer>> alist = new ArrayList<>();
+        for(int i=0;i<n;i++)
+            alist.add(new ArrayList<>());
+        
+        for(int i=0;i<connections.length;i++){
+            int a=connections[i][0];
+            int b=connections[i][1];
+            
+            alist.get(a).add(b);
+            alist.get(b).add(a);
+        }
+        
+        int[] edges = {0};
+        int nodes=0;
+        boolean[] visited=new boolean[n];
+        
+        for(int i=0;i<alist.size();i++){
+            if(alist.get(i).size()==0)
+                nodes++;
+            else if(visited[i]==false)
+                helper(i,-1,visited,edges,alist);
+            
+        }
+        if(edges[0]>=nodes)
+            return nodes;
+        return -1;
+        
+    }
+    
+    static void helper(int s, int parent, boolean[] visited, int[] edges,ArrayList<ArrayList<Integer>> alist){
+        
+        visited[s]=true;
+        
+        for(int i:alist.get(s)){
+            if(i==parent)
+                continue;
+            else if(visited[i]==true)
+                edges[0]++;
+            else
+                helper(i,s,visited,edges,alist);
+        }
+    }
 	
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -143,7 +185,9 @@ public class Main{
 		}
 		*/
 		
+		int[][] conn= {{0,1},{0,2},{0,3},{1,2}};
 		
+		System.out.println(makeConnected(6, conn));
 		
 	}
 	

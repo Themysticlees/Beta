@@ -39,10 +39,11 @@ public class RemoveLoop {
 		Node slow=head;
 		
 		while(fast!=null && fast.next!=null) {
-			if(fast==slow)
-				break;
 			fast=fast.next.next;
-			slow=slow.next;
+            slow=slow.next;
+            
+            if(fast==slow)
+                break;
 		}
 		/*
 		 * Using Floyd's loop detection algo
@@ -55,8 +56,8 @@ public class RemoveLoop {
 		//as we find a match, we'll change the previous nodes link to null
 		slow=head;
 		Node prev=head;
-		if(fast!=null && fast.next!=null) {
-			while(fast!=slow) {
+		while(fast!=null && fast.next!=null){
+            if(slow==fast){
 				prev=slow;
 				fast=fast.next;
 				slow=slow.next;
