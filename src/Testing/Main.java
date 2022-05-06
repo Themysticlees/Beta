@@ -96,48 +96,39 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public static int makeConnected(int n, int[][] connections) {
-        ArrayList<ArrayList<Integer>> alist = new ArrayList<>();
-        for(int i=0;i<n;i++)
-            alist.add(new ArrayList<>());
+	public static String removeDuplicates(String s, int k) {
         
-        for(int i=0;i<connections.length;i++){
-            int a=connections[i][0];
-            int b=connections[i][1];
+        Stack<Character> stack1=new Stack<>();
+        Stack<Integer> stack2=new Stack<>();
+        
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
             
-            alist.get(a).add(b);
-            alist.get(b).add(a);
-        }
-        
-        int[] edges = {0};
-        int nodes=0;
-        boolean[] visited=new boolean[n];
-        
-        for(int i=0;i<alist.size();i++){
-            if(alist.get(i).size()==0)
-                nodes++;
-            else if(visited[i]==false)
-                helper(i,-1,visited,edges,alist);
+            if(stack1.isEmpty() || stack1.peek()!=ch){
+                stack1.push(ch);
+                stack2.push(1);
+            }
+            else if(stack1.peek()==ch){
+                int temp=stack2.pop();
+                temp++;
+                stack2.push(temp);
+            }
             
+            if(stack2.peek()==k){
+                stack1.pop();
+                stack2.pop();
+            }
         }
-        if(edges[0]>=nodes)
-            return nodes;
-        return -1;
+        String res="";
         
-    }
-    
-    static void helper(int s, int parent, boolean[] visited, int[] edges,ArrayList<ArrayList<Integer>> alist){
-        
-        visited[s]=true;
-        
-        for(int i:alist.get(s)){
-            if(i==parent)
-                continue;
-            else if(visited[i]==true)
-                edges[0]++;
-            else
-                helper(i,s,visited,edges,alist);
+        while(!stack1.isEmpty()){
+            char ch=stack1.pop();
+            int n=stack2.pop();
+            
+            for(int i=0;i<n;i++)
+                res=ch+res;
         }
+        return res;
     }
 	
 //-------------------------------------------------------------------------------------------------------//
@@ -185,9 +176,7 @@ public class Main{
 		}
 		*/
 		
-		int[][] conn= {{0,1},{0,2},{0,3},{1,2}};
-		
-		System.out.println(makeConnected(6, conn));
+		System.out.println(removeDuplicates("deeedbbcccbdaa", 3));
 		
 	}
 	

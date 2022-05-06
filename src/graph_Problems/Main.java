@@ -59,44 +59,60 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 	int timer;
-	public void findBridges() {
-		
-		int[] in=new int[n+1];
-		int[] low=new int[n+1];
+	boolean hasBridge;
+	
+	ArrayList<Pair2> edges=new ArrayList<Pair2>();
+	
+	public void bertownRoads() {
 		
 		boolean[] visited=new boolean[n+1];
+		int[] in = new int[n+1];
+		int[] low = new int[n+1];
 		
-		for(int i=0;i<=n;i++) {
-			if(alist.get(i).size()!=0 && visited[i]==false)
-				helper(i,-1,in,low,visited);
+		helper(1,-1,visited, in, low);
+		
+		if(!hasBridge) {
+			for(Pair2 i:edges) {
+				System.out.println(i.first+"-"+i.second);
+			}
 		}
+		else
+			System.out.println(0);
 	}
 	
-	public void helper(int s, int par, int[] in, int[] low, boolean[] visited) {
+	public void helper(int s, int parent, boolean[] visited, int[] in, int[] low) {
 		
-		visited[s]=true;
 		in[s]=low[s]=timer++;
 		
+		visited[s]=true;
+		
 		for(int child:alist.get(s)) {
-			if(child==par)
+			if(child==parent)
 				continue;
-			else if(visited[child]) {
+			if(visited[child]) {
 				//back edge
-				low[s]=Math.min(in[child], low[s]);
+				low[s]=Math.min(low[s], in[child]);
+				
+				if(in[child]<in[s])
+					edges.add(new Pair2(s,child));
 			}
 			else {
 				//front edge
-				helper(child,s,in,low,visited);
+				helper(child,s,visited,in,low);
 				
 				if(low[child]>in[s])
-					System.out.println(child+"-"+s+" is a bridge");
+				{
+					hasBridge=true;
+					return;
+				}
 				
-				low[s]=Math.min(low[child],low[s]);
+				low[s]=Math.min(low[s], low[child]);
+				
+				edges.add(new Pair2(s,child));
 			}
 		}
-		
 	}
-
+	
 //---------------------------------------------------------------------------------------------------
 	
 }
@@ -106,7 +122,8 @@ public class Main{
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
-		graph.findBridges();
+		graph.bertownRoads();
+		
 	}
 }
 
