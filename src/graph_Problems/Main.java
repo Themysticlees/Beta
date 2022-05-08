@@ -33,7 +33,7 @@ class MyGraph {
 	
 	public void addEdge(int u, int v) {
 		alist.get(u).add(v);
-		alist.get(v).add(u);
+		//alist.get(v).add(u);
 	}
 	
 	public void DFS(int s) {
@@ -58,61 +58,40 @@ class MyGraph {
 
 	
 //-------------------------------------------------------------------------------------------------------
-	int timer;
-	boolean hasBridge;
 	
-	ArrayList<Pair2> edges=new ArrayList<Pair2>();
-	
-	public void bertownRoads() {
+	//Kahn's algo
+	public void topo_sort() {
 		
-		boolean[] visited=new boolean[n+1];
-		int[] in = new int[n+1];
-		int[] low = new int[n+1];
+		int[] in = new int[n];
+		indegree(in);
 		
-		helper(1,-1,visited, in, low);
+		Queue<Integer> queue=new LinkedList<>();
 		
-		if(!hasBridge) {
-			for(Pair2 i:edges) {
-				System.out.println(i.first+"-"+i.second);
+		for(int i=0;i<n;i++) {
+			if(in[i]==0)
+				queue.add(i);
+		}
+		
+		while(!queue.isEmpty()) {
+			int curr=queue.poll();
+			System.out.println(curr);
+			for(int child:alist.get(curr)) {
+				in[child]--;
+				if(in[child]==0)
+					queue.add(child);
 			}
 		}
-		else
-			System.out.println(0);
+		
 	}
 	
-	public void helper(int s, int parent, boolean[] visited, int[] in, int[] low) {
+	public void indegree(int[] in) {
 		
-		in[s]=low[s]=timer++;
-		
-		visited[s]=true;
-		
-		for(int child:alist.get(s)) {
-			if(child==parent)
-				continue;
-			if(visited[child]) {
-				//back edge
-				low[s]=Math.min(low[s], in[child]);
-				
-				if(in[child]<in[s])
-					edges.add(new Pair2(s,child));
-			}
-			else {
-				//front edge
-				helper(child,s,visited,in,low);
-				
-				if(low[child]>in[s])
-				{
-					hasBridge=true;
-					return;
-				}
-				
-				low[s]=Math.min(low[s], low[child]);
-				
-				edges.add(new Pair2(s,child));
-			}
+		for(int i=0;i<n;i++) {
+			for(int child:alist.get(i))
+				in[child]++;
 		}
+		
 	}
-	
 //---------------------------------------------------------------------------------------------------
 	
 }
@@ -122,7 +101,7 @@ public class Main{
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
-		graph.bertownRoads();
+		graph.topo_sort();
 		
 	}
 }
