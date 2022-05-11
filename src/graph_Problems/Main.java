@@ -59,39 +59,40 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 	
-	//Kahn's algo
-	public void topo_sort() {
-		
-		int[] in = new int[n];
-		indegree(in);
-		
-		Queue<Integer> queue=new LinkedList<>();
-		
-		for(int i=0;i<n;i++) {
-			if(in[i]==0)
-				queue.add(i);
-		}
-		
-		while(!queue.isEmpty()) {
-			int curr=queue.poll();
-			System.out.println(curr);
-			for(int child:alist.get(curr)) {
-				in[child]--;
-				if(in[child]==0)
-					queue.add(child);
-			}
-		}
-		
-	}
+	public boolean isPossible(int N)
+    {
+        // Your Code goes here
+        
+        boolean[] visited=new boolean[N];
+        int[] status=new int[N];
+        
+        for(int i=0;i<N;i++){
+            boolean f=(iscyclic(i,visited,status));
+            if(f==true)
+                return false;
+        }
+        return true;
+    }
+    
+    public boolean iscyclic(int s, boolean[] visited, int[] status){
+        //status=1=running
+        //status=0=finished
+        visited[s]=true;
+        status[s]=1;
+        
+        for(int child:alist.get(s)){
+            if(visited[child] && status[child]==1)
+                return true;
+            if(visited[child]==false){
+                if(iscyclic(child,visited,status)==true)
+                    return true;
+            }
+        }
+        
+        status[s]=0;
+        return false;
+    }
 	
-	public void indegree(int[] in) {
-		
-		for(int i=0;i<n;i++) {
-			for(int child:alist.get(i))
-				in[child]++;
-		}
-		
-	}
 //---------------------------------------------------------------------------------------------------
 	
 }
@@ -101,7 +102,7 @@ public class Main{
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
-		graph.topo_sort();
+		System.out.println(graph.isPossible(graph.n));
 		
 	}
 }

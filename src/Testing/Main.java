@@ -96,41 +96,30 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public static String removeDuplicates(String s, int k) {
-        
-        Stack<Character> stack1=new Stack<>();
-        Stack<Integer> stack2=new Stack<>();
-        
-        for(int i=0;i<s.length();i++){
-            char ch=s.charAt(i);
-            
-            if(stack1.isEmpty() || stack1.peek()!=ch){
-                stack1.push(ch);
-                stack2.push(1);
-            }
-            else if(stack1.peek()==ch){
-                int temp=stack2.pop();
-                temp++;
-                stack2.push(temp);
-            }
-            
-            if(stack2.peek()==k){
-                stack1.pop();
-                stack2.pop();
-            }
-        }
-        String res="";
-        
-        while(!stack1.isEmpty()){
-            char ch=stack1.pop();
-            int n=stack2.pop();
-            
-            for(int i=0;i<n;i++)
-                res=ch+res;
-        }
-        return res;
+	
+	
+	public static ArrayList<String> countVowelStrings(int n) {
+		
+		ArrayList<String> list = new ArrayList<String>();
+		String[] vowels= {"a","e","i","o","u"};
+		helper(0,"",vowels,n,list);
+		System.out.println(list.size());
+		return list;
     }
 	
+	public static void helper(int s, String res, String[] vowels, int n, ArrayList<String> list) {
+		// TODO Auto-generated method stub
+		if(n==0)
+		{
+			list.add(res);
+			return;
+		}
+		
+		for(int i=s;i<vowels.length;i++) {
+			helper(i,res+vowels[i],vowels,n-1,list);
+		}
+	}
+
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
@@ -176,7 +165,7 @@ public class Main{
 		}
 		*/
 		
-		System.out.println(removeDuplicates("deeedbbcccbdaa", 3));
+		System.out.println(countVowelStrings(33));
 		
 	}
 	

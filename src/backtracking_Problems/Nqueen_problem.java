@@ -65,7 +65,7 @@ public class Nqueen_problem {
 
 	public static void main(String[] args) {
 		
-		int n=3;
+		int n=6;
 		int board[][] = new int[n][n];
 		
 		//initialize the 2d array with zeros
