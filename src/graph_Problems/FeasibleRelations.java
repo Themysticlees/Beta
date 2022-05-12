@@ -35,7 +35,7 @@ public class FeasibleRelations {
 			
 			int rel=sc.nextInt();
 			
-			ArrayList<Pair2> list = new ArrayList<>();
+			ArrayList<Pair> list = new ArrayList<>();
 			while(rel-->0) {
 				//We'll take input all the relations
 				int a=sc.nextInt();
@@ -50,7 +50,7 @@ public class FeasibleRelations {
 				else
 				{
 					//otherwise we'll keep that pair in a List
-					list.add(new Pair2(a, b));
+					list.add(new Pair(a, b));
 				}
 				
 			}

@@ -97,28 +97,44 @@ public class Main{
 //-------------------------------------------------------------------------------------------------------//
 	
 	
-	
-	public static ArrayList<String> countVowelStrings(int n) {
-		
-		ArrayList<String> list = new ArrayList<String>();
-		String[] vowels= {"a","e","i","o","u"};
-		helper(0,"",vowels,n,list);
-		System.out.println(list.size());
-		return list;
+	public List<List<Integer>> permuteUnique(int[] nums) {
+        
+        List<List<Integer>> res = new ArrayList<>();
+        int n=nums.length;
+        
+        String str="";
+        for(int i:nums)
+            str+=i;
+            
+        helper(0,str,n,res);
+        return res;
+    }
+    
+    public void helper(int i, String str, int n,List<List<Integer>> res){
+        if(i==n-1){
+            List<Integer> temp = new ArrayList<>();
+            for(int j=0;j<str.length();j++){
+                temp.add(str.charAt(i)-'0');
+            }
+            res.add(temp);
+        }
+        
+        int beg=i;
+        
+        for(;i<n;i++){
+            char[] arr=str.toCharArray();
+            swap(arr,beg,i);
+            str=String.copyValueOf(arr);
+            helper(beg+1,str,n,res);
+        }
+    }
+    
+    public void swap(char[] arr, int i, int j){
+        char temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
     }
 	
-	public static void helper(int s, String res, String[] vowels, int n, ArrayList<String> list) {
-		// TODO Auto-generated method stub
-		if(n==0)
-		{
-			list.add(res);
-			return;
-		}
-		
-		for(int i=s;i<vowels.length;i++) {
-			helper(i,res+vowels[i],vowels,n-1,list);
-		}
-	}
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -165,7 +181,9 @@ public class Main{
 		}
 		*/
 		
-		System.out.println(countVowelStrings(33));
+		Main ob = new Main();
+		
+		
 		
 	}
 	

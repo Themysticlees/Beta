@@ -25,7 +25,7 @@ public class BertownRoads {
 	boolean hasBridge;
 	
 	//to store the edges of new combination
-	ArrayList<Pair2> edges=new ArrayList<Pair2>();
+	ArrayList<Pair> edges=new ArrayList<Pair>();
 	
 	public void bertownRoads() {
 		
@@ -38,7 +38,7 @@ public class BertownRoads {
 		helper(1,-1,visited, in, low);
 		
 		if(!hasBridge) {
-			for(Pair2 i:edges) {
+			for(Pair i:edges) {
 				System.out.println(i.first+"-"+i.second);
 			}
 		}
@@ -62,7 +62,7 @@ public class BertownRoads {
 				//if we get a back edge
 				//then check if the child is an ancestor then make an edge between them
 				if(in[child]<in[s])
-					edges.add(new Pair2(s,child));
+					edges.add(new Pair(s,child));
 			}
 			else {
 				//front edge
@@ -78,7 +78,7 @@ public class BertownRoads {
 				low[s]=Math.min(low[s], low[child]);
 				
 				//add the front edges
-				edges.add(new Pair2(s,child));
+				edges.add(new Pair(s,child));
 			}
 		}
 	}

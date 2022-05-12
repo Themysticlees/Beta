@@ -23,14 +23,14 @@ import java.util.Queue;
  */
 
 //for every cell, we'll store their indexes and their up and down count
-class Pair{
+class Pair3{
     
 	int upp;
 	int low;
 	int i;
 	int j;
 	
-	public Pair(int upp, int low, int i, int j) {
+	public Pair3(int upp, int low, int i, int j) {
 		super();
 		this.upp = upp;
 		this.low = low;
@@ -40,7 +40,7 @@ class Pair{
 
 	@Override
 	public String toString() {
-		return "Pair [upp=" + upp + ", low=" + low
+		return "Pair3 [upp=" + upp + ", low=" + low
 				+ ", i=" + i + ", j=" + j + "]";
 	}	
 }
@@ -53,7 +53,7 @@ public class GeekMaze {
 	public static int numberOfCells(int n, int m, int r, int c, int u, int d, char mat[][])
 	{
 		//For storing the cells
-		Queue<Pair> queue=new LinkedList<>();
+		Queue<Pair3> queue=new LinkedList<>();
 		
 		//For keeping a track of the visited nodes
 		int[][] visited = new int[n][m];
@@ -68,28 +68,28 @@ public class GeekMaze {
 		
 		//checking the left cell
 		if(c-1>=0 && mat[r][c-1]!='#') {
-			queue.add(new Pair(0,0,r,c-1));
+			queue.add(new Pair3(0,0,r,c-1));
 			cells++;
 			visited[r][c-1]=1;
 		}
 		
 		//right
 		if(c+1<m && mat[r][c+1]!='#') {
-			queue.add(new Pair(0,0,r,c+1));
+			queue.add(new Pair3(0,0,r,c+1));
 			cells++;
 			visited[r][c+1]=1;
 		}
 
 		//checking the upper index and also checking the up counter
 		if(u>0 && r-1>=0 && mat[r-1][c]!='#') {
-			queue.add(new Pair(1,0,r-1,c));
+			queue.add(new Pair3(1,0,r-1,c));
 			cells++;
 			visited[r-1][c]=1;
 		}
 		
 		//down
 		if(d>0 && r+1<n && mat[r+1][c]!='#') {
-			queue.add(new Pair(0,1,r+1,c));
+			queue.add(new Pair3(0,1,r+1,c));
 			cells++;
 			visited[r+1][c]=1;
 		}
@@ -98,7 +98,7 @@ public class GeekMaze {
 			
 			//Now for every cell, we'll check all the surrounding cells and add them to the queue if not
 			//visited
-			Pair temp=queue.poll();
+			Pair3 temp=queue.poll();
 			int i=temp.i;
 			int j=temp.j;
 			int up=temp.upp;
@@ -106,28 +106,28 @@ public class GeekMaze {
 			
 			//left
 			if(j-1>=0 && mat[i][j-1]!='#' && visited[i][j-1]!=1) {
-				queue.add(new Pair(up,low,i,j-1));
+				queue.add(new Pair3(up,low,i,j-1));
 				cells++;
 				visited[i][j-1]=1;
 			}
 			
 			//right
 			if(j+1<m && mat[i][j+1]!='#' && visited[i][j+1]!=1) {
-				queue.add(new Pair(up,low,i,j+1));
+				queue.add(new Pair3(up,low,i,j+1));
 				cells++;
 				visited[i][j+1]=1;
 			}
 
 			//up
 			if(up+1<=u && i-1>=0 && mat[i-1][j]!='#' && visited[i-1][j]!=1) {
-				queue.add(new Pair(up+1,low,i-1,j));
+				queue.add(new Pair3(up+1,low,i-1,j));
 				cells++;
 				visited[i-1][j]=1;
 			}
 			
 			//down
 			if(low+1<=d && i+1<n && mat[i+1][j]!='#' && visited[i+1][j]!=1) {
-				queue.add(new Pair(up,low+1,i+1,j));
+				queue.add(new Pair3(up,low+1,i+1,j));
 				cells++;
 				visited[i+1][j]=1;
 			}

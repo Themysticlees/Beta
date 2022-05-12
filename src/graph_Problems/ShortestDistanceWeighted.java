@@ -1,40 +1,55 @@
 package graph_Problems;
 
 import java.util.*;
-
+/*
+ * Find the shortest distance from the source to every node in a directed and weighted graph
+ */
 public class ShortestDistanceWeighted {
 	
-	public void shortestDistance(int s, int n, ArrayList<ArrayList<Pair2>> alist) {
-		//topo sort
+	public void shortestDistance(int s, int n, ArrayList<ArrayList<Pair>> alist) {
+		
+		//First we'll do the topo sort
+		//So we can start the iteration from a number which has least dependency
+		//and ultimately we can reach from all the numbers
 		Stack<Integer> stack = new Stack<>();
 		topoSort(stack,n,alist);
 		
+		//initializing the distance array with max value
 		int[] dis = new int[n];
 		for(int i=0;i<n;i++)
 			dis[i]=Integer.MAX_VALUE;
 		
+		//marking distance of souce node as 0
 		dis[s]=0;
 		
 		while(!stack.isEmpty()) {
 			int node=stack.pop();
 			
+			//if the node has not been reached then we can't travel from there
+			//so we need a node which has been reached
+			//the source node may not be the least dependent node thus
+			//it wont be possible to reach all the nodes from the source in that case
 			if(dis[node]!=Integer.MAX_VALUE) {
-				for(Pair2 i:alist.get(node)) {
+				for(Pair i:alist.get(node)) {
+					//take out it's child and distance from the child
 					int child=i.first;
 					int distance=i.second;
 					
+					//add the distance with the current node distance and compare
+					//if it is smaller then replace it
 					distance+=dis[node];
 					if(distance<dis[child])
 						dis[child]=distance;
 				}
 			}
 		}
+		//Print the distance from each node
 		System.out.println("Starting node : "+s);
 		for(int i=0;i<n;i++)
 			System.out.println(i+"->"+dis[i]);
 	}
 	
-	public void topoSort(Stack<Integer> stack, int n, ArrayList<ArrayList<Pair2>> alist) {
+	public void topoSort(Stack<Integer> stack, int n, ArrayList<ArrayList<Pair>> alist) {
 		// TODO Auto-generated method stub
 		
 		boolean[] visited=new boolean[n];
@@ -46,11 +61,11 @@ public class ShortestDistanceWeighted {
 		
 	}
 
-	public void dfs(int s, Stack<Integer> stack, ArrayList<ArrayList<Pair2>> alist, boolean[] visited) {
+	public void dfs(int s, Stack<Integer> stack, ArrayList<ArrayList<Pair>> alist, boolean[] visited) {
 		// TODO Auto-generated method stub
 		visited[s]=true;
 		
-		for(Pair2 i:alist.get(s)) {
+		for(Pair i:alist.get(s)) {
 			int child=i.first;
 			if(visited[child]==false)
 				dfs(child,stack,alist,visited);
@@ -64,7 +79,7 @@ public class ShortestDistanceWeighted {
 		
 		Scanner sc=new Scanner(System.in);
 		
-		ArrayList<ArrayList<Pair2>> alist = new ArrayList<ArrayList<Pair2>>();
+		ArrayList<ArrayList<Pair>> alist = new ArrayList<ArrayList<Pair>>();
 		
 		System.out.println("Enter the no.of nodes and edges");
 		int n=sc.nextInt();
@@ -80,7 +95,7 @@ public class ShortestDistanceWeighted {
 			int v=sc.nextInt();
 			int weight=sc.nextInt();
 			
-			alist.get(u).add(new Pair2(v, weight));
+			alist.get(u).add(new Pair(v, weight));
 			
 		}
 		

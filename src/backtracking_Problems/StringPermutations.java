@@ -41,7 +41,7 @@ public class StringPermutations {
 	
 	public static void main(String[] args) {
 		
-		String str="abbcb";
+		String str="123";
 		//char[] arr=str.toCharArray();
 		
 		ArrayList<String> list = new ArrayList<String>();
