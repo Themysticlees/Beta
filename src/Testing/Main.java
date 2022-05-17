@@ -96,47 +96,54 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	
-	public List<List<Integer>> permuteUnique(int[] nums) {
+	public int shortestPathBinaryMatrix(int[][] grid) {
+        boolean[][] visited=new boolean[grid.length][grid.length];
         
-        List<List<Integer>> res = new ArrayList<>();
-        int n=nums.length;
-        
-        String str="";
-        for(int i:nums)
-            str+=i;
-            
-        helper(0,str,n,res);
-        return res;
+        helper(0,0,grid,1,visited);
+        if(res)
+            return min;
+        return -1;
     }
     
-    public void helper(int i, String str, int n,List<List<Integer>> res){
-        if(i==n-1){
-            List<Integer> temp = new ArrayList<>();
-            for(int j=0;j<str.length();j++){
-                temp.add(str.charAt(i)-'0');
-            }
-            res.add(temp);
-        }
-        
-        int beg=i;
-        
-        for(;i<n;i++){
-            char[] arr=str.toCharArray();
-            swap(arr,beg,i);
-            str=String.copyValueOf(arr);
-            helper(beg+1,str,n,res);
-        }
-    }
+    boolean res=false;
+    int min=100000;
     
-    public void swap(char[] arr, int i, int j){
-        char temp=arr[i];
-        arr[i]=arr[j];
-        arr[j]=temp;
+    public void helper(int i, int j, int[][] grid, int len, boolean[][] visted){
+        
+        int n=grid.length;
+        
+        if(i<0 || i>=n || j<0 || j>=n || grid[i][j]==1 || visted[i][j]==true)
+            return;
+        
+        visted[i][j]=true;
+        
+        if(i==n-1 && j==n-1){
+            res=true;
+            min=Math.min(min,len);
+            visted[i][j]=false;
+            return;
+        }
+        //left
+        helper(i,j-1,grid,len+1,visted);
+        //right
+        helper(i,j+1,grid,len+1,visted);
+        //up
+        helper(i-1,j,grid,len+1,visted);
+        //down
+        helper(i+1,j,grid,len+1,visted);
+        //top left
+        helper(i-1,j-1,grid,len+1,visted);
+        //bottom left
+        helper(i+1,j-1,grid,len+1,visted);
+        //top right
+        helper(i-1,j+1,grid,len+1,visted);
+        //bottom right
+        helper(i+1,j+1,grid,len+1,visted);
+        
+        visted[i][j]=false;
     }
-	
 
-//-------------------------------------------------------------------------------------------------------//
+	//-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
 		Scanner sc=new Scanner(System.in);
@@ -183,7 +190,8 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		
+		int[][] arr= {{0,0,0},{1,1,0},{1,1,0}};
+		ob.shortestPathBinaryMatrix(arr);
 		
 	}
 	

@@ -7,7 +7,7 @@ import Testing.Main;
  */
 public class Dijkstras_Algorithm {
 	//We'll put the nodes in a priority queue (Min heap) instead of queue because we want 
-	//to find the route using the nodes which has less weight until now
+	//to find the route using the nodes which has less weight until1 now
 	public static int[] dijkstrasAlgo(int s,ArrayList<ArrayList<Pair>> alist, int n, int[] par) {
 			
 		int[] dis = new int [n];
