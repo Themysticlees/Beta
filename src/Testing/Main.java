@@ -96,54 +96,35 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public int shortestPathBinaryMatrix(int[][] grid) {
-        boolean[][] visited=new boolean[grid.length][grid.length];
+	ArrayList<String> permutation(String S){
+        // Code Here
+        ArrayList<String> res = new ArrayList<>();
         
-        helper(0,0,grid,1,visited);
-        if(res)
-            return min;
-        return -1;
+        helper(S,res,"");
+        return res;
     }
     
-    boolean res=false;
-    int min=100000;
-    
-    public void helper(int i, int j, int[][] grid, int len, boolean[][] visted){
+    public void helper(String S, ArrayList<String> ans, String res){
         
-        int n=grid.length;
-        
-        if(i<0 || i>=n || j<0 || j>=n || grid[i][j]==1 || visted[i][j]==true)
-            return;
-        
-        visted[i][j]=true;
-        
-        if(i==n-1 && j==n-1){
-            res=true;
-            min=Math.min(min,len);
-            visted[i][j]=false;
+        if(S.length()==0)
+        {
+            ans.add(res);
             return;
         }
-        //left
-        helper(i,j-1,grid,len+1,visted);
-        //right
-        helper(i,j+1,grid,len+1,visted);
-        //up
-        helper(i-1,j,grid,len+1,visted);
-        //down
-        helper(i+1,j,grid,len+1,visted);
-        //top left
-        helper(i-1,j-1,grid,len+1,visted);
-        //bottom left
-        helper(i+1,j-1,grid,len+1,visted);
-        //top right
-        helper(i-1,j+1,grid,len+1,visted);
-        //bottom right
-        helper(i+1,j+1,grid,len+1,visted);
         
-        visted[i][j]=false;
+        String temp="";
+        for(int i=0;i<S.length();i++){
+            temp+=S.charAt(i);
+            
+            if(i==S.length()-1)
+            	helper(S.substring(i+1),ans,res+temp);
+            else
+                helper(S.substring(i+1),ans,res+temp+" ");
+
+        }
     }
 
-	//-------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
 		Scanner sc=new Scanner(System.in);
@@ -190,8 +171,7 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[][] arr= {{0,0,0},{1,1,0},{1,1,0}};
-		ob.shortestPathBinaryMatrix(arr);
+		System.out.println(ob.permutation("ABCD"));
 		
 	}
 	
