@@ -96,33 +96,34 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	ArrayList<String> permutation(String S){
-        // Code Here
-        ArrayList<String> res = new ArrayList<>();
-        
-        helper(S,res,"");
-        return res;
-    }
-    
-    public void helper(String S, ArrayList<String> ans, String res){
-        
-        if(S.length()==0)
-        {
-            ans.add(res);
-            return;
-        }
-        
-        String temp="";
-        for(int i=0;i<S.length();i++){
-            temp+=S.charAt(i);
-            
-            if(i==S.length()-1)
-            	helper(S.substring(i+1),ans,res+temp);
-            else
-                helper(S.substring(i+1),ans,res+temp+" ");
+		
+	 String findAndReplace(String s, int q, int[] index, String[] sources,
+            String[] targets) {
+		// code here
 
-        }
-    }
+		int n=s.length();
+		int k=0;
+		String ans="";
+		for(int i=0;i<n;i++){
+		
+			if(k<q && i==index[k]){
+			
+				int newlen=sources[k].length();
+				
+				String tempOriginal = s.substring(i,i+newlen);
+				
+				if(tempOriginal.equals(sources[k])){
+					ans+=targets[k];
+					i+=newlen-1;
+				}
+				k++;
+			}
+			else
+				ans+=s.charAt(i);
+		}
+		
+		return ans;
+	}
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -171,7 +172,13 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		System.out.println(ob.permutation("ABCD"));
+		String S = "gforks";
+		int Q = 2;
+		int index[] = {0, 4};
+		String sources[] = {"g", "ks"};
+		String targets[] = {"geeks", "geeks"};
+		
+		System.out.println(ob.findAndReplace(S, Q, index, sources, targets));
 		
 	}
 	

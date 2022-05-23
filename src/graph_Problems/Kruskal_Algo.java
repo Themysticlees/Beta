@@ -5,6 +5,8 @@ public class Kruskal_Algo {
 	
 	public static int createMST(ArrayList<Node2> alist, DisjointSets obj) {
 		
+		//This list contains all the edges along with their weights
+		//We sort them acc to their weights and will greedily iterate through the list
 		Collections.sort(alist, new Comparator<Node2>() {
 
 			@Override
@@ -16,12 +18,15 @@ public class Kruskal_Algo {
 		});
 		
 		int total=0;
-		
+		//iterate through the list
 		for(Node2 i:alist) {
 			int u=i.u;
 			int v=i.v;
 			int weight=i.weight;
 			
+			//if both the nodes have different parent then make a union and print them
+			//if they have the same parent then by joining them we'll create a cycle 
+			//and thus we are taking the min weights we'll make the MST at the end
 			if(obj.findPar(u)!=obj.findPar(v)) {
 				obj.union(u, v);
 				System.out.println(u+"->"+v);
