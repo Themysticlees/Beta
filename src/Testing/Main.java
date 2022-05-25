@@ -96,34 +96,26 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-		
-	 String findAndReplace(String s, int q, int[] index, String[] sources,
-            String[] targets) {
-		// code here
-
-		int n=s.length();
-		int k=0;
-		String ans="";
-		for(int i=0;i<n;i++){
-		
-			if(k<q && i==index[k]){
-			
-				int newlen=sources[k].length();
-				
-				String tempOriginal = s.substring(i,i+newlen);
-				
-				if(tempOriginal.equals(sources[k])){
-					ans+=targets[k];
-					i+=newlen-1;
-				}
-				k++;
-			}
-			else
-				ans+=s.charAt(i);
-		}
-		
-		return ans;
-	}
+	public int maxEnvelopes(int[][] envelopes) {
+        
+        Arrays.sort(envelopes, new Comparator<int[]>(){
+           
+            public int compare(int[] a, int[] b){
+                
+                if(a[0]==b[0])
+                	return a[1]-b[1];
+                return a[0]-b[0];
+            }
+        });
+        int count=1;
+        
+        for(int i=0;i<envelopes.length-1;i++){
+            if(envelopes[i][0]<envelopes[i+1][0] && envelopes[i][1]<envelopes[i+1][1])
+                count++;
+        }
+        
+        return count;
+    }
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -172,14 +164,9 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		String S = "gforks";
-		int Q = 2;
-		int index[] = {0, 4};
-		String sources[] = {"g", "ks"};
-		String targets[] = {"geeks", "geeks"};
+		int[][] a= {{5,4},{6,4},{6,7},{2,3}};
 		
-		System.out.println(ob.findAndReplace(S, Q, index, sources, targets));
-		
+		System.out.println(ob.maxEnvelopes(a));
 	}
 	
 }

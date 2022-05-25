@@ -8,7 +8,8 @@ public class Topological_Sort {
     {
         // add your code here
 		//We are using stack to store the elements 
-		//Elements which come at the last and have no children  will be added first thus fulfilling our conditions
+		//Elements which come at the last and have no children  will be added first thus fulfilling 
+		//our conditions
         Stack<Integer> stack=new Stack<>();
         int n=adj.size();
         boolean[] visited=new boolean[n];
