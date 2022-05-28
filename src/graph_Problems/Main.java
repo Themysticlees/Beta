@@ -33,7 +33,7 @@ class MyGraph {
 	
 	public void addEdge(int u, int v) {
 		alist.get(u).add(v);
-		//alist.get(v).add(u);
+		alist.get(v).add(u);
 	}
 	
 	public void DFS(int s) {
@@ -59,8 +59,49 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 
-	
+	int timer=0;
+	Set<Integer> set = new HashSet<>();
+	public void findArticulationPoints() {
+		
+		boolean[] visited=new boolean[n+1];
+		int[] in=new int[n+1];
+		int[] low=new int[n+1];
+		
+		for(int i=1;i<=n;i++) {
+			if(visited[i]==false)
+				dfs(i,visited, in , low,-1);
+		}
+		
+		System.out.println(set);
+ 		
+	}
+	public void dfs(int s, boolean[] visited, int[] in, int[] low, int par) {
+		// TODO Auto-generated method stub
+		visited[s]=true;
+		in[s]=low[s]=timer++;
+		
+		for(int child:alist.get(s)) {
+			if(child==par)
+				continue;
+			if(visited[child]) {
+				low[s]=Math.min(low[s], in[child]);
+			}
+			else {
+				dfs(child,visited,in,low,s);
+				
+				if(low[child]>in[s]) {
+					set.add(child);
+					set.add(s);
+				}
+				
+				low[s]=Math.min(low[s], low[child]);
+			}
+		}
+		
+	}
 //---------------------------------------------------------------------------------------------------
+
+	
 	
 }
 
@@ -70,7 +111,7 @@ public class Main{
 		
 		MyGraph graph = new MyGraph();
 		
-		
+		graph.findArticulationPoints();
 	}
 }
 

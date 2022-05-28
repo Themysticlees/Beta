@@ -96,25 +96,32 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public int maxEnvelopes(int[][] envelopes) {
+	static int maxZero(int N, ArrayList<Integer> X, ArrayList<Integer> Y) {
+        // Write your code here
         
-        Arrays.sort(envelopes, new Comparator<int[]>(){
-           
-            public int compare(int[] a, int[] b){
-                
-                if(a[0]==b[0])
-                	return a[1]-b[1];
-                return a[0]-b[0];
-            }
-        });
-        int count=1;
+        Map<Double,Integer> map = new HashMap<>();
         
-        for(int i=0;i<envelopes.length-1;i++){
-            if(envelopes[i][0]<envelopes[i+1][0] && envelopes[i][1]<envelopes[i+1][1])
-                count++;
+        int n=X.size();
+        
+        for(int i=0;i<n;i++){
+            double xi=X.get(i);
+            double yi=Y.get(i);
+            
+            if(xi==0 && yi!=0)
+            	continue;
+            double A=(-yi)/xi;
+            if(A==-0.0)
+            	A=0.0;
+            map.putIfAbsent(A,0);
+            map.put(A,map.get(A)+1);
         }
         
-        return count;
+        int max=-1;
+        for(Double i:map.keySet()){
+            max=Math.max(max,map.get(i));
+        }
+        
+        return max;
     }
 
 //-------------------------------------------------------------------------------------------------------//
@@ -164,9 +171,21 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[][] a= {{5,4},{6,4},{6,7},{2,3}};
+		ArrayList<Integer> x=new ArrayList<Integer>();
 		
-		System.out.println(ob.maxEnvelopes(a));
+		ArrayList<Integer> y=new ArrayList<Integer>();
+		
+		for(int i=0;i<9;i++) {
+			x.add(sc.nextInt());
+		}
+		for(int i=0;i<9;i++) {
+			y.add(sc.nextInt());
+		}
+		
+
+		
+		System.out.println(maxZero(x.size(), x, y));
+
 	}
 	
 }
