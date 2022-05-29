@@ -96,33 +96,95 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	static int maxZero(int N, ArrayList<Integer> X, ArrayList<Integer> Y) {
-        // Write your code here
+	static void formCoils(int n) {
+        // code here
+        int len=4*n;
         
-        Map<Double,Integer> map = new HashMap<>();
+        int[][] matrix=new int[len][len];
         
-        int n=X.size();
+        int x=1;
+        for(int i=0;i<len;i++){
+            for(int j=0;j<len;j++){
+                matrix[i][j]=x++;
+            }
+        }
         
-        for(int i=0;i<n;i++){
-            double xi=X.get(i);
-            double yi=Y.get(i);
+        int[][] ans = new int[2][8*n*n];
+        int index1=ans[0].length-1;
+        int index2=ans[0].length-1;
+        
+        
+        int left=0,right=len-1;
+        int top=0,down=len-1;
+        
+        int turn=0;
+        
+        while(top<down && left<right){
             
-            if(xi==0 && yi!=0)
-            	continue;
-            double A=(-yi)/xi;
-            if(A==-0.0)
-            	A=0.0;
-            map.putIfAbsent(A,0);
-            map.put(A,map.get(A)+1);
+            if(turn==0){
+                
+                for(int i=top;i<=down;i++){
+                	ans[1][index2--]=matrix[i][left];
+                   
+                }
+                left++;
+                
+                for(int i=down;i>=top;i--){
+                	ans[0][index1--]=matrix[i][right];
+                    
+                }
+                right--;
+            }
+            
+            else if(turn == 1){
+                
+                for(int i=left;i<=right;i++){
+                	ans[1][index2--]=matrix[down][i];
+                    
+                }
+                down--;
+                
+                for(int i=right;i>=left;i--){
+                	ans[0][index1--]=matrix[top][i];
+                    
+                }
+                top++;
+            }
+            
+            else if(turn==2){
+                
+                for(int i=down;i>=top;i--){
+                	ans[1][index2--]=matrix[i][right];
+                    
+                }
+                right--;
+                
+                for(int i=top;i<=down;i++){
+                	ans[0][index1--]=matrix[i][left];
+                    
+                }
+                left++;
+            }
+            else if(turn ==3){
+                
+                for(int i=right;i>=left;i--){
+                	ans[1][index2--]=matrix[top][i];
+                    
+                }
+                top++;
+                
+                for(int i=left;i<=right;i++){
+                	ans[0][index1--]=matrix[down][i];
+                    
+                }
+                down--;
+            }
+            
+            turn=(turn+1)%4;
         }
         
-        int max=-1;
-        for(Double i:map.keySet()){
-            max=Math.max(max,map.get(i));
-        }
-        
-        return max;
     }
+    
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -171,20 +233,7 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		ArrayList<Integer> x=new ArrayList<Integer>();
-		
-		ArrayList<Integer> y=new ArrayList<Integer>();
-		
-		for(int i=0;i<9;i++) {
-			x.add(sc.nextInt());
-		}
-		for(int i=0;i<9;i++) {
-			y.add(sc.nextInt());
-		}
-		
-
-		
-		System.out.println(maxZero(x.size(), x, y));
+		formCoils(2);
 
 	}
 	
