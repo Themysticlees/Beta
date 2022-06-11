@@ -33,7 +33,7 @@ class MyGraph {
 	
 	public void addEdge(int u, int v) {
 		alist.get(u).add(v);
-		alist.get(v).add(u);
+		//alist.get(v).add(u);
 	}
 	
 	public void DFS(int s) {
@@ -59,49 +59,57 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 
-	int timer=0;
-	Set<Integer> set = new HashSet<>();
-	public void findArticulationPoints() {
+	int[] topoSort() 
+    {
+        // add your code here
+        int[] in = new int[n+1];
+		indegree(n,in,alist);
 		
-		boolean[] visited=new boolean[n+1];
-		int[] in=new int[n+1];
-		int[] low=new int[n+1];
+		PriorityQueue<Integer> queue=new PriorityQueue<>(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				// TODO Auto-generated method stub
+				return o1-o2;
+			}
+			
+		});
 		
 		for(int i=1;i<=n;i++) {
-			if(visited[i]==false)
-				dfs(i,visited, in , low,-1);
+			//First we'll insert the starting nodes in the queue
+			//as they don't have any parents
+			if(in[i]==0)
+				queue.add(i);
 		}
+		int[] res=new int[n+1];
+		int k=0;
 		
-		System.out.println(set);
- 		
-	}
-	public void dfs(int s, boolean[] visited, int[] in, int[] low, int par) {
-		// TODO Auto-generated method stub
-		visited[s]=true;
-		in[s]=low[s]=timer++;
+		while(!queue.isEmpty()) {
+			int curr=queue.poll();
+			res[k++]=curr;
+			//now remove the edge which this particular node is connected with
+			//thus removing it's indegree to get the next node which has no parents remaining
+			//This is how we'll get a linear order
+			for(int child:alist.get(curr)) {
+				in[child]--;
+				if(in[child]==0)
+					queue.add(child);
+			}
+		}
+		return res;
+    }
+    
+    public static void indegree(int n,int[] in,ArrayList<ArrayList<Integer>> alist) {
 		
-		for(int child:alist.get(s)) {
-			if(child==par)
-				continue;
-			if(visited[child]) {
-				low[s]=Math.min(low[s], in[child]);
-			}
-			else {
-				dfs(child,visited,in,low,s);
-				
-				if(low[child]>in[s]) {
-					set.add(child);
-					set.add(s);
-				}
-				
-				low[s]=Math.min(low[s], low[child]);
-			}
+		for(int i=1;i<=n;i++) {
+			//we'll increase the indegree of the children as they have an incoming edgeb  
+			for(int child:alist.get(i))
+				in[child]++;
 		}
 		
 	}
 //---------------------------------------------------------------------------------------------------
 
-	
 	
 }
 
@@ -111,7 +119,8 @@ public class Main{
 		
 		MyGraph graph = new MyGraph();
 		
-		graph.findArticulationPoints();
+		Testing.Main.printArray(graph.topoSort());
+		
 	}
 }
 

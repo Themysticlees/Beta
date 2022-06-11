@@ -8,13 +8,22 @@ import java.util.*;
 //Thus we'll maintain the linear order
 public class Kahn_Algo {
 	
-	static int[] topoSort(int n, ArrayList<ArrayList<Integer>> alist) 
+	int[] topoSort(int n, ArrayList<ArrayList<Integer>> alist) 
     {
         // add your code here
         int[] in = new int[n];
 		indegree(n,in,alist);
 		
-		Queue<Integer> queue=new LinkedList<>();
+		//for storing the topo sort in a lexographical order
+		PriorityQueue<Integer> queue=new PriorityQueue<>(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				// TODO Auto-generated method stub
+				return o1-o2;
+			}
+			
+		});
 		
 		for(int i=0;i<n;i++) {
 			//First we'll insert the starting nodes in the queue
@@ -37,6 +46,8 @@ public class Kahn_Algo {
 					queue.add(child);
 			}
 		}
+		
+		//if the size of res is not equal to n then the graph contains a cycle
 		return res;
     }
     

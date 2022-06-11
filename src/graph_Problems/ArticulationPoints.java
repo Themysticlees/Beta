@@ -4,11 +4,24 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 //Articulation points are those which when removed increases the no.of components
-//This is similar to finding bridges
-//The only difference is this time we have to store all the nodes which form a bridge
-//we are using set because same node may form multiple bridges so to avoid that we are storing 
-//the nodes in a set rather than printing them
+/*
+ * 1. End points of a bridge will be an articulation point if that node has degree atleast two
+ * 2. It is not necessary for an articulation point to be an endpoint of a bridge
+ * 3. Finding Bridges algo cannot be used to find articulation points
+ * 
+ * If the low of the child node is bigger or equal to the in time of the parent node
+ * then the parent node is an articulation point, the reason is if we remove the parent node then there 
+ * would be no other path left for the chil nodes as the low time of the child is equal or more than in time
+ * of parent
+ * 
+ * The root will always have it's in time less or equal to the child nodes but it doesnt mean it always has
+ * to be an articulation point, for the root we'll write another condition.
+ * If the root have more more than 1 distinct branches (branches which donot connect) then we can say
+ * the root is an articulation point
+ */
 public class ArticulationPoints {
 	
 	ArrayList<ArrayList<Integer>> alist = new ArrayList<>();
@@ -36,6 +49,8 @@ public class ArticulationPoints {
 		visited[s]=true;
 		in[s]=low[s]=timer++;
 		
+		//for calculating the distinct children
+		int children=0;
 		for(int child:alist.get(s)) {
 			if(child==par)
 				continue;
@@ -46,18 +61,24 @@ public class ArticulationPoints {
 			else {
 				dfs(child,visited,in,low,s);
 				
-				//if the low time is less than the in time of the parent node
-				//that means this child node cannot be accessed anywhere above the parent node
-				//thus they are articulation points
-				if(low[child]>in[s]) {
-					set.add(child);
+//				If the low of the child node is bigger or equal to the in time of the parent node
+//				then the parent node is an articulation point,
+				// we'll also exclude the root node from this comparison
+				if(low[child]>=in[s] || par!=-1) {
 					set.add(s);
 				}
 				
 				//reduce the low time of the parent
 				low[s]=Math.min(low[s], low[child]);
+				
+				//if the node makes a dfs call then it is an unique branch
+				children++;
 			}
 		}
+		
+		//for the root node, if it has more than 1 distinct children then it is also an articulation point
+		if(par==-1 && children>1)
+			set.add(s);
 		
 	}
 }

@@ -53,8 +53,9 @@ public class Main{
 		arr[j]=temp;
 	}
 	
-	public static void printArray(int[] arr, int n) {
+	public static void printArray(int[] arr) {
 		
+		int n=arr.length;
 		System.out.print("[");
 		for(int i=0;i<n-1;i++)
 			System.out.print(arr[i]+" ,");
@@ -96,95 +97,48 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	static void formCoils(int n) {
-        // code here
-        int len=4*n;
+	
+	public long countSubarrays(int[] nums, long k) {
         
-        int[][] matrix=new int[len][len];
+        int n=nums.length;
         
-        int x=1;
-        for(int i=0;i<len;i++){
-            for(int j=0;j<len;j++){
-                matrix[i][j]=x++;
-            }
+        int[] prefix=new int[n];
+        
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=nums[i];
+            prefix[i]=sum;
         }
         
-        int[][] ans = new int[2][8*n*n];
-        int index1=ans[0].length-1;
-        int index2=ans[0].length-1;
-        
-        
-        int left=0,right=len-1;
-        int top=0,down=len-1;
-        
-        int turn=0;
-        
-        while(top<down && left<right){
+        int start=0,end=0;
+        int count=0;
+        int sum1=0;
+        while(start<=end && end<n){
             
-            if(turn==0){
-                
-                for(int i=top;i<=down;i++){
-                	ans[1][index2--]=matrix[i][left];
-                   
-                }
-                left++;
-                
-                for(int i=down;i>=top;i--){
-                	ans[0][index1--]=matrix[i][right];
-                    
-                }
-                right--;
+            sum1+=nums[end];
+            
+            // for(int i=start;i<=end;i++){
+            //     sum1+nums[i];
+            // }
+            
+            long ans=sum1*(end-start+1);
+            
+            while(ans>=k){
+                sum1-=nums[start++];
+                ans=sum1*(end-start+1);
             }
             
-            else if(turn == 1){
-                
-                for(int i=left;i<=right;i++){
-                	ans[1][index2--]=matrix[down][i];
-                    
-                }
-                down--;
-                
-                for(int i=right;i>=left;i--){
-                	ans[0][index1--]=matrix[top][i];
-                    
-                }
-                top++;
+            if(ans<k){
+                count+=end-start+1;
+                end++;
             }
             
-            else if(turn==2){
-                
-                for(int i=down;i>=top;i--){
-                	ans[1][index2--]=matrix[i][right];
-                    
-                }
-                right--;
-                
-                for(int i=top;i<=down;i++){
-                	ans[0][index1--]=matrix[i][left];
-                    
-                }
-                left++;
-            }
-            else if(turn ==3){
-                
-                for(int i=right;i>=left;i--){
-                	ans[1][index2--]=matrix[top][i];
-                    
-                }
-                top++;
-                
-                for(int i=left;i<=right;i++){
-                	ans[0][index1--]=matrix[down][i];
-                    
-                }
-                down--;
-            }
             
-            turn=(turn+1)%4;
+            
         }
+        return count;
         
     }
-    
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -233,7 +187,9 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		formCoils(2);
+		int[]arr= {9,5,3,8,4,7,2,7,4,5,4,9,1,4,8,10,8,10,4,7};
+		ob.countSubarrays(arr, 4);
+		
 
 	}
 	

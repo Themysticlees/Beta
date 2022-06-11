@@ -86,8 +86,8 @@ public class Dijkstras_Algorithm {
 		int[] dis = dijkstrasAlgo(1, alist, n,par);
 		
 		
-		Main.printArray(par, n);
-		Main.printArray(dis, n);
+		Main.printArray(par);
+		Main.printArray(dis);
 		
 		int des=5;
 		System.out.print("Shortest Distance \n"+des+"->");
