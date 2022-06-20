@@ -97,49 +97,45 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	
-	public long countSubarrays(int[] nums, long k) {
+	public static Node reverseBetween(Node head, int m, int n)
+    {
+        //code here
+		Node curr=head;
         
-        int n=nums.length;
-        
-        int[] prefix=new int[n];
-        
-        int sum=0;
-        for(int i=0;i<n;i++){
-            sum+=nums[i];
-            prefix[i]=sum;
-        }
-        
-        int start=0,end=0;
         int count=0;
-        int sum1=0;
-        while(start<=end && end<n){
-            
-            sum1+=nums[end];
-            
-            // for(int i=start;i<=end;i++){
-            //     sum1+nums[i];
-            // }
-            
-            long ans=sum1*(end-start+1);
-            
-            while(ans>=k){
-                sum1-=nums[start++];
-                ans=sum1*(end-start+1);
-            }
-            
-            if(ans<k){
-                count+=end-start+1;
-                end++;
-            }
-            
-            
+        while(count<m-2 && curr!=null){
+            curr=curr.next;
+            count++;
+        }
+        
+        Node start=null;
+        Node prev=null;
+        
+        if(m!=1){
+            start=curr;
+            curr=curr.next;
             
         }
-        return count;
+        Node head2=curr;
+        
+        
+        while(count<n && curr!=null){
+            Node temp=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=temp;
+            count++;
+        }
+        if(m!=1)
+            start.next=prev;
+        else
+        	head=prev;
+        head2.next=curr;
+        
+        return head;
         
     }
-
+	
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
@@ -187,8 +183,19 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[]arr= {9,5,3,8,4,7,2,7,4,5,4,9,1,4,8,10,8,10,4,7};
-		ob.countSubarrays(arr, 4);
+		Node ll=new Node(0);
+		Node curr=ll;
+		int i=0;
+		while(i!=3) {
+			//System.out.println("Enter Node : ");
+			int data=sc.nextInt();
+			Node temp=new Node(data);
+			curr.next=temp;
+			curr=curr.next;
+			i++;
+		}
+		
+		System.out.println(reverseBetween(ll.next, 1, 2));
 		
 
 	}
