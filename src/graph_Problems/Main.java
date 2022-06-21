@@ -50,7 +50,7 @@ class MyGraph {
 			return;
 		
 		visited[s]=true;
-		System.out.print(s+" ");
+		System.out.print(s+"->");
 		
 		for(int i:alist.get(s))
 			DFShelper(i,visited);
@@ -59,55 +59,64 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 
-	int[] topoSort() 
+	int timer=1;
+    ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+    
+    public ArrayList<ArrayList<Integer>> tarjans() 
     {
-        // add your code here
-        int[] in = new int[n+1];
-		indegree(n,in,alist);
-		
-		PriorityQueue<Integer> queue=new PriorityQueue<>(new Comparator<Integer>() {
-
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				// TODO Auto-generated method stub
-				return o1-o2;
-			}
-			
-		});
-		
-		for(int i=1;i<=n;i++) {
-			//First we'll insert the starting nodes in the queue
-			//as they don't have any parents
-			if(in[i]==0)
-				queue.add(i);
-		}
-		int[] res=new int[n+1];
-		int k=0;
-		
-		while(!queue.isEmpty()) {
-			int curr=queue.poll();
-			res[k++]=curr;
-			//now remove the edge which this particular node is connected with
-			//thus removing it's indegree to get the next node which has no parents remaining
-			//This is how we'll get a linear order
-			for(int child:alist.get(curr)) {
-				in[child]--;
-				if(in[child]==0)
-					queue.add(child);
-			}
-		}
-		return res;
+        // code here
+        Stack<Integer> stack = new Stack<>();
+        boolean[] active=new boolean[n];
+        boolean[] visited=new boolean[n];
+        int[] low=new int[n];
+        int[] in=new int[n];
+        
+        for(int i=0;i<n;i++){
+            if(visited[i]==false)
+                dfshelper(i,visited,stack,active,low,in);
+        }
+        // Collections.sort(ans,Collections.reverseOrder());
+        return ans;
     }
     
-    public static void indegree(int n,int[] in,ArrayList<ArrayList<Integer>> alist) {
-		
-		for(int i=1;i<=n;i++) {
-			//we'll increase the indegree of the children as they have an incoming edgeb  
-			for(int child:alist.get(i))
-				in[child]++;
-		}
-		
-	}
+    
+    
+    public void dfshelper(int s, boolean[] visited, Stack<Integer> stack, 
+        boolean[] active, int[] low,int[] in)
+    {
+        in[s]=low[s]=timer++;
+        visited[s]=true;
+        stack.push(s);
+        active[s]=true;
+        
+        for(int child:alist.get(s)){
+            if(visited[child] && active[child]){
+                low[s]=Math.min(low[s],in[child]);
+            }
+            else{
+                dfshelper(child,visited,stack,active,low,in);
+                
+                if(active[child]){
+                    low[s]=Math.min(low[s],low[child]);
+                }
+            }
+        }
+        
+        if(low[s]==in[s]){
+            ArrayList<Integer> temp=new ArrayList<>();
+            while(true){
+                int curr=stack.pop();
+                temp.add(curr);
+                active[curr]=false;
+                if(curr==s)
+                    break;
+            }
+            Collections.sort(temp);
+            ans.add(0,temp);
+        }
+        
+    }
+	
 //---------------------------------------------------------------------------------------------------
 
 	
@@ -118,8 +127,7 @@ public class Main{
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
-		
-		Testing.Main.printArray(graph.topoSort());
+		graph.tarjans();
 		
 	}
 }
