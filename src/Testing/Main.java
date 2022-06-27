@@ -97,42 +97,45 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	public static Node reverseBetween(Node head, int m, int n)
-    {
-        //code here
-		Node curr=head;
+	static int countDistinctSubarray(int arr[], int n) 
+    { 
+        Set<Integer> set = new HashSet<>();
         
-        int count=0;
-        while(count<m-2 && curr!=null){
-            curr=curr.next;
-            count++;
-        }
+        for(int i=0;i<n;i++)
+            set.add(arr[i]);
         
-        Node start=null;
-        Node prev=null;
+        int k=set.size();
+        int left=0,right=0,winsize=0,count=0;
         
-        if(m!=1){
-            start=curr;
-            curr=curr.next;
+        Map<Integer,Integer> map = new HashMap<>();
+        
+        while(left<=right){
+            
+            if(winsize<k && right<n){
+                map.putIfAbsent(arr[right],0);
+                
+                map.put(arr[right],map.get(arr[right])+1);
+                winsize=map.size();
+                right++;
+                
+            }
+            
+            else if(winsize==k){
+            	count+=n-right+1;
+            	
+                map.put(arr[left],map.get(arr[left])-1);
+                if(map.get(arr[left])==0) {
+                	map.remove(arr[left]);
+                    winsize--;
+                }
+                left++;
+            }
+            else
+            	break;
             
         }
-        Node head2=curr;
         
-        
-        while(count<n && curr!=null){
-            Node temp=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=temp;
-            count++;
-        }
-        if(m!=1)
-            start.next=prev;
-        else
-        	head=prev;
-        head2.next=curr;
-        
-        return head;
+        return count;
         
     }
 	
@@ -183,19 +186,8 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		Node ll=new Node(0);
-		Node curr=ll;
-		int i=0;
-		while(i!=3) {
-			//System.out.println("Enter Node : ");
-			int data=sc.nextInt();
-			Node temp=new Node(data);
-			curr.next=temp;
-			curr=curr.next;
-			i++;
-		}
-		
-		System.out.println(reverseBetween(ll.next, 1, 2));
+		int arr[] = {2,2};
+		System.out.println(countDistinctSubarray(arr, arr.length));
 		
 
 	}

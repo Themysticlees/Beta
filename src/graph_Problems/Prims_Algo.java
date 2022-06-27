@@ -12,7 +12,7 @@ public class Prims_Algo {
 		//We need to initialize 3 arrays to store 
 		//key=the current weight to reach the node
 		//par=parent of the node
-		//mst=is the node part of mst
+		//mst=is the node part of mst ? if yes mark it as true otherwise false
 		
 		int [] key = new int[V];
 		int [] par=new int[V];
