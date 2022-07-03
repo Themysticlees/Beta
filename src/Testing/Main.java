@@ -97,45 +97,45 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 	
-	static int countDistinctSubarray(int arr[], int n) 
-    { 
-        Set<Integer> set = new HashSet<>();
+	public int maxArea(int h, int w, int[] horizontalCuts, int[] verticalCuts) {
         
-        for(int i=0;i<n;i++)
-            set.add(arr[i]);
+        int m=horizontalCuts.length;
+        int n=verticalCuts.length;
         
-        int k=set.size();
-        int left=0,right=0,winsize=0,count=0;
+        Arrays.sort(horizontalCuts);
+        Arrays.sort(verticalCuts);
         
-        Map<Integer,Integer> map = new HashMap<>();
+        int maxh=0,maxv=0;
+        int diff=0;
         
-        while(left<=right){
-            
-            if(winsize<k && right<n){
-                map.putIfAbsent(arr[right],0);
-                
-                map.put(arr[right],map.get(arr[right])+1);
-                winsize=map.size();
-                right++;
-                
+        for(int i=0;i<m;i++){
+                        
+            if(i==0){
+                diff=horizontalCuts[i];
             }
             
-            else if(winsize==k){
-            	count+=n-right+1;
-            	
-                map.put(arr[left],map.get(arr[left])-1);
-                if(map.get(arr[left])==0) {
-                	map.remove(arr[left]);
-                    winsize--;
-                }
-                left++;
-            }
             else
-            	break;
+                diff=horizontalCuts[i]-horizontalCuts[i-1];
             
+            maxh=Math.max(maxh,diff);
         }
         
-        return count;
+        maxh=Math.max(maxh,h-horizontalCuts[m-1]);
+        
+        for(int i=0;i<n;i++){
+            
+            if(i==0){
+                diff=verticalCuts[i];
+            }
+            
+            else
+                diff=verticalCuts[i]-verticalCuts[i-1];
+            
+            maxv=Math.max(maxv,diff);
+        }
+        maxv=Math.max(maxv,w-verticalCuts[n-1]);
+        
+        return maxh*maxv % 1000000007;
         
     }
 	
@@ -186,9 +186,10 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int arr[] = {2,2};
-		System.out.println(countDistinctSubarray(arr, arr.length));
+		int[] arr1= {3,1};
+		int[] arr2= {1};
 		
+		System.out.println(ob.maxArea(5,4 , arr1, arr2));
 
 	}
 	
