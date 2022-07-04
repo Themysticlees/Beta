@@ -59,63 +59,58 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 
-	int timer=1;
-    ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
-    
-    public ArrayList<ArrayList<Integer>> tarjans() 
-    {
-        // code here
-        Stack<Integer> stack = new Stack<>();
-        boolean[] active=new boolean[n];
-        boolean[] visited=new boolean[n];
-        int[] low=new int[n];
-        int[] in=new int[n];
-        
-        for(int i=0;i<n;i++){
-            if(visited[i]==false)
-                dfshelper(i,visited,stack,active,low,in);
-        }
-        // Collections.sort(ans,Collections.reverseOrder());
-        return ans;
-    }
-    
-    
-    
-    public void dfshelper(int s, boolean[] visited, Stack<Integer> stack, 
-        boolean[] active, int[] low,int[] in)
-    {
-        in[s]=low[s]=timer++;
-        visited[s]=true;
-        stack.push(s);
-        active[s]=true;
-        
-        for(int child:alist.get(s)){
-            if(visited[child] && active[child]){
-                low[s]=Math.min(low[s],in[child]);
-            }
-            else{
-                dfshelper(child,visited,stack,active,low,in);
-                
-                if(active[child]){
-                    low[s]=Math.min(low[s],low[child]);
-                }
-            }
-        }
-        
-        if(low[s]==in[s]){
-            ArrayList<Integer> temp=new ArrayList<>();
-            while(true){
-                int curr=stack.pop();
-                temp.add(curr);
-                active[curr]=false;
-                if(curr==s)
-                    break;
-            }
-            Collections.sort(temp);
-            ans.add(0,temp);
-        }
-        
-    }
+	public int LCA(int a, int b) {
+		
+		int[] level=new int[n];
+		int[] par=new int[n];
+		Arrays.fill(par, -1);
+		;
+		
+		levelOrderTraversal(0, level,par);
+		
+		return helper(a,b,level,par);
+	}
+	
+	public int helper(int a, int b, int[] level,int[] par) {
+		
+		if(level[b]>level[a])
+			helper(b,a,level,par);
+		
+		int diff=level[a]-level[b];
+		
+		while(diff-->0) {
+			a=par[a];
+		}
+		
+		while(par[a]!=par[b]){
+			a=par[a];
+			b=par[b];
+		}
+		
+		return par[a];
+	
+	}
+
+	int lvl=0;
+	
+	public void levelOrderTraversal(int s,int[] level, int[] par) {
+		
+		Queue<Integer> queue = new LinkedList<>();
+		queue.add(s);
+		lvl++;
+		
+		while(!queue.isEmpty()) {
+			int node=queue.poll();
+			
+			for(int child:alist.get(node)) {
+				level[child]=lvl;
+				par[child]=node;
+			}
+			lvl++;
+		}
+		
+		
+	}
 	
 //---------------------------------------------------------------------------------------------------
 
@@ -127,7 +122,7 @@ public class Main{
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
-		graph.tarjans();
+		
 		
 	}
 }
