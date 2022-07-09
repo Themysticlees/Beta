@@ -6,25 +6,21 @@ import java.util.regex.Pattern;
 
 class Node {
 	 
-	int data;
-	Node left;
-	Node right;
-//	Node next;
-	//char ch;
-	    
-	Node(int d) {
-	    data = d; 
-	    left=null;
-	    right=null;
-//	    next=null;
-	}
-
+	int coeff;
+    int pow;
+    Node next;
+    Node(int a,int b)
+    {
+        coeff=a;
+        pow=b;
+        next=null;
+    }
 	@Override
 	public String toString() {
-		return "Node [data=" + data + ", left=" + left + ", right=" + right + "]";
+		return  coeff + "^" + pow + " + " + next;
 	}
-
-	
+    
+    
 	
 }
 
@@ -96,78 +92,78 @@ public class Main{
 	}
 	
 //-------------------------------------------------------------------------------------------------------//
-	
-	int[] level=new int[10001];
-	int[] par=new int[10001];
-	
-	Node lca(Node root, int n1,int n2)
-	{
-		// Your code here
-		
-		
-		Arrays.fill(par, -1);
-		
-		levelOrderTraversal(root,0,-1);
-		return helper(n1,n2,level,par);
-		
-	}
-	
-	public Node helper(int a, int b, int[] level,int[] par) {
-		
-		if(level[b]>level[a]) {
-			return helper(b,a,level,par);
-		}
-		
-		int diff=level[a]-level[b];
-		
-		while(diff>0) {
-			a=par[a];
-			diff--;
-		}
-		
-		if(a==b)
-		    return new Node(a);
-		    
-		while(par[a]!=par[b]){
-			a=par[a];
-			b=par[b];
-		}
-		
-		return new Node(par[a]);
-	
-	}
-	
-	
-	
-	public void levelOrderTraversal(Node s,int lvl,int parent) {
-		
-		level[s.data]=lvl;
-		par[s.data]=parent;
-		
-		if(s.left!=null)
-		levelOrderTraversal(s.left, lvl+1, s.data);
-		
-		if(s.right!=null)
-		levelOrderTraversal(s.right, lvl+1, s.data);
-		
-	}
-	
-	
-	
-	
+
+	public static Node addPolynomial(Node p1,Node p2)
+    {
+        //Add your code here.
+        
+        Node first=p1;
+        Node second=p2;
+        
+        Node ans=null;
+        Node head=null;
+        
+        while(first!=null && second!=null){
+            
+            if(first.pow==second.pow){
+                first.coeff+=second.coeff;
+                
+                ans.next=first;
+                ans=ans.next;
+                
+                first=first.next;
+                second=second.next;
+            }
+            
+            else if(first.pow>second.pow){
+                if(ans==null){
+                    ans=first;
+                    head=ans;
+                    first=first.next;
+                    continue;
+                }
+                ans.next=first;
+                ans=ans.next;
+                
+                first=first.next;
+            }
+            else{
+                if(ans==null){
+                    ans=second;
+                    head=ans;
+                    second=second.next;
+                    continue;
+                }
+                    
+                ans.next=second;
+                ans=ans.next;
+                second=second.next;
+                
+            }
+        }
+        
+        if(first!=null)
+            ans.next=first;
+        
+        if(second!=null)
+            ans.next=second;
+            
+        
+        return head;
+    }
 	
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
 		Scanner sc=new Scanner(System.in);
 		
-    	Node root=new Node(2);
-		root.left=new Node(1);
-		root.right=new Node(9);
+//    	Node root=new Node(2);
+//		root.left=new Node(1);
+//		root.right=new Node(9);
 //		root.left.left=new Node(5);
 //		root.left.right=new Node(2);
-		root.right.left=new Node(3);
-		root.right.right=new Node(10);
+//		root.right.left=new Node(3);
+//		root.right.right=new Node(10);
 		//root.left.left.left=new Node(8);
 		//root.left.left.right=new Node(19);
 // 		root.left.right.right=new Node(4);
@@ -205,7 +201,15 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		ob.lca(root, 9, 10);
+		Node first=new Node(2,4);
+		first.next=new Node(4,3);
+		first.next.next=new Node(5,1);
+		
+		Node second=new Node(3,3);
+		second.next=new Node(4,2);
+		second.next.next=new Node(2,0);
+		
+		addPolynomial(first, second);
 
 	}
 	
