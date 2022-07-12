@@ -93,63 +93,35 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public static Node addPolynomial(Node p1,Node p2)
-    {
-        //Add your code here.
+	public boolean makesquare(int[] match) {
         
-        Node first=p1;
-        Node second=p2;
+        return helper(0,1,0,match);
+    }
+    
+    public boolean helper(int sideLen, int side, int index, int[] match){
         
-        Node ans=null;
-        Node head=null;
-        
-        while(first!=null && second!=null){
+    	if(side>4)
+    		return false;
+        int len=0;
+        for(int i=index;i<match.length;i++){
+            len+=match[i];
             
-            if(first.pow==second.pow){
-                first.coeff+=second.coeff;
-                
-                ans.next=first;
-                ans=ans.next;
-                
-                first=first.next;
-                second=second.next;
+            if(side==1) {
+	            if(helper(len,side+1,i+1,match))
+	            	return true;
             }
             
-            else if(first.pow>second.pow){
-                if(ans==null){
-                    ans=first;
-                    head=ans;
-                    first=first.next;
-                    continue;
-                }
-                ans.next=first;
-                ans=ans.next;
-                
-                first=first.next;
+            else if(len==sideLen)
+            {
+            	if(side==4 && i==match.length-1)
+            		return true;
+            	else if(helper(len,side+1,i+1,match))
+	            	return true;
             }
-            else{
-                if(ans==null){
-                    ans=second;
-                    head=ans;
-                    second=second.next;
-                    continue;
-                }
-                    
-                ans.next=second;
-                ans=ans.next;
-                second=second.next;
-                
-            }
+            else if(len>sideLen)
+            	return false;
         }
-        
-        if(first!=null)
-            ans.next=first;
-        
-        if(second!=null)
-            ans.next=second;
-            
-        
-        return head;
+        return false;
     }
 	
 //-------------------------------------------------------------------------------------------------------//
@@ -201,15 +173,10 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		Node first=new Node(2,4);
-		first.next=new Node(4,3);
-		first.next.next=new Node(5,1);
+		int[] arr= {1,1,1,2,1,3,3};
+//		int[] arr= {3,3,3,3,4};
 		
-		Node second=new Node(3,3);
-		second.next=new Node(4,2);
-		second.next.next=new Node(2,0);
-		
-		addPolynomial(first, second);
+		System.out.println(ob.makesquare(arr));
 
 	}
 	
