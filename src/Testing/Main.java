@@ -6,21 +6,19 @@ import java.util.regex.Pattern;
 
 class Node {
 	 
-	int coeff;
-    int pow;
-    Node next;
-    Node(int a,int b)
+	int data;
+    Node left, right;
+
+    Node(int item)
     {
-        coeff=a;
-        pow=b;
-        next=null;
+        data = item;
+        left = right = null;
     }
+
 	@Override
 	public String toString() {
-		return  coeff + "^" + pow + " + " + next;
+		return "Node [data=" + data + ", left=" + left + ", right=" + right + "]";
 	}
-    
-    
 	
 }
 
@@ -93,35 +91,47 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public boolean makesquare(int[] match) {
+	public static void transformTree (Node root)
+    {
+        //code here
+        List<Integer> list = new ArrayList<>();
         
-        return helper(0,1,0,match);
+        Map<Integer,Integer> map = new HashMap<>();
+        
+        inorder(root,list,map,1);
+        
+        int sum=0;
+        for(int i=list.size()-1;i>=0;i--){
+            
+            if(i==list.size()-1)
+            {
+                map.put(list.get(i),sum);
+                continue;
+            }
+            
+            sum+=list.get(i+1);
+            map.put(list.get(i),sum);
+            
+        }
+        
+        inorder(root,list,map,2);
+        
     }
     
-    public boolean helper(int sideLen, int side, int index, int[] match){
+    public static void inorder(Node root, List<Integer> list, 
+                                Map<Integer,Integer> map, int choice){
         
-    	if(side>4)
-    		return false;
-        int len=0;
-        for(int i=index;i<match.length;i++){
-            len+=match[i];
+        if(root==null)
+            return;
             
-            if(side==1) {
-	            if(helper(len,side+1,i+1,match))
-	            	return true;
-            }
+        inorder(root.left,list,map,choice);
+        if(choice==1)
+            list.add(root.data);
+        
+        else if(choice==2)
+            root.data=map.get(root.data);
             
-            else if(len==sideLen)
-            {
-            	if(side==4 && i==match.length-1)
-            		return true;
-            	else if(helper(len,side+1,i+1,match))
-	            	return true;
-            }
-            else if(len>sideLen)
-            	return false;
-        }
-        return false;
+        inorder(root.right,list,map,choice);
     }
 	
 //-------------------------------------------------------------------------------------------------------//
@@ -129,17 +139,19 @@ public class Main{
     		
 		Scanner sc=new Scanner(System.in);
 		
-//    	Node root=new Node(2);
-//		root.left=new Node(1);
-//		root.right=new Node(9);
+    	Node root=new Node(2);
+		root.left=new Node(1);
+		root.right=new Node(6);
 //		root.left.left=new Node(5);
 //		root.left.right=new Node(2);
-//		root.right.left=new Node(3);
-//		root.right.right=new Node(10);
+		root.right.left=new Node(3);
+		root.right.right=new Node(7);
 		//root.left.left.left=new Node(8);
 		//root.left.left.right=new Node(19);
 // 		root.left.right.right=new Node(4);
-// 		root.right.left.left=new Node(8);
+// 		root.right.left.left=new Node(2);
+// 		root.right.left.right=new Node(11);
+// 		root.right.left.left.right=new Node(4);
 // 		root.right.right.right=new Node(12);
 		
 		
@@ -173,10 +185,9 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[] arr= {1,1,1,2,1,3,3};
-//		int[] arr= {3,3,3,3,4};
+		//Node root=createTree();
+		transformTree(root);
 		
-		System.out.println(ob.makesquare(arr));
 
 	}
 	
