@@ -91,47 +91,48 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public static void transformTree (Node root)
-    {
-        //code here
-        List<Integer> list = new ArrayList<>();
+	public int numMatchingSubseq(String s, String[] words) {
         
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<Character,List<Integer>> map=new HashMap<>();
         
-        inorder(root,list,map,1);
-        
-        int sum=0;
-        for(int i=list.size()-1;i>=0;i--){
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
             
-            if(i==list.size()-1)
-            {
-                map.put(list.get(i),sum);
-                continue;
-            }
-            
-            sum+=list.get(i+1);
-            map.put(list.get(i),sum);
-            
+            map.putIfAbsent(ch,new ArrayList<>());
+            List<Integer> temp=map.get(ch);
+            temp.add(i);
+            map.put(ch,temp);
         }
+        int count=0;
         
-        inorder(root,list,map,2);
-        
-    }
-    
-    public static void inorder(Node root, List<Integer> list, 
-                                Map<Integer,Integer> map, int choice){
-        
-        if(root==null)
-            return;
+        //word array loop
+        for(int i=0;i<words.length;i++){
+            String curr=words[i];
             
-        inorder(root.left,list,map,choice);
-        if(choice==1)
-            list.add(root.data);
-        
-        else if(choice==2)
-            root.data=map.get(root.data);
+            int pos=-1;
+            int f=0;
             
-        inorder(root.right,list,map,choice);
+            //each word loop
+            for(int j=0;j<curr.length();j++){
+                char ch=curr.charAt(j);
+                f=0;
+                List<Integer> list = map.get(ch);
+                
+                //each character occurences loop
+                for(int k=0;k<list.size();k++){
+                    if(list.get(k)>pos){
+                        pos=list.get(k);
+                        f=1;
+                        break;
+                    }
+                }
+                if(f==0)
+                    break;
+            }
+            if(f==1)
+                count++;
+        }
+        return count;
     }
 	
 //-------------------------------------------------------------------------------------------------------//
@@ -185,9 +186,11 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		//Node root=createTree();
-		transformTree(root);
 		
+		String words[]= {"a","bb","acd","ace"};
+		String str="abcde";
+		
+		System.out.println(ob.numMatchingSubseq(str, words));
 
 	}
 	

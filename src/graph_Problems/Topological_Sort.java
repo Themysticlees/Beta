@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Topological_Sort {
 	//Only for DAG (Directed Acyclic Graph)
-	//If there exists between u and v (u->v), then u must appear before v in the sorted order.
+	//If there exists an edge between u and v (u->v), then u must appear before v in the sorted order.
 	static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
