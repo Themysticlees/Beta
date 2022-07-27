@@ -59,58 +59,7 @@ class MyGraph {
 	
 //-------------------------------------------------------------------------------------------------------
 
-	public int LCA(int a, int b) {
-		
-		int[] level=new int[n];
-		int[] par=new int[n];
-		Arrays.fill(par, -1);
-		;
-		
-		levelOrderTraversal(0, level,par);
-		
-		return helper(a,b,level,par);
-	}
 	
-	public int helper(int a, int b, int[] level,int[] par) {
-		
-		if(level[b]>level[a])
-			helper(b,a,level,par);
-		
-		int diff=level[a]-level[b];
-		
-		while(diff-->0) {
-			a=par[a];
-		}
-		
-		while(par[a]!=par[b]){
-			a=par[a];
-			b=par[b];
-		}
-		
-		return par[a];
-	
-	}
-
-	int lvl=0;
-	
-	public void levelOrderTraversal(int s,int[] level, int[] par) {
-		
-		Queue<Integer> queue = new LinkedList<>();
-		queue.add(s);
-		lvl++;
-		
-		while(!queue.isEmpty()) {
-			int node=queue.poll();
-			
-			for(int child:alist.get(node)) {
-				level[child]=lvl;
-				par[child]=node;
-			}
-			lvl++;
-		}
-		
-		
-	}
 	
 //---------------------------------------------------------------------------------------------------
 
@@ -118,12 +67,38 @@ class MyGraph {
 }
 
 public class Main{
+	
+	
+	
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		
 		MyGraph graph = new MyGraph();
 		
+//		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+//		
+//		
+//		int con=1;
+//		while(con==1) {
+//			
+//			int u=sc.nextInt();
+//			int v=sc.nextInt();
+//			int w=sc.nextInt();
+//			
+//			ArrayList<Integer> temp = new ArrayList<Integer>();
+//			temp.add(u);
+//			temp.add(v);
+//			temp.add(w);
+//			
+//			adj.add(temp);
+//			
+//			//System.out.println("Do you want to continue ? (1/0)");
+//			
+//			con=sc.nextInt();
+//		}
 		
+		
+	
 	}
 }
 

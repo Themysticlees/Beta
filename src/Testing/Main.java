@@ -7,18 +7,20 @@ import java.util.regex.Pattern;
 class Node {
 	 
 	int data;
-    Node left, right;
+    Node next;
 
     Node(int item)
     {
         data = item;
-        left = right = null;
+        next=null;
     }
 
 	@Override
 	public String toString() {
-		return "Node [data=" + data + ", left=" + left + ", right=" + right + "]";
+		return "Node [data=" + data + ", next=" + next + "]";
 	}
+
+	
 	
 }
 
@@ -91,48 +93,37 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public int numMatchingSubseq(String s, String[] words) {
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         
-        Map<Character,List<Integer>> map=new HashMap<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> ds=new ArrayList<>();
         
-        for(int i=0;i<s.length();i++){
-            char ch = s.charAt(i);
-            
-            map.putIfAbsent(ch,new ArrayList<>());
-            List<Integer> temp=map.get(ch);
-            temp.add(i);
-            map.put(ch,temp);
+        Arrays.sort(candidates);
+        
+        helper(0,ans,ds,target,candidates,candidates.length);
+        
+        return ans;
+    }
+    
+    public void helper(int i,List<List<Integer>> ans,List<Integer> ds,int target,int[] can,int n){
+        
+        if(target==0)
+        {
+            ans.add(new ArrayList<>(ds));
+            return;
         }
-        int count=0;
         
-        //word array loop
-        for(int i=0;i<words.length;i++){
-            String curr=words[i];
+        for(int j=i;j<n;j++){
+            if(j!=i && can[j]==can[j-1])
+                continue;
             
-            int pos=-1;
-            int f=0;
+            if(can[j]>target)
+                break;
             
-            //each word loop
-            for(int j=0;j<curr.length();j++){
-                char ch=curr.charAt(j);
-                f=0;
-                List<Integer> list = map.get(ch);
-                
-                //each character occurences loop
-                for(int k=0;k<list.size();k++){
-                    if(list.get(k)>pos){
-                        pos=list.get(k);
-                        f=1;
-                        break;
-                    }
-                }
-                if(f==0)
-                    break;
-            }
-            if(f==1)
-                count++;
+            ds.add(can[j]);
+            helper(j+1,ans,ds,target-can[j],can,n);
+            ds.remove(ds.size()-1);
         }
-        return count;
     }
 	
 //-------------------------------------------------------------------------------------------------------//
@@ -140,13 +131,13 @@ public class Main{
     		
 		Scanner sc=new Scanner(System.in);
 		
-    	Node root=new Node(2);
-		root.left=new Node(1);
-		root.right=new Node(6);
+//    	Node root=new Node(2);
+//		root.left=new Node(1);
+//		root.right=new Node(6);
 //		root.left.left=new Node(5);
 //		root.left.right=new Node(2);
-		root.right.left=new Node(3);
-		root.right.right=new Node(7);
+//		root.right.left=new Node(3);
+//		root.right.right=new Node(7);
 		//root.left.left.left=new Node(8);
 		//root.left.left.right=new Node(19);
 // 		root.left.right.right=new Node(4);
@@ -186,11 +177,10 @@ public class Main{
 		
 		Main ob = new Main();
 		
+		int[] arr= {10,1,2,7,6,1,5};
+		System.out.println(ob.combinationSum2(arr, 8));
 		
-		String words[]= {"a","bb","acd","ace"};
-		String str="abcde";
 		
-		System.out.println(ob.numMatchingSubseq(str, words));
 
 	}
 	
