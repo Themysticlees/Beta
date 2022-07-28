@@ -43,8 +43,8 @@ class Pair{
 
 public class Main{
 	
-	public static void swap(int[] arr, int i, int j) {
-		int temp=arr[i];
+	public static void swap(char[] arr, int i, int j) {
+		char temp=arr[i];
 		arr[i]=arr[j];
 		arr[j]=temp;
 	}
@@ -93,39 +93,43 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+	public boolean graphColoring(boolean graph[][], int m, int n) {
+        // Your code here
         
-        List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> ds=new ArrayList<>();
+        int[] color=new int[n];
+        Arrays.fill(color,-1);
         
-        Arrays.sort(candidates);
-        
-        helper(0,ans,ds,target,candidates,candidates.length);
-        
-        return ans;
+        return helper(0,graph,color, m,n);
     }
     
-    public void helper(int i,List<List<Integer>> ans,List<Integer> ds,int target,int[] can,int n){
+    public boolean helper(int s, boolean[][] graph, int[] color,int m, int n){
         
-        if(target==0)
-        {
-            ans.add(new ArrayList<>(ds));
-            return;
+        if(s>=n)
+            return true;
+            
+        for(int i=1;i<=m;i++){
+            if(valid(s,i,graph,color,n)){
+                color[s]=i;
+                if(helper(s+1,graph,color,m,n)==true)
+                    return true;
+                    
+                color[s]=-1;
+            }
         }
+        return false;
+    }
+    
+    public boolean valid(int s,int c,boolean[][] graph, int[]color, int n){
         
-        for(int j=i;j<n;j++){
-            if(j!=i && can[j]==can[j-1])
-                continue;
-            
-            if(can[j]>target)
-                break;
-            
-            ds.add(can[j]);
-            helper(j+1,ans,ds,target-can[j],can,n);
-            ds.remove(ds.size()-1);
+        for(int i=0;i<n;i++){
+        	
+            if(graph[s][i]==true && color[i]==c)
+                return false;
         }
+        return true;
     }
 	
+
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
     		
@@ -177,8 +181,12 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[] arr= {10,1,2,7,6,1,5};
-		System.out.println(ob.combinationSum2(arr, 8));
+		boolean[][] graph= {{false,true,true,true},
+							{true,false,true,false},
+							{true,true,false,true},
+							{true,false,true,false}};
+		
+		ob.graphColoring(graph, 3, graph.length);
 		
 		
 
