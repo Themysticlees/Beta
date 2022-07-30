@@ -93,42 +93,44 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public boolean graphColoring(boolean graph[][], int m, int n) {
-        // Your code here
+	public String getPermutation(int n, int k) {
         
-        int[] color=new int[n];
-        Arrays.fill(color,-1);
-        
-        return helper(0,graph,color, m,n);
-    }
-    
-    public boolean helper(int s, boolean[][] graph, int[] color,int m, int n){
-        
-        if(s>=n)
-            return true;
-            
-        for(int i=1;i<=m;i++){
-            if(valid(s,i,graph,color,n)){
-                color[s]=i;
-                if(helper(s+1,graph,color,m,n)==true)
-                    return true;
-                    
-                color[s]=-1;
-            }
-        }
-        return false;
-    }
-    
-    public boolean valid(int s,int c,boolean[][] graph, int[]color, int n){
-        
+        List<Integer> list=new LinkedList<>();
         for(int i=0;i<n;i++){
-        	
-            if(graph[s][i]==true && color[i]==c)
-                return false;
+            list.add(i+1);
         }
-        return true;
+        
+        int f=fact(n-1);
+        
+        return helper("",list,k-1,f);
     }
-	
+    
+    public String helper(String ans,List<Integer> list, int k, int fact){
+        
+        int index=k/fact;
+        k=k%fact;
+        int curr=list.remove(index);
+        
+        //swap(arr,i,index+i);
+        ans+=curr;
+        if(list.size()==0)
+            return ans;
+        
+        return helper(ans,list,k,fact/list.size());
+    }
+    
+    public int fact(int n){
+        int f=1;
+        for(int i=1;i<=n;i++)
+            f=f*i;
+        return f;
+    }
+//    }
+//    public void swap(int[] arr, int i, int j){
+//        int temp=arr[i];
+//        arr[i]=arr[j];
+//        arr[j]=temp;
+//    }
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -181,12 +183,7 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		boolean[][] graph= {{false,true,true,true},
-							{true,false,true,false},
-							{true,true,false,true},
-							{true,false,true,false}};
-		
-		ob.graphColoring(graph, 3, graph.length);
+		System.out.println(ob.getPermutation(3, 4));
 		
 		
 
