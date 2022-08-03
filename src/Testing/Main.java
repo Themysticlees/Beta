@@ -7,21 +7,21 @@ import java.util.regex.Pattern;
 class Node {
 	 
 	int data;
-    Node next;
+	Node left;
+	Node right;
 
-    Node(int item)
+    Node(int data)
     {
-        data = item;
-        next=null;
+        this.data = data;
+        left=null;
+        right=null;
     }
 
 	@Override
 	public String toString() {
-		return "Node [data=" + data + ", next=" + next + "]";
+		return "Node [data=" + data + ", left=" + left + ", right=" + right + "]";
 	}
 
-	
-	
 }
 
 class Pair{
@@ -93,44 +93,30 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public String getPermutation(int n, int k) {
-        
-        List<Integer> list=new LinkedList<>();
-        for(int i=0;i<n;i++){
-            list.add(i+1);
-        }
-        
-        int f=fact(n-1);
-        
-        return helper("",list,k-1,f);
-    }
-    
-    public String helper(String ans,List<Integer> list, int k, int fact){
-        
-        int index=k/fact;
-        k=k%fact;
-        int curr=list.remove(index);
-        
-        //swap(arr,i,index+i);
-        ans+=curr;
-        if(list.size()==0)
-            return ans;
-        
-        return helper(ans,list,k,fact/list.size());
-    }
-    
-    public int fact(int n){
-        int f=1;
-        for(int i=1;i<=n;i++)
-            f=f*i;
-        return f;
-    }
-//    }
-//    public void swap(int[] arr, int i, int j){
-//        int temp=arr[i];
-//        arr[i]=arr[j];
-//        arr[j]=temp;
-//    }
+	public static Node post_order(int pre[], int size) 
+	{
+	    //Your code here
+	    
+	    return createBST(0,size-1,pre);
+	    
+	} 
+
+	public static Node createBST(int start, int end, int[] pre){
+	    
+	    if(start>end)
+	        return null;
+	        
+	    Node root=new Node(pre[start]);
+	    for(int i=start+1;i<=end;i++){
+	        if(pre[i]>pre[start]){
+	            root.left=createBST(start+1,i-1,pre);
+	            root.right=createBST(i,end,pre);
+	            break;
+	        }
+	    }
+	    
+	    return root;
+	}
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -183,8 +169,9 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		System.out.println(ob.getPermutation(3, 4));
+		int[] arr= {40,30,35,80,100};
 		
+		System.out.println(post_order(arr, arr.length));
 		
 
 	}
