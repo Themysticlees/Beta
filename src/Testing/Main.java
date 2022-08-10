@@ -1,8 +1,5 @@
 package Testing;
-import java.text.DecimalFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class Node {
 	 
@@ -146,7 +143,7 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		System.out.println(ob.josephus(5, 3));
+		
 		
 		
 
