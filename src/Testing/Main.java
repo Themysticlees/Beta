@@ -23,17 +23,18 @@ class Node {
 
 class Pair{
     
-	int index;
-    int rating;
+	int x;
+    int y;
     
-    Pair(int index, int rating){
-        this.index=index;
-        this.rating=rating;
-    }
-
+	public Pair(int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+	}
+	
 	@Override
 	public String toString() {
-		return "Pair [index=" + index + ", rating=" + rating + "]";
+		return "Pair [x=" + x + ", y=" + y + "]";
 	}
 	
 }
@@ -90,7 +91,34 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	
+	public static long countWaysToMakeChange(int num[], int x){
+		
+		long[] dp = new long[x+1];
+		Arrays.fill(dp, -1);
+		
+		return helper(num,x,dp);
+	}
+	public static long helper(int arr[], int target,long[] dp){
+        
+        if(target==0){
+            return 1;
+        }
+        
+        long chances=0;
+        for(int i=0;i<arr.length;i++){
+            
+            if(arr[i]<=target){
+                if(dp[target-arr[i]]!=-1)
+                    chances+=dp[target-arr[i]];
+                else
+                    chances+=helper(arr,target-arr[i],dp);
+            }
+        }
+        
+        
+        return dp[target]=chances;
+        
+    }
 
 //-------------------------------------------------------------------------------------------------------//
 	public static void main(String[] args) {
@@ -143,13 +171,13 @@ public class Main{
 		
 		Main ob = new Main();
 		
+		int[] arr= {1,2,3};
 		
-		
-		
-
+		System.out.println(countWaysToMakeChange(arr, 4));
 	}
 	
 }
+
 
 
 	

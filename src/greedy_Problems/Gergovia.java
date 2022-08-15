@@ -43,7 +43,6 @@ class Pair2{
 		return "[index=" + index + ", val=" + val + "]";
 	}
 	
-	
 }
 
 public class Gergovia {

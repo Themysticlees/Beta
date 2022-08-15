@@ -19,6 +19,8 @@ package tree_Problems;
  */
 public class LowestCommonAncestor {
 	//The logic is:
+	//First check if any of the nodes is the root itself, if yes then no need to search as that will be
+	//LCA, thus return the root
 	//We need to check the left subtree and right subtree
 	//If we get any of the numbers in either left subtree or right subtree then return 
 	//the root of that subtree
