@@ -1,4 +1,4 @@
-package dp_Problems.SubsetsProblems;
+package dp_Problems.SubsequencesProblems;
 /*
  * Partition a set into two subsets such that the difference of subset sums is minimum.
  * Problem link: https://www.codingninjas.com/codestudio/problems/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum_842494?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0

@@ -1,4 +1,4 @@
-package dp_Problems.SubsetsProblems;
+package dp_Problems.SubsequencesProblems;
 import java.util.*;
 /*
  * You are given an array, you are required to make partitions such that S1>S2 and S1-S2=D

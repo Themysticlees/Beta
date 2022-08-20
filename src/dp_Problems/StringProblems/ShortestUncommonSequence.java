@@ -1,4 +1,4 @@
-package dp_Problems;
+package dp_Problems.StringProblems;
 import java.util.*;
 /*
  * Given two strings S and T, find length of the shortest subsequence in S which is not a subsequence in T. 

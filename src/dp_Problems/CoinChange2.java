@@ -21,6 +21,7 @@ public class CoinChange2 {
         return helper(num.length-1,num,x,dp);
 	}
     
+	//Memoization
     public static long helper(int n, int[] arr, int target, long[][] dp){
         
     	//Once we reach the 0th index, then if we can form the target so far with the given coin at the
@@ -46,5 +47,33 @@ public class CoinChange2 {
         //add the total ways we can achieve target
         return dp[n][target]=take+notTake;
     }
+    
+    //Tabulation (No Recursion stack space)
+    public static long tabulation(int[] num, int x) {
+    	
+    	long dp[][] = new long[num.length][x+1];
+
+    	//Base case
+	     for(int i=0;i<=x;i++){
+	         if(i%num[0]==0)
+	             dp[0][i]=1;
+	     }
+	     
+	     //Simply copy paste the recurrence relation
+	     //Since we are moving from bottom to top, thus loop will run from 0 to x
+	     //Calculate for all target values
+	     for(int i=1;i<num.length;i++){
+	         for(int tar=0;tar<=x;tar++){
+	             long notTake=dp[i-1][tar];
+	             long take=0;
+	             if(num[i]<=tar)
+	                 take=dp[i][tar-num[i]];
+	
+	             dp[i][tar]=take+notTake;
+	         }
+	     }
+	    
+	     return dp[num.length-1][x];
+	    }
 
 }

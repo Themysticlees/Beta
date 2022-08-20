@@ -1,4 +1,4 @@
-package dp_Problems;
+package dp_Problems.StringProblems;
 
 /*
  * Given a string s, find the longest palindromic subsequence's length in s.
@@ -35,7 +35,7 @@ public class LongestPalindromicSubSequence {
 		
 		//calling the LCS function to find the common subsequence
 		//since the strings are reverse of each other, the lcs must be palindromic as well
-		return LongestCommonSubsequence.LCSDP(s1, s2);
+		return LongestCommonSubsequence.lcs(s1, s2);
 	}
 	
 	public static void main(String[] args) {

@@ -91,33 +91,38 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public static long countWaysToMakeChange(int num[], int x){
-		
-		long[] dp = new long[x+1];
-		Arrays.fill(dp, -1);
-		
-		return helper(num,x,dp);
-	}
-	public static long helper(int arr[], int target,long[] dp){
+	public static int minInsertion(String str) {
+    	// Write your code here.
+        String rev="";
+        for(int i=str.length()-1;i>=0;i--)
+            rev+=str.charAt(i);
         
-        if(target==0){
-            return 1;
-        }
+        int len=lcs(str,rev);
         
-        long chances=0;
-        for(int i=0;i<arr.length;i++){
-            
-            if(arr[i]<=target){
-                if(dp[target-arr[i]]!=-1)
-                    chances+=dp[target-arr[i]];
+        return str.length()-len;
+    }
+    
+    public static int lcs(String s1, String s2){
+        
+        int n=s1.length();
+        int m=s2.length();
+        
+        s1=" "+s1;
+        s2=" "+s2;
+        
+        int[][] dp = new int[n+1][m+1];
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                
+                if(s1.charAt(i)==s2.charAt(j))
+                    dp[i][j]=1+dp[i-1][j-1];
                 else
-                    chances+=helper(arr,target-arr[i],dp);
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
             }
         }
         
-        
-        return dp[target]=chances;
-        
+        return dp[n][m];
     }
 
 //-------------------------------------------------------------------------------------------------------//
@@ -171,9 +176,7 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[] arr= {1,2,3};
-		
-		System.out.println(countWaysToMakeChange(arr, 4));
+		System.out.println(ob.minInsertion("oug"));
 	}
 	
 }

@@ -1,4 +1,4 @@
-package dp_Problems.SubsetsProblems;
+package dp_Problems.SubsequencesProblems;
 import java.util.*;
 
 /*

@@ -1,4 +1,4 @@
-package dp_Problems;
+package dp_Problems.StringProblems;
 
 /*
  * Given a string, find the minimum number of characters to be inserted to convert it to palindrome.
@@ -17,7 +17,7 @@ package dp_Problems;
 	be a palindrome ("dcbabcd").
  */
 
-public class FormPalindrome {
+public class MinInsertions2FormPalindrome {
 	
 	//to find the number of characters needed to add to make a word palindrome, first we need to find the 
 	//longest palindromic subsequence, now for the characters which belong of LPS, we dont need to think about them
