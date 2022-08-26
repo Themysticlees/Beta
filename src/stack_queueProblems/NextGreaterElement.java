@@ -28,7 +28,7 @@ public class NextGreaterElement {
         //stack.
         for(int i=n-1;i>=0;i--){
             
-        	//keep removing untill the top element is less
+        	//keep removing until the top element is less
             while(!stack.isEmpty() && stack.peek()<=arr[i])
                 stack.pop();
               
