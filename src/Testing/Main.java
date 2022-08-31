@@ -91,38 +91,42 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public static int minInsertion(String str) {
-    	// Write your code here.
-        String rev="";
-        for(int i=str.length()-1;i>=0;i--)
-            rev+=str.charAt(i);
+	public static ArrayList<Integer> divisibleSet(int arr[]) {
+        // Write your code here..
+        int n=arr.length;
+        Arrays.sort(arr);
+        int[] dp=new int[n];
+        Arrays.fill(dp,-1);
         
-        int len=lcs(str,rev);
-        
-        return str.length()-len;
-    }
-    
-    public static int lcs(String s1, String s2){
-        
-        int n=s1.length();
-        int m=s2.length();
-        
-        s1=" "+s1;
-        s2=" "+s2;
-        
-        int[][] dp = new int[n+1][m+1];
-        
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=m;j++){
-                
-                if(s1.charAt(i)==s2.charAt(j))
-                    dp[i][j]=1+dp[i-1][j-1];
-                else
-                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+        int[] hash=new int[n];
+        int max=1;
+        int mindex=0;
+        for(int curr=1;curr<n;curr++){
+            hash[curr]=curr;
+            for(int prev=0;prev<curr;prev++){
+                if(arr[curr]%arr[prev]==0 && dp[prev]+1>dp[curr])
+                {
+                    dp[curr]=dp[prev]+1;
+                    hash[curr]=prev;
+                    
+                    if(dp[curr]>max){
+                        max=dp[curr];
+                        mindex=curr;
+                    }
+                }
             }
         }
         
-        return dp[n][m];
+        ArrayList<Integer> ans=new ArrayList<>();
+        
+        while(true){
+            ans.add(arr[mindex]);
+            if(mindex==hash[mindex])
+                break;
+            mindex=hash[mindex];
+        }
+        
+        return ans;
     }
 
 //-------------------------------------------------------------------------------------------------------//
@@ -176,7 +180,15 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		System.out.println(ob.minInsertion("oug"));
+		int[] arr = new int[3];
+		
+		System.out.println("Enter:");
+		for(int i=0;i<arr.length;i++) {
+			arr[i]=sc.nextInt();
+		}
+		
+		System.out.println(divisibleSet(arr));
+		
 	}
 	
 }

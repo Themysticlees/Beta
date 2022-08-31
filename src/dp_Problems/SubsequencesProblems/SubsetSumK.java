@@ -21,7 +21,7 @@ public class SubsetSumK {
 	
 	/*
 	 * In order to solve this problem, we'll use the concept of pick and not pick, by this we can generate
-	 * all the subsets/subsequences. Now we'll just check if the subset sum is equak to target or not.
+	 * all the subsets/subsequences. Now we'll just check if the subset sum is equal to target or not.
 	 */
 	
 	//Memoization
