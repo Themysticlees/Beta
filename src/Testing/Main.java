@@ -23,19 +23,19 @@ class Node {
 
 class Pair{
     
-	int x;
-    int y;
+	int a;
+    int n;
     
-	public Pair(int x, int y) {
-		super();
-		this.x = x;
-		this.y = y;
-	}
-	
+    Pair(int a, int n){
+        this.a=a;
+        this.n=n;
+    }
+
 	@Override
 	public String toString() {
-		return "Pair [x=" + x + ", y=" + y + "]";
+		return "Pair [a=" + a + ", n=" + n + "]";
 	}
+    
 	
 }
 
@@ -91,42 +91,33 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public static ArrayList<Integer> divisibleSet(int arr[]) {
-        // Write your code here..
-        int n=arr.length;
-        Arrays.sort(arr);
-        int[] dp=new int[n];
-        Arrays.fill(dp,-1);
+	static int smallestSumSubarray(int arr[], int n)
+    {
+        // your code here
+//        int sum=0;
+//        for(int i=0;i<n;i++){
+//            sum+=arr[i];
+//        }
+            
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
         
-        int[] hash=new int[n];
-        int max=1;
-        int mindex=0;
-        for(int curr=1;curr<n;curr++){
-            hash[curr]=curr;
-            for(int prev=0;prev<curr;prev++){
-                if(arr[curr]%arr[prev]==0 && dp[prev]+1>dp[curr])
-                {
-                    dp[curr]=dp[prev]+1;
-                    hash[curr]=prev;
-                    
-                    if(dp[curr]>max){
-                        max=dp[curr];
-                        mindex=curr;
-                    }
-                }
-            }
-        }
+        return helper(n-1,arr,0,dp);
+    }
+    
+    public static int helper(int n, int[] arr, int sum, int[] dp){
         
-        ArrayList<Integer> ans=new ArrayList<>();
+        if(n<0)
+            return sum;
+            
+        if(dp[n]!=-1)
+            return dp[n];
         
-        while(true){
-            ans.add(arr[mindex]);
-            if(mindex==hash[mindex])
-                break;
-            mindex=hash[mindex];
-        }
+        int replace=arr[n];
+        int take=helper(n-1,arr,sum+arr[n],dp);
         
-        return ans;
+        return dp[n]=Math.min(replace,take);
+            
     }
 
 //-------------------------------------------------------------------------------------------------------//
@@ -180,14 +171,16 @@ public class Main{
 		
 		Main ob = new Main();
 		
-		int[] arr = new int[3];
+//		int[] arr = new int[3];
+//		
+//		System.out.println("Enter:");
+//		for(int i=0;i<arr.length;i++) {
+//			arr[i]=sc.nextInt();
+//		}
 		
-		System.out.println("Enter:");
-		for(int i=0;i<arr.length;i++) {
-			arr[i]=sc.nextInt();
-		}
+		int[] arr = {3,-4, 2,-3,-1, 7,-5};
+		System.out.println(smallestSumSubarray(arr, arr.length));
 		
-		System.out.println(divisibleSet(arr));
 		
 	}
 	
