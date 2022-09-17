@@ -12,11 +12,11 @@ import java.util.*;
  */
 public class MatrixChainMultiplication {
 	/*
-	 * This is a partition problem where we need to make partitions of the given data structure 
+	 * This is a partition dp problem where we need to make partitions of the given data structure 
 	 * and solve the problem
 	 * 
 	 * Now suppose you are given 4 matrices A,B,C and D
-	 * Thus multiplication will either (AxB)x(CxD), thus partition is made in the middle and then
+	 * Thus multiplication will be either (AxB)x(CxD), thus partition is made in the middle and then
 	 * both the sides are multiplied
 	 * 
 	 */
@@ -31,6 +31,11 @@ public class MatrixChainMultiplication {
 	}
     
 	//Memoization
+	/*
+	 * Here the changing parameters are i and j, i will start from 1 as 2 values make a single matrix
+	 * Thus if partition is to be made, it needs to made after at least 1 matrix thus 
+	 * the partition can be made from 1 to n-2
+	 */
     public static int helper(int[] arr, int i, int j, int[][] dp){
         
     	//when there is just a single matrix no operations needed, return 0
@@ -41,10 +46,10 @@ public class MatrixChainMultiplication {
             return dp[i][j];
         
         int min=Integer.MAX_VALUE;
-        //Thus the partition can be made anywhere from 1 to n-1, where the left side will be
-        //1 to k and right side will be k+1 to n-1
-        //The no.of operations needed to solve is no.of rows of the first matrix*partition row/coln and 
-        //no.of columns of last matrix.
+        //Thus the partition can be made anywhere from 1 to n-2, where the left subproblem will be from
+        //1 to k and right subproblem will be from k+1 to n-1
+        //The no.of operations needed to solve is no.of rows of the ith matrix*partition row/coln and 
+        //no.of columns of jth matrix.
         //Now the partitions itself will need some operations, calculate them in the same way and 
         //add them to the final ans
         for(int k=i;k<j;k++){
