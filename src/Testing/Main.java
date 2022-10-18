@@ -23,20 +23,19 @@ class Node {
 
 class Pair{
     
-	int a;
-    int n;
-    
-    Pair(int a, int n){
-        this.a=a;
-        this.n=n;
-    }
+	 int a;
+	    int b;
+	   
+	    Pair(int a,int b){
+	        this.a=a;
+	        this.b=b;
+	    }
 
-	@Override
-	public String toString() {
-		return "Pair [a=" + a + ", n=" + n + "]";
-	}
-    
-	
+		@Override
+		public String toString() {
+			return "Pair [a=" + a + ", b=" + b + "]";
+		}
+	   
 }
 
 public class Main{
@@ -91,45 +90,53 @@ public class Main{
 	
 //-------------------------------------------------------------------------------------------------------//
 
-	public int[] findOriginalArray(int[] changed) {
+	public String countAndSay(int n) {
+       
         
-		int n=changed.length;
-        if(n%2 != 0)
-            return new int[0];
-            
-        Arrays.sort(changed);
-        
-        int len=n/2;
-        
-//         Set<Integer> set = new HashSet<>();
-        
-        int[] temp=new int[100001];
-        for(int i=0;i<n;i++){
-            temp[changed[i]]++;
+        String s="1";
+        n--;
+        while(n-->0)
+        {
+            List<Pair> p=createPairs(s);
+            s=createString(p);
         }
-        
-        int[] ans=new int[len];
-        
-        int i=0,j=0;
-        while(i<len && j<n) {
-        	if(temp[changed[j]]>0)
-	            if(temp[changed[j]*2]>0){
-	                ans[i]=changed[j];
-	                temp[changed[j]]--;
-	                temp[changed[j]*2]--;
-	                i++;
-	            }
-        	
-        	j++;
+       
+        return s;
+    }
+   
+    public List<Pair> createPairs(String s){
+       
+        List<Pair> list = new ArrayList<>();
+       
+        int prev=s.charAt(0)-'0';
+        int count=1;
+        for(int i=1;i<s.length();i++){
+            int ch = s.charAt(i)-'0';
+            if(ch==prev)
+                count++;
+            else
+            {
+                list.add(new Pair(prev,count));
+                prev=ch;
+                count=1;
+            }
         }
-        
-        for(i=0;i<=100000;i++)
-            if(temp[i]>0)
-                return new int[0];
-        
+       
+        list.add(new Pair(prev,count));
+       
+        return list;
+    }
+   
+    public String createString(List<Pair> list){
+       
+        String ans="";
+       
+        for(Pair p:list){
+            ans+=p.a;
+            ans+=p.b;
+        }
+       
         return ans;
-        
-        
     }
     
 //-------------------------------------------------------------------------------------------------------//
@@ -199,10 +206,7 @@ public class Main{
 //		
 //		System.out.println(ob.findOccurrence(mat, "SNAKES"));
 		
-		 int[] arr= {4,4,16,20,8,8,2,10};
-		 
-		 System.out.println(Arrays.toString(ob.findOriginalArray(arr)));
-		
+		System.out.println(ob.countAndSay(4));
 	}
 	
 }
