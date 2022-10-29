@@ -20,7 +20,7 @@ public class NextGreaterElement {
         //will lie to an elements right side
         //first we'll keep poping elements from the stack if the top element is less or equal
         //to the current array element.
-        //if the stack becomes empty that means there are no elemets which are greater thus store -1
+        //if the stack becomes empty that means there are no elements which are greater thus store -1
         //otherwise store the top element or the element where our first check stopped
         //then push the current array element to the stack.
         //since stack uses LIFO mechanism, thus though we traverse from the end, stack allows us to check 

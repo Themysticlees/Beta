@@ -1,6 +1,8 @@
 package dp_Problems.partitionProblems;
 import java.util.*;
 /*
+ * video link: https://www.youtube.com/watch?v=_H8V5hJUGd0&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=54
+ * 
  * Given a string ‘str’. Find the minimum number of partitions to make in the string such that 
  * every partition of the string is a palindrome.
  * 
